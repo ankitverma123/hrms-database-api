@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	
+	<changeSet id='competency-1' author='db_script'>
+	    
+	    <insert tableName='competency'>
+			<column name='competency' value="MS&amp;P ACTT" />
+		</insert>
+		
+		<insert tableName='competency'>
+			<column name='competency' value="MS&amp;P CIS" />
+		</insert>
+		
+		<insert tableName='competency'>
+			<column name='competency' value="MS&amp;P" />
+		</insert>
+		
+		<insert tableName='competency'>
+			<column name='competency' value="MS&amp;P LRA" />
+		</insert>
+		
+		<insert tableName='competency'>
+			<column name='competency' value="Controllership" />
+		</insert>
+		
+		<insert tableName='competency'>
+			<column name='competency' value="Securitization" />
+		</insert>
+		
+		<insert tableName='competency'>
+			<column name='competency' value="D3" />
+		</insert>
+	</changeSet>
+	
+	
+
+</databaseChangeLog>

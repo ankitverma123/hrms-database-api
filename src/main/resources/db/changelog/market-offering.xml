@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	
+	<changeSet id='market-offering-1' author='db_script'>
+	    <insert tableName='market_offering'>
+			<column name='market' value="Assurance &amp; Internal Audit" />
+		</insert>
+		<insert tableName='market_offering'>
+			<column name='market' value="Regulatory &amp; Operational Risk" />
+		</insert>
+		<insert tableName='market_offering'>
+			<column name='market' value='Risk Intelligence' />
+		</insert>
+		<insert tableName='market_offering'>
+			<column name='market' value="Fin Risk Trans &amp; Restructuring" />
+		</insert>
+		<insert tableName='market_offering'>
+			<column name='market' value='Forensic' />
+		</insert>
+		<insert tableName='market_offering'>
+			<column name='market' value='National' />
+		</insert>
+	</changeSet>
+	
+	
+
+</databaseChangeLog>

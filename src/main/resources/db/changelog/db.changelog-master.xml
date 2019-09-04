@@ -11,9 +11,14 @@
 	<property name="now" value="now()" dbms="postgresql"/>
 	<property name="now" value="GETDATE()" dbms="mssql"/>
     
-    <!-- This is for setting up initial Roles & Privileges 
-  	<include file="RolePrivileges/init-data-role.xml" relativeToChangelogFile="true"/>
-  	-->
+   	<include file="market-offering.xml" relativeToChangelogFile="true"/>
+  	<include file="market-offering-sub-businessline.xml" relativeToChangelogFile="true"/>
   	
+  	<include file="onboard-status.xml" relativeToChangelogFile="true"/>
+  	
+  	<include file="financial-year.xml" relativeToChangelogFile="true"/>
+  	
+  	<include file="competency.xml" relativeToChangelogFile="true"/>
+  	<include file="sub-competency.xml" relativeToChangelogFile="true"/>
   	
 </databaseChangeLog>

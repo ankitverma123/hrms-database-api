@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	
+	<changeSet id='market-offering-sub-businessline-1' author='db_script'>
+	    
+	    <insert tableName='market_subbusinessline'>
+			<column name='sub_business_line' value="PROD STAFF" />
+			<column name='market_offering' valueComputed="(select id from market_offering where market='Assurance &amp; Internal Audit')" />
+		</insert>
+		
+		<insert tableName='market_subbusinessline'>
+			<column name='sub_business_line' value="PROD STAFF" />
+			<column name='market_offering' valueComputed="(select id from market_offering where market='Regulatory &amp; Operational Risk')" />
+		</insert>
+		
+		<insert tableName='market_subbusinessline'>
+			<column name='sub_business_line' value="PROD STAFF" />
+			<column name='market_offering' valueComputed="(select id from market_offering where market='Risk Intelligence')" />
+		</insert>
+		
+		<insert tableName='market_subbusinessline'>
+			<column name='sub_business_line' value="PROD STAFF" />
+			<column name='market_offering' valueComputed="(select id from market_offering where market='Fin Risk Trans &amp; Restructuring')" />
+		</insert>
+		
+		<insert tableName='market_subbusinessline'>
+			<column name='sub_business_line' value="PROD STAFF" />
+			<column name='market_offering' valueComputed="(select id from market_offering where market='Forensic')" />
+		</insert>
+		
+		<insert tableName='market_subbusinessline'>
+			<column name='sub_business_line' value="PROD STAFF" />
+			<column name='market_offering' valueComputed="(select id from market_offering where market='National')" />
+		</insert>
+	</changeSet>
+	
+	
+
+</databaseChangeLog>
