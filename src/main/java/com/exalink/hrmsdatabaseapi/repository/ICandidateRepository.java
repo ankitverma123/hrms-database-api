@@ -18,7 +18,15 @@ public interface ICandidateRepository extends JpaRepository<Candidate, Long>,Jpa
 	@Query("SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM Candidate c WHERE c.emailAddress = :emailAddress")
     boolean existsByEmailAddress(@Param("emailAddress") String emailAddress);
 	
+	@Query("SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM Candidate c WHERE c.emailAddress = :emailAddress and c.id <> :candidateId")
+    boolean existsByEmailAddressForSomeOtherUser(@Param("emailAddress") String emailAddress, @Param("candidateId") Long candidateId);
+	
 	@Query("SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM Candidate c WHERE c.primaryContact = :primaryContact or c.secondaryContact = :secondaryContact")
     boolean existsByPrimaryOrSecondaryContact(@Param("primaryContact") String primaryContact, @Param("secondaryContact") String secondaryContact);
 	
+	@Query("SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM Candidate c WHERE c.primaryContact = :primaryContact and c.id <> :candidateId")
+    boolean existsByPrimaryContactForSomeOtherUser(@Param("primaryContact") String primaryContact, @Param("candidateId") Long candidateId);
+	
+	@Query("SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM Candidate c WHERE c.secondaryContact = :secondaryContact and c.id <> :candidateId")
+    boolean existsBySecondaryContactForSomeOtherUser(@Param("secondaryContact") String secondaryContact, @Param("candidateId") Long candidateId);
 }

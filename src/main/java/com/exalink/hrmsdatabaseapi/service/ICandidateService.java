@@ -15,6 +15,6 @@ import com.exalink.hrmsdatabaseapi.entity.candidate.Candidate;
 public interface ICandidateService {
 	
 	public Candidate saveCandidate(Map<String, Object> candidateRequestMap) throws BaseException;
-	public Candidate update(Map<String, Object> candidateRequestMap);
+	public Candidate updateCandidate(Map<String, Object> candidateRequestMap) throws BaseException;
 	
 }
