@@ -11,6 +11,8 @@
 	<property name="now" value="now()" dbms="postgresql"/>
 	<property name="now" value="GETDATE()" dbms="mssql"/>
     
+    <include file="candidate_sources.xml" relativeToChangelogFile="true"/>
+    
    	<include file="market-offering.xml" relativeToChangelogFile="true"/>
   	<include file="market-offering-sub-businessline.xml" relativeToChangelogFile="true"/>
   	

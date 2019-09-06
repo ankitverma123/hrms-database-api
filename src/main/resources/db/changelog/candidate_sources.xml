@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	
+	<changeSet id='candidate_sources-1' author='db_script'>
+	    
+	    <insert tableName='candidate_sources'>
+			<column name='name' value="Net Sourcing" />
+			<column name='is_active' valueBoolean="true" />
+		</insert>
+		
+		<insert tableName='candidate_sources'>
+			<column name='name' value="Referral" />
+			<column name='is_active' valueBoolean="true" />
+		</insert>
+		
+		<insert tableName='candidate_sources'>
+			<column name='name' value="Internal Mobility" />
+			<column name='is_active' valueBoolean="true" />
+		</insert>
+		
+		<insert tableName='candidate_sources'>
+			<column name='name' value="CTH to FTE" />
+			<column name='is_active' valueBoolean="true" />
+		</insert>
+		
+		<insert tableName='candidate_sources'>
+			<column name='name' value="Vendor" />
+			<column name='is_active' valueBoolean="true" />
+		</insert>
+		
+		<insert tableName='candidate_sources'>
+			<column name='name' value="PDAT" />
+			<column name='is_active' valueBoolean="true" />
+		</insert>
+	</changeSet>
+	
+	
+
+</databaseChangeLog>
