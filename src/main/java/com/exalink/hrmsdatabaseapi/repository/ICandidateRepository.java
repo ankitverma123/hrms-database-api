@@ -29,4 +29,5 @@ public interface ICandidateRepository extends JpaRepository<Candidate, Long>,Jpa
 	
 	@Query("SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM Candidate c WHERE c.secondaryContact = :secondaryContact and c.id <> :candidateId")
     boolean existsBySecondaryContactForSomeOtherUser(@Param("secondaryContact") String secondaryContact, @Param("candidateId") Long candidateId);
+	
 }
