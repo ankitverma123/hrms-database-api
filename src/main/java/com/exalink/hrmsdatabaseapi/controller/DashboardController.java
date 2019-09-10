@@ -1,13 +1,16 @@
 package com.exalink.hrmsdatabaseapi.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.exalink.hrmsdatabaseapi.BaseException;
+import com.exalink.hrmsdatabaseapi.ResponseData;
 import com.exalink.hrmsdatabaseapi.model.ChartRequestModel;
 import com.exalink.hrmsdatabaseapi.service.IDashboardService;
 
@@ -22,13 +25,15 @@ public class DashboardController {
 	@Autowired
 	private IDashboardService dashboardService;
 	
-	@GetMapping(value="/topSources", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-	public Object topSources(@RequestBody ChartRequestModel crb) throws BaseException{
-		return dashboardService.topSourcesVisualisation(crb);
+	@PostMapping(value="/topSources", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseData topSources(@RequestBody ChartRequestModel crb) throws BaseException{
+		return new ResponseData(dashboardService.topSourcesVisualisation(crb), null, HttpStatus.OK, null);
 	}
 	
-	@GetMapping(value="/recruitmentStatus", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-	public Object recruitmentStatus(@RequestBody ChartRequestModel crb) throws BaseException{
-		return dashboardService.recruitmentStatusVisualisation(crb);
+	@PostMapping(value="/recruitmentStatus", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseData recruitmentStatus(@RequestBody ChartRequestModel crb) throws BaseException{
+		return new ResponseData(dashboardService.recruitmentStatusVisualisation(crb), null, HttpStatus.OK, null);
 	}
 }
