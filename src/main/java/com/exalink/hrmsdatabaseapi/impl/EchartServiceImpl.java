@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.exalink.hrmsdatabaseapi.CommonConstants;
 import com.exalink.hrmsdatabaseapi.Utils;
 import com.exalink.hrmsdatabaseapi.model.ChartRequestModel;
 import com.exalink.hrmsdatabaseapi.service.IEchartService;
@@ -60,6 +61,8 @@ public class EchartServiceImpl implements IEchartService{
 			xAxisData.add(mapObject.get(LABEL).toString());
 			if(mapObject.get(VALUE) instanceof BigDecimal)
 				yAxisData.add(((BigDecimal)mapObject.get(VALUE)).intValue());
+			if(mapObject.get(VALUE) instanceof Long)
+				yAxisData.add(Integer.parseInt(mapObject.get(VALUE).toString()));
 			else
 				yAxisData.add((int)mapObject.get(VALUE));
 		});
@@ -67,13 +70,14 @@ public class EchartServiceImpl implements IEchartService{
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			HashMap<String, Object> chartStaticJsonCollectionHolder = mapper.readValue(barChatrt, HashMap.class);
-			((Map<String,Object>)chartStaticJsonCollectionHolder.get("xAxis")).put(DATA, xAxisData);
+			((Map<String,Object>)(((List<Object>)chartStaticJsonCollectionHolder.get("xAxis")).get(0))).put(DATA, xAxisData);
 			((Map<String,Object>)((List<Object>)chartStaticJsonCollectionHolder.get(SERIES)).get(0)).put(DATA, yAxisData);
 			((Map<String,Object>)chartStaticJsonCollectionHolder.get(LEGEND)).put(DATA, Utils.labelListExtractor(chartData));
 			populateTitleAndSubTitle(chartStaticJsonCollectionHolder, crb);
+			populateSeriesName(chartStaticJsonCollectionHolder, crb);
 			return chartStaticJsonCollectionHolder;
 		}catch (Exception e) {
-			
+			System.out.println(e.getMessage());
 		}
 		return chartData;
 	}
@@ -91,6 +95,7 @@ public class EchartServiceImpl implements IEchartService{
 			((Map<String,Object>)((List<Object>)chartStaticJsonCollectionHolder.get(SERIES)).get(0)).put(DATA, Utils.nameValuePairGenerator(chartData));
 			((Map<String,Object>)chartStaticJsonCollectionHolder.get(LEGEND)).put(DATA, Utils.labelListExtractor(chartData));
 			populateTitleAndSubTitle(chartStaticJsonCollectionHolder, crb);
+			populateSeriesName(chartStaticJsonCollectionHolder, crb);
 			return chartStaticJsonCollectionHolder;
 		}catch (Exception e) {
 			
@@ -111,6 +116,7 @@ public class EchartServiceImpl implements IEchartService{
 			((Map<String,Object>)((List<Object>)chartStaticJsonCollectionHolder.get(SERIES)).get(0)).put(DATA, Utils.nameValuePairGenerator(chartData));
 			((Map<String,Object>)chartStaticJsonCollectionHolder.get(LEGEND)).put(DATA, Utils.labelListExtractor(chartData));
 			populateTitleAndSubTitle(chartStaticJsonCollectionHolder, crb);
+			populateSeriesName(chartStaticJsonCollectionHolder, crb);
 			return chartStaticJsonCollectionHolder;
 		}catch (Exception e) {
 			
@@ -131,9 +137,10 @@ public class EchartServiceImpl implements IEchartService{
 			((Map<String,Object>)((List<Object>)chartStaticJsonCollectionHolder.get(SERIES)).get(0)).put(DATA, Utils.nameValuePairGenerator(chartData));
 			((Map<String,Object>)chartStaticJsonCollectionHolder.get(LEGEND)).put(DATA, Utils.labelListExtractor(chartData));
 			populateTitleAndSubTitle(chartStaticJsonCollectionHolder, crb);
+			populateSeriesName(chartStaticJsonCollectionHolder, crb);
 			return chartStaticJsonCollectionHolder;
 		}catch (Exception e) {
-			
+			System.out.println(e.getMessage());
 		}
 		return chartData;
 	}
@@ -168,4 +175,10 @@ public class EchartServiceImpl implements IEchartService{
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
+	private void populateSeriesName(HashMap<String, Object> chartStaticJsonCollectionHolder, ChartRequestModel crb){
+		if(chartStaticJsonCollectionHolder.containsKey(SERIES) && crb.getSeries()!=null) {
+			((Map<String,Object>)((List<Object>)chartStaticJsonCollectionHolder.get(SERIES)).get(0)).put(CommonConstants.NAME, crb.getSeries());
+		}
+	}
 }

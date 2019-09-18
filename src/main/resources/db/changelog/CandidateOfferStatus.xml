@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	
+	<changeSet id='offer-status-1' author='db_script'>
+	    <insert tableName='offer_status'>
+			<column name='status' value="Accepted" />
+		</insert>
+		<insert tableName='offer_status'>
+			<column name='status' value="Declined" />
+		</insert>
+	</changeSet>
+	
+</databaseChangeLog>

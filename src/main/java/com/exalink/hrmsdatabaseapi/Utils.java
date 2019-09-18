@@ -33,6 +33,8 @@ public class Utils {
 				pieData.put(VALUE, ((BigDecimal)mapObject.get(VALUE)).intValue());
 			else if(mapObject.get(VALUE) instanceof BigInteger)
 				pieData.put(VALUE, ((BigInteger)mapObject.get(VALUE)).intValue());
+			else if(mapObject.get(VALUE) instanceof Long)
+				pieData.put(VALUE, ((Long)mapObject.get(VALUE)).intValue());
 			else
 				pieData.put(VALUE, (int)mapObject.get(VALUE));
 			nameValueCollection.add(pieData);
@@ -55,6 +57,8 @@ public class Utils {
 				yAxisData.add(((BigDecimal)mapObject.get(VALUE)).intValue());
 			else if(mapObject.get(VALUE) instanceof BigInteger)
 				yAxisData.add(((BigInteger)mapObject.get(VALUE)).intValue());
+			else if(mapObject.get(VALUE) instanceof Long)
+				yAxisData.add(((Long)mapObject.get(VALUE)).intValue());
 			else
 				yAxisData.add((int)mapObject.get(VALUE));
 		});
@@ -71,10 +75,27 @@ public class Utils {
 			else if(mapObject.get(VALUE) instanceof BigInteger) {
 				collector.add(new ArrayList<Object>(Arrays.asList(((BigInteger)mapObject.get(VALUE)).intValue(),  mapObject.get(LABEL).toString())));
 			}
+			else if(mapObject.get(VALUE) instanceof Long) {
+				collector.add(new ArrayList<Object>(Arrays.asList(((Long)mapObject.get(VALUE)).intValue(),  mapObject.get(LABEL).toString())));
+			}
 			else {
 				collector.add(new ArrayList<Object>(Arrays.asList((int)mapObject.get(VALUE),  mapObject.get(LABEL).toString())));
 			}
 		}
 		return collector;
+	}
+	
+	public static boolean checkCollectionHasKeyAndValue(Map<String, Object> map, String key){
+		boolean result=false;
+		if(map.containsKey(key) && map.get(key)!=null && !map.get(key).toString().isEmpty())
+			result= true;
+		return result;
+	}
+	
+	public static boolean checkCollectionHasKeyAndValueForFilters(Map<String, Object> map, String key){
+		boolean result=false;
+		if(map.containsKey(key) && map.get(key)!=null && !map.get(key).toString().isEmpty() && !map.get(key).toString().equals("-1"))
+			result= true;
+		return result;
 	}
 }

@@ -13,4 +13,6 @@ import com.exalink.hrmsdatabaseapi.model.ChartRequestModel;
 public interface IDashboardService {
 	Object topSourcesVisualisation(ChartRequestModel crb) throws BaseException;
 	Object recruitmentStatusVisualisation(ChartRequestModel crb) throws BaseException;
+	Object genderMixtureVisualisation(ChartRequestModel crb) throws BaseException;
+	Object offerDeclineVisualisation(ChartRequestModel crb) throws BaseException;
 }

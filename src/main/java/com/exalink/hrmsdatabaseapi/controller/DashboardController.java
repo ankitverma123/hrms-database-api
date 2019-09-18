@@ -36,4 +36,16 @@ public class DashboardController {
 	public ResponseData recruitmentStatus(@RequestBody ChartRequestModel crb) throws BaseException{
 		return new ResponseData(dashboardService.recruitmentStatusVisualisation(crb), null, HttpStatus.OK, null);
 	}
+	
+	@PostMapping(value="/genderMixture", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseData genderMixVisualisation(@RequestBody ChartRequestModel crb) throws BaseException{
+		return new ResponseData(dashboardService.genderMixtureVisualisation(crb), null, HttpStatus.OK, null);
+	}
+	
+	@PostMapping(value="/declineReasons", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseData declineReasonsVisualisation(@RequestBody ChartRequestModel crb) throws BaseException{
+		return new ResponseData(dashboardService.offerDeclineVisualisation(crb), null, HttpStatus.OK, null);
+	}
 }

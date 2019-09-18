@@ -23,4 +23,7 @@
   	<include file="competency.xml" relativeToChangelogFile="true"/>
   	<include file="sub-competency.xml" relativeToChangelogFile="true"/>
   	
+  	<include file="CandidateOfferStatus.xml" relativeToChangelogFile="true"/>
+  	<include file="CandidateOfferDeclineCategory.xml" relativeToChangelogFile="true"/>
+  	
 </databaseChangeLog>

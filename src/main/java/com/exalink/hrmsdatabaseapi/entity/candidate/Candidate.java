@@ -12,6 +12,7 @@ import javax.persistence.Table;
 
 import com.exalink.hrmsdatabaseapi.entity.competency.SubCompetency;
 import com.exalink.hrmsdatabaseapi.entity.market.SubBusinessLine;
+import com.exalink.hrmsdatabaseapi.entity.offer.Offer;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -90,4 +91,16 @@ public class Candidate {
 	@JsonIgnore
 	@JoinColumn(name="competency", nullable=false)
 	private SubCompetency competency;
+	
+	@JsonBackReference
+	@ManyToOne (cascade=CascadeType.ALL)  
+	@JsonIgnore
+	@JoinColumn(name="candidateOfferStatus")
+	private Offer candidateOfferStatus;
+	
+	private transient String fullName;
+	private transient String sourceName;
+	private transient String onboardStatusValue;
+	private transient String marketOfferingBusinessLine;
+	private transient String competencyValue;
 }
