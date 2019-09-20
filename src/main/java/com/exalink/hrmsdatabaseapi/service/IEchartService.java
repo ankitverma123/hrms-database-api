@@ -18,4 +18,5 @@ public interface IEchartService {
 	Object convertToSimplePieChart(List<Map<String, Object>> chartData, ChartRequestModel crb);
 	Object convertToDoughnutChart(List<Map<String, Object>> chartData, ChartRequestModel crb);
 	Object convertToHorizontalBarChart(List<Map<String, Object>> chartData, ChartRequestModel crb);
+	Object convertToMultipleComparisonBarChart(List<Map<String, Object>> chartData, ChartRequestModel crb);
 }

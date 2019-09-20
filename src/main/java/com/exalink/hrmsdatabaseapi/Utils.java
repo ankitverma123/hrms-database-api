@@ -5,8 +5,10 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -98,4 +100,13 @@ public class Utils {
 			result= true;
 		return result;
 	}
+	
+	public static Set<String> keyExtractorFromCollection(List<Map<String, Object>> chartData, String key) {
+		Set<String> setCollector = new HashSet<>();
+		chartData.forEach(mapObject -> {
+			setCollector.add(mapObject.get(key).toString());
+		});
+		return setCollector;
+	}
+	
 }

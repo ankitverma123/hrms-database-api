@@ -32,12 +32,15 @@ public final class CommonConstants {
 	
 	public static final String JOIN= "join";
 	public static final String WHERECLAUSE= "where";
+	public static final String QUERY= "query";
+	public static final String GROUPBY= "groupBy";
 	
 	public static final String BAR_CHART= "bar";
 	public static final String HORIZONTAL_BAR_CHART= "horizontalbar";
 	public static final String PIE_CHART= "pie";
 	public static final String SIMPLE_PIE_CHART= "simplepie";
 	public static final String DOUGHNUT_CHART= "doughnut";
+	public static final String MULTIPLE_COMPARISON_BARCHART= "multipleComparisonBarChart";
 	
 	public static final String WHERE= "WHERE";
 	public static final String _WHERE_= " WHERE ";
@@ -50,8 +53,8 @@ public final class CommonConstants {
 	public static final String RESULTS= "results";
 	public static final String TOTAL_COUNT= "totalCount";
 	
-	public static final String FINANCIAL_YEAR= "FINANCIALYEAR";
-	public static final String CANDIDATE_SOURCE= "CANDIDATESOURCE";
-	public static final String ONBOARD_STATUS= "ONBOARDSTATUS";
-	public static final String OFFER_DECLINE_CATEGORIES= "OFFERDECLINECATEGORIES";
+	public static final String FINANCIAL_YEAR= "financialYear";
+	public static final String CANDIDATE_SOURCE= "candidateSources";
+	public static final String ONBOARD_STATUS= "onboardStatus";
+	public static final String OFFER_DECLINE_CATEGORIES= "offerDeclineCategories";
 }

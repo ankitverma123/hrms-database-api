@@ -48,4 +48,5 @@ public class DashboardController {
 	public ResponseData declineReasonsVisualisation(@RequestBody ChartRequestModel crb) throws BaseException{
 		return new ResponseData(dashboardService.offerDeclineVisualisation(crb), null, HttpStatus.OK, null);
 	}
+	
 }

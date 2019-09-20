@@ -1,5 +1,6 @@
 package com.exalink.hrmsdatabaseapi.model;
 
+import java.util.List;
 import java.util.Map;
 
 import lombok.Data;
@@ -16,4 +17,5 @@ public class ChartRequestModel {
 	private String subTitle;
 	private String series;
 	private Map<String, Object> filters;
+	private List<Map<String, Object>> detailedAnalaysis;
 }
