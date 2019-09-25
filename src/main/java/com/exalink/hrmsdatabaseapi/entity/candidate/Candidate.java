@@ -65,14 +65,8 @@ public class Candidate {
 	@JsonBackReference
 	@ManyToOne (cascade=CascadeType.ALL)  
 	@JsonIgnore
-	@JoinColumn(name="source", nullable=false)
-	private CandidateSources source;
-	
-	@JsonBackReference
-	@ManyToOne (cascade=CascadeType.ALL)  
-	@JsonIgnore
-	@JoinColumn(name="onboardStatus", nullable=false)
-	private OnboardStatus onboardStatus;
+	@JoinColumn(name="candidateSource", nullable=false)
+	private CandidateSources candidateSource;
 	
 	@JsonBackReference
 	@ManyToOne (cascade=CascadeType.ALL)  
@@ -83,14 +77,20 @@ public class Candidate {
 	@JsonBackReference
 	@ManyToOne (cascade=CascadeType.ALL)  
 	@JsonIgnore
-	@JoinColumn(name="marketBusinessLine", nullable=false)
-	private SubBusinessLine marketBusinessLine;
+	@JoinColumn(name="onboardStatus", nullable=false)
+	private OnboardStatus onboardStatus;
 	
 	@JsonBackReference
 	@ManyToOne (cascade=CascadeType.ALL)  
 	@JsonIgnore
-	@JoinColumn(name="competency", nullable=false)
-	private SubCompetency competency;
+	@JoinColumn(name="subBusinessLine", nullable=false)
+	private SubBusinessLine subBusinessLine;
+	
+	@JsonBackReference
+	@ManyToOne (cascade=CascadeType.ALL)  
+	@JsonIgnore
+	@JoinColumn(name="subCompetency", nullable=false)
+	private SubCompetency subCompetency;
 	
 	@JsonBackReference
 	@ManyToOne (cascade=CascadeType.ALL)  
@@ -103,4 +103,5 @@ public class Candidate {
 	private transient String onboardStatusValue;
 	private transient String marketOfferingBusinessLine;
 	private transient String competencyValue;
+	
 }

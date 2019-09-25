@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,6 +34,13 @@ public class MarketOfferingController {
 		else if (path.equalsIgnoreCase(CommonConstants.SUB_BUSINESS_LINE))
 			return new ResponseData(marketOfferingService.listAllSubBusinessLine(), CommonConstants.SUCCESS, HttpStatus.OK, null);
 		return new ResponseData(null, CommonConstants.FAILURE, HttpStatus.BAD_REQUEST, null);
+	}
+	
+	
+	@GetMapping(value="/subBusinessLine/byMarketOffering/{marketOffering}", produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseData listSubBusinessLine(@PathVariable("marketOffering") String marketOffering, @RequestParam(required = false) boolean requestForDropDown) throws BaseException{
+		return new ResponseData(marketOfferingService.listSubBusinesslineByMarketOffering(Long.valueOf(marketOffering), requestForDropDown), CommonConstants.SUCCESS, HttpStatus.OK, null);
 	}
 	
 }

@@ -7,16 +7,16 @@
 	<changeSet id='onboard-status-1' author='db_script'>
 	    
 	    <insert tableName='onboard_status'>
-			<column name='status' value="Joined" />
+			<column name='onboard_status' value="Joined" />
 		</insert>
 		<insert tableName='onboard_status'>
-			<column name='status' value="Offer Accepted" />
+			<column name='onboard_status' value="Offer Accepted" />
 		</insert>
 		<insert tableName='onboard_status'>
-			<column name='status' value="Placed on Hold" />
+			<column name='onboard_status' value="Placed on Hold" />
 		</insert>
 		<insert tableName='onboard_status'>
-			<column name='status' value="Current Orderboard" />
+			<column name='onboard_status' value="Current Orderboard" />
 		</insert>
 		
 	</changeSet>

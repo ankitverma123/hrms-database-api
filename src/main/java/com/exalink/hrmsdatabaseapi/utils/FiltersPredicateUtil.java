@@ -22,7 +22,7 @@ public class FiltersPredicateUtil {
 	public static List<Predicate> generatePredicatesFilters(CriteriaBuilder builder, Root<?> r, String $filter) {
 		predicates.clear();
 		if ($filter != null) {
-			String filtersToBeApplied[] = $filter.split(" and ");
+			String[] filtersToBeApplied = $filter.split(" and ");
 			for (String filter : filtersToBeApplied) {
 				if (filter.contains("(") && filter.contains("")) {
 					String subString = filter.substring(filter.indexOf("(") + 1, filter.indexOf(")"));
@@ -57,10 +57,12 @@ public class FiltersPredicateUtil {
 				} else {
 					if (filter.contains(" eq ")) {
 						String subString[] = filter.split(" eq ");
-						String key = subString[0];
-						subString[1] = subString[1].trim();
-						String value = subString[1].substring(1, subString[1].length() - 1);
-						predicates.add(builder.equal(r.get(key), value));
+						/*
+						 String key = subString[0];
+						 subString[1] = subString[1].trim();
+						 String value = subString[1].substring(1, subString[1].length() - 1);
+						 */
+						predicates.add(builder.equal(r.get(subString[0]), subString[1]));
 					} else if (filter.contains(" ne ")) {
 						String subString[] = filter.split(" ne ");
 						String key = subString[0];

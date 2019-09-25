@@ -15,6 +15,6 @@ import com.exalink.hrmsdatabaseapi.entity.candidate.OnboardStatus;
 public interface IOnBoardRepository extends JpaRepository<OnboardStatus, Long>{
 	
 	Optional<OnboardStatus> findById(Long id);
-	Optional<OnboardStatus> findByStatus(String status);
+	Optional<OnboardStatus> findByOnboardStatus(String status);
 	
 }

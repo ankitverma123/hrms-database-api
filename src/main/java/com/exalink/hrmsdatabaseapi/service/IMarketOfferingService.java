@@ -13,6 +13,7 @@ import com.exalink.hrmsdatabaseapi.entity.market.SubBusinessLine;
  */
 @Service
 public interface IMarketOfferingService {
-	public List<MarketOffering> listAllMarketOffering();
-	public List<SubBusinessLine> listAllSubBusinessLine();
+	List<MarketOffering> listAllMarketOffering();
+	List<SubBusinessLine> listAllSubBusinessLine();
+	Object listSubBusinesslineByMarketOffering(Long marketOfferingId, boolean dropdownRequested);
 }

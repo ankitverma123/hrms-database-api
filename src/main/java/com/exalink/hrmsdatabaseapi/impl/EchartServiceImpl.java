@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Service
 public class EchartServiceImpl implements IEchartService {
 
+	private static final Logger logger = LogManager.getLogger(EchartServiceImpl.class);
+	private static final String CLASSNAME = EchartServiceImpl.class.getName();
+	
 	private static final String LABEL = "label";
 	private static final String VALUE = "value";
 	private static final String SERIES = "series";
@@ -55,6 +60,7 @@ public class EchartServiceImpl implements IEchartService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object convertToBarChart(List<Map<String, Object>> chartData, ChartRequestModel crb) {
+		logger.debug(CLASSNAME + " >> convertToBarChart() >> START");
 		/*
 		 * Bar Chart Sample
 		 * https://echarts.apache.org/examples/en/editor.html?c=bar-simple
@@ -84,7 +90,7 @@ public class EchartServiceImpl implements IEchartService {
 			populateSeriesName(chartStaticJsonCollectionHolder, crb);
 			return chartStaticJsonCollectionHolder;
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			logger.debug(CLASSNAME + " >> convertToBarChart() >> Exception= "+e.getMessage());
 		}
 		return chartData;
 	}
@@ -92,6 +98,7 @@ public class EchartServiceImpl implements IEchartService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object convertToPieChart(List<Map<String, Object>> chartData, ChartRequestModel crb) {
+		logger.debug(CLASSNAME + " >> convertToPieChart() >> START");
 		/*
 		 * Pie Chart Sample
 		 * https://echarts.apache.org/examples/en/editor.html?c=pie-custom
@@ -107,7 +114,7 @@ public class EchartServiceImpl implements IEchartService {
 			populateSeriesName(chartStaticJsonCollectionHolder, crb);
 			return chartStaticJsonCollectionHolder;
 		} catch (Exception e) {
-
+			logger.debug(CLASSNAME + " >> convertToPieChart() >> Exception= "+e.getMessage());
 		}
 		return chartData;
 	}
@@ -115,6 +122,7 @@ public class EchartServiceImpl implements IEchartService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object convertToDoughnutChart(List<Map<String, Object>> chartData, ChartRequestModel crb) {
+		logger.debug(CLASSNAME + " >> convertToDoughnutChart() >> START");
 		/*
 		 * Doughnut Chart Sample
 		 * https://echarts.apache.org/examples/en/editor.html?c=pie-doughnut
@@ -130,7 +138,7 @@ public class EchartServiceImpl implements IEchartService {
 			populateSeriesName(chartStaticJsonCollectionHolder, crb);
 			return chartStaticJsonCollectionHolder;
 		} catch (Exception e) {
-
+			logger.debug(CLASSNAME + " >> convertToDoughnutChart() >> Exception= "+e.getMessage());
 		}
 		return chartData;
 	}
@@ -138,6 +146,7 @@ public class EchartServiceImpl implements IEchartService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object convertToSimplePieChart(List<Map<String, Object>> chartData, ChartRequestModel crb) {
+		logger.debug(CLASSNAME + " >> convertToSimplePieChart() >> START");
 		/*
 		 * Doughnut Chart Sample
 		 * https://echarts.apache.org/examples/en/editor.html?c=pie-doughnut
@@ -153,7 +162,7 @@ public class EchartServiceImpl implements IEchartService {
 			populateSeriesName(chartStaticJsonCollectionHolder, crb);
 			return chartStaticJsonCollectionHolder;
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			logger.debug(CLASSNAME + " >> convertToSimplePieChart() >> Exception= "+e.getMessage());
 		}
 		return chartData;
 	}
@@ -161,6 +170,7 @@ public class EchartServiceImpl implements IEchartService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object convertToHorizontalBarChart(List<Map<String, Object>> chartData, ChartRequestModel crb) {
+		logger.debug(CLASSNAME + " >> convertToHorizontalBarChart() >> START");
 		/*
 		 * Horizontal Bar Chart
 		 * https://echarts.apache.org/examples/en/editor.html?c=dataset-encode0&theme=
@@ -177,7 +187,7 @@ public class EchartServiceImpl implements IEchartService {
 			populateTitleAndSubTitle(chartStaticJsonCollectionHolder, crb);
 			return chartStaticJsonCollectionHolder;
 		} catch (Exception e) {
-
+			logger.debug(CLASSNAME + " >> convertToHorizontalBarChart() >> Exception= "+e.getMessage());
 		}
 		return chartData;
 	}
@@ -204,6 +214,7 @@ public class EchartServiceImpl implements IEchartService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object convertToMultipleComparisonBarChart(List<Map<String, Object>> chartData, ChartRequestModel crb) {
+		logger.debug(CLASSNAME + " >> convertToMultipleComparisonBarChart() >> START");
 		/*
 		 * Multiple Vertical Comparison Bar Chart
 		 * https://echarts.apache.org/examples/en/editor.html?c=bar-label-rotation
@@ -239,6 +250,7 @@ public class EchartServiceImpl implements IEchartService {
 			populateTitleAndSubTitle(chartStaticJsonCollectionHolder, crb);
 			return chartStaticJsonCollectionHolder;
 		} catch (Exception e) {
+			logger.debug(CLASSNAME + " >> convertToMultipleComparisonBarChart() >> Exception= "+e.getMessage());
 		}
 		return chartData;
 	}

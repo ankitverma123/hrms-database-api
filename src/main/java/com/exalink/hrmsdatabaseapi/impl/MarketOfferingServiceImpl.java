@@ -1,10 +1,14 @@
 package com.exalink.hrmsdatabaseapi.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.exalink.hrmsdatabaseapi.CommonConstants;
 import com.exalink.hrmsdatabaseapi.entity.market.MarketOffering;
 import com.exalink.hrmsdatabaseapi.entity.market.SubBusinessLine;
 import com.exalink.hrmsdatabaseapi.repository.IMarketOfferingBusinessLineRepository;
@@ -32,6 +36,22 @@ public class MarketOfferingServiceImpl implements IMarketOfferingService{
 	@Override
 	public List<SubBusinessLine> listAllSubBusinessLine() {
 		return subBusinessLineRepo.findAll();
+	}
+
+	@Override
+	public Object listSubBusinesslineByMarketOffering(Long marketOfferingId, boolean dropdownRequested) {
+		List<SubBusinessLine> subBusinessLineList= subBusinessLineRepo.listByMarketOffering(marketOfferingId);
+		if(dropdownRequested) {
+			List<Map<String, Object>> subBusinessLineDropDownCollector = new ArrayList<>();
+			for(SubBusinessLine subBusinessLine: subBusinessLineList) {
+				Map<String, Object> map = new HashMap<>();
+				map.put(CommonConstants.ID, subBusinessLine.getId());
+				map.put(CommonConstants.LABEL, subBusinessLine.getSubBusinessLine());
+				subBusinessLineDropDownCollector.add(map);
+			}
+			return subBusinessLineDropDownCollector;
+		}
+		return subBusinessLineList;
 	}
 
 }

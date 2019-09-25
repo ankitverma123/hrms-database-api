@@ -12,11 +12,14 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.exalink.hrmsdatabaseapi.BaseException;
 import com.exalink.hrmsdatabaseapi.CommonConstants;
+import com.exalink.hrmsdatabaseapi.Utils;
 import com.exalink.hrmsdatabaseapi.entity.candidate.Candidate;
 import com.exalink.hrmsdatabaseapi.entity.candidate.CandidateSources;
 import com.exalink.hrmsdatabaseapi.entity.candidate.FinancialYear;
@@ -44,6 +47,9 @@ import com.exalink.hrmsdatabaseapi.utils.FiltersPredicateUtil;
 @Service
 public class CandidateServiceImpl implements ICandidateService {
 
+	private static final Logger logger = LogManager.getLogger(CandidateServiceImpl.class);
+	private static final String CLASSNAME = CandidateServiceImpl.class.getName();
+	
 	private static final String ID = "id";
 	private static final String FIRST_NAME = "firstName";
 	private static final String MIDDLE_NAME = "middleName";
@@ -91,7 +97,7 @@ public class CandidateServiceImpl implements ICandidateService {
 
 	@Override
 	public Candidate saveCandidate(Map<String, Object> candidateRequestMap) throws BaseException {
-
+		logger.debug(CLASSNAME + " >> saveCandidate() >> START");
 		if (candidateRequestMap != null) {
 			Candidate candidateObj = new Candidate();
 
@@ -105,11 +111,11 @@ public class CandidateServiceImpl implements ICandidateService {
 						"Invalid candidate request, Name is missing. Please specify either firstName, middleName or lastName" };
 				throwException(exception);
 			} else {
-				if ((candidateRequestMap.containsKey(FIRST_NAME) && candidateRequestMap.get(FIRST_NAME) != null))
+				if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap, FIRST_NAME))
 					candidateObj.setFirstName(candidateRequestMap.get(FIRST_NAME).toString());
-				if ((candidateRequestMap.containsKey(MIDDLE_NAME) && candidateRequestMap.get(MIDDLE_NAME) != null))
+				if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap, MIDDLE_NAME))
 					candidateObj.setMiddleName(candidateRequestMap.get(MIDDLE_NAME).toString());
-				if ((candidateRequestMap.containsKey(LAST_NAME) && candidateRequestMap.get(LAST_NAME) != null))
+				if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap, LAST_NAME))
 					candidateObj.setLastName(candidateRequestMap.get(LAST_NAME).toString());
 			}
 
@@ -124,18 +130,16 @@ public class CandidateServiceImpl implements ICandidateService {
 						"Invalid candidate request, Atlease one contact number should be present either primary contact number or seconday contact number" };
 				throwException(exception);
 			} else {
-				if ((candidateRequestMap.containsKey(PRIMARY_CONTACT)
-						&& candidateRequestMap.get(PRIMARY_CONTACT) != null))
+				if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap, PRIMARY_CONTACT))
 					candidateObj.setPrimaryContact(candidateRequestMap.get(PRIMARY_CONTACT).toString());
-				if ((candidateRequestMap.containsKey(SECONDARY_CONTACT)
-						&& candidateRequestMap.get(SECONDARY_CONTACT) != null))
+				if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap, SECONDARY_CONTACT))
 					candidateObj.setSecondaryContact(candidateRequestMap.get(SECONDARY_CONTACT).toString());
 			}
 
 			/*
 			 * Check for email address This is also mandatory
 			 */
-			if (candidateRequestMap.containsKey(EMAIL_ADDRESS) && candidateRequestMap.get(EMAIL_ADDRESS) != null) {
+			if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap, EMAIL_ADDRESS)) {
 				String email = candidateRequestMap.get(EMAIL_ADDRESS).toString();
 				if (isEmailValid(email)) {
 					boolean candidateExist = candidateJPARepository.existsByEmailAddress(email);
@@ -152,25 +156,23 @@ public class CandidateServiceImpl implements ICandidateService {
 				}
 			}
 
-			if (candidateRequestMap.containsKey(GENDER) && candidateRequestMap.get(GENDER) != null) {
+			if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap, GENDER)) {
 				candidateObj.setGender(candidateRequestMap.get(GENDER).toString());
 			} else {
 				String[] exception = new String[] { "Invalid candidate request, Please specify gender" };
 				throwException(exception);
 			}
 
-			if (candidateRequestMap.containsKey(TOTAL_EXPERIENCE)
-					&& candidateRequestMap.get(TOTAL_EXPERIENCE) != null) {
+			if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap, TOTAL_EXPERIENCE)) {
 				candidateObj.setTotalExperience(Double.valueOf(candidateRequestMap.get(TOTAL_EXPERIENCE).toString()));
 			}
 
-			if (candidateRequestMap.containsKey(RELEVANT_EXPERIENCE)
-					&& candidateRequestMap.get(RELEVANT_EXPERIENCE) != null) {
+			if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap, RELEVANT_EXPERIENCE)) {
 				candidateObj
 						.setRelevantExperience(Double.valueOf(candidateRequestMap.get(RELEVANT_EXPERIENCE).toString()));
 			}
 
-			if (candidateRequestMap.containsKey(LAST_COMPANY) && candidateRequestMap.get(LAST_COMPANY) != null) {
+			if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap, LAST_COMPANY)) {
 				candidateObj.setLastCompany((String) candidateRequestMap.get(LAST_COMPANY));
 			}
 
@@ -352,12 +354,11 @@ public class CandidateServiceImpl implements ICandidateService {
 
 	private void candidateResourceMapper(Map<String, Object> candidateRequestMap, Candidate candidateObj)
 			throws BaseException {
-		if (candidateRequestMap.containsKey(CANDIDATE_SOURCEID)
-				&& candidateRequestMap.get(CANDIDATE_SOURCEID) != null) {
+		if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap, CANDIDATE_SOURCEID)) {
 			Long candidateSourceId = Long.valueOf(candidateRequestMap.get(CANDIDATE_SOURCEID).toString());
 			Optional<CandidateSources> cs = candidateSourceJPARepository.findById(candidateSourceId);
 			if (cs.isPresent()) {
-				candidateObj.setSource(cs.get());
+				candidateObj.setCandidateSource(cs.get());
 			} else {
 				String[] exception = new String[] { "Invalid candidate request, Invalid candidateSourceId passed" };
 				throwException(exception);
@@ -367,7 +368,7 @@ public class CandidateServiceImpl implements ICandidateService {
 
 	private void onBoardStatusMapper(Map<String, Object> candidateRequestMap, Candidate candidateObj)
 			throws BaseException {
-		if (candidateRequestMap.containsKey(ONBOARD_STATUSID) && candidateRequestMap.get(ONBOARD_STATUSID) != null) {
+		if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap, ONBOARD_STATUSID)) {
 			Long onboardStatusId = Long.valueOf(candidateRequestMap.get(ONBOARD_STATUSID).toString());
 			Optional<OnboardStatus> cs = onboardJPARepository.findById(onboardStatusId);
 			if (cs.isPresent()) {
@@ -381,7 +382,7 @@ public class CandidateServiceImpl implements ICandidateService {
 
 	private void financialYearMapper(Map<String, Object> candidateRequestMap, Candidate candidateObj)
 			throws BaseException {
-		if (candidateRequestMap.containsKey(FINANCIAL_YEAR) && candidateRequestMap.get(FINANCIAL_YEAR) != null) {
+		if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap, FINANCIAL_YEAR)) {
 			Long financialYearId = Long.valueOf(candidateRequestMap.get(FINANCIAL_YEAR).toString());
 			Optional<FinancialYear> cs = financialYearRepository.findById(financialYearId);
 			if (cs.isPresent()) {
@@ -396,8 +397,7 @@ public class CandidateServiceImpl implements ICandidateService {
 	private void marketSubBusinessLineMapper(Map<String, Object> candidateRequestMap, Candidate candidateObj,
 			boolean modifyRequest) throws BaseException {
 		if (!modifyRequest) {
-			if (candidateRequestMap.containsKey(MARKET_BUSINESSLINE)
-					&& candidateRequestMap.get(MARKET_BUSINESSLINE) != null) {
+			if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap, MARKET_BUSINESSLINE)) {
 				marketSubBusinessLineMapperInner(candidateRequestMap, candidateObj);
 			} else {
 				String[] exception = new String[] {
@@ -405,8 +405,7 @@ public class CandidateServiceImpl implements ICandidateService {
 				throwException(exception);
 			}
 		} else {
-			if (candidateRequestMap.containsKey(MARKET_BUSINESSLINE)
-					&& candidateRequestMap.get(MARKET_BUSINESSLINE) != null) {
+			if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap, MARKET_BUSINESSLINE)) {
 				marketSubBusinessLineMapperInner(candidateRequestMap, candidateObj);
 			}
 		}
@@ -417,7 +416,7 @@ public class CandidateServiceImpl implements ICandidateService {
 		Long subBusinessLine = Long.valueOf(candidateRequestMap.get(MARKET_BUSINESSLINE).toString());
 		Optional<SubBusinessLine> cs = marketOfferingSubBusinessLineRepo.findById(subBusinessLine);
 		if (cs.isPresent()) {
-			candidateObj.setMarketBusinessLine(cs.get());
+			candidateObj.setSubBusinessLine(cs.get());
 		} else {
 			String[] exception = new String[] {
 					"Invalid candidate request, Invalid market offering or sub business line passed" };
@@ -428,14 +427,14 @@ public class CandidateServiceImpl implements ICandidateService {
 	private void competencyMapper(Map<String, Object> candidateRequestMap, Candidate candidateObj,
 			boolean modifyRequest) throws BaseException {
 		if (!modifyRequest) {
-			if (candidateRequestMap.containsKey(COMPETENCY) && candidateRequestMap.get(COMPETENCY) != null) {
+			if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap, COMPETENCY)) {
 				competencyMapperInner(candidateRequestMap, candidateObj);
 			} else {
 				String[] exception = new String[] { "Invalid candidate request, competency missing from request" };
 				throwException(exception);
 			}
 		} else {
-			if (candidateRequestMap.containsKey(COMPETENCY) && candidateRequestMap.get(COMPETENCY) != null) {
+			if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap, COMPETENCY)) {
 				competencyMapperInner(candidateRequestMap, candidateObj);
 			}
 		}
@@ -446,7 +445,7 @@ public class CandidateServiceImpl implements ICandidateService {
 		Long competencyId = Long.valueOf(candidateRequestMap.get(COMPETENCY).toString());
 		Optional<SubCompetency> cs = subCompetencyRepository.findById(competencyId);
 		if (cs.isPresent()) {
-			candidateObj.setCompetency(cs.get());
+			candidateObj.setSubCompetency(cs.get());
 		} else {
 			String[] exception = new String[] { "Invalid candidate request, Invalid competency passed" };
 			throwException(exception);
@@ -507,16 +506,18 @@ public class CandidateServiceImpl implements ICandidateService {
 			} else if (sortDirection.equals(CommonConstants.SORT_DIRECTION_DESC)) {
 				query.orderBy(builder.desc(r.get(sortField)));
 			}
+		} else {
+			query.orderBy(builder.desc(r.get("id")));
 		}
 
 		List<Candidate> result = entityManager.createQuery(query).setFirstResult(skip).setMaxResults(top)
 				.getResultList();
 		for(Candidate candidate: result){
 			candidate.setFullName((candidate.getFirstName()==null ? "":candidate.getFirstName()).concat(candidate.getMiddleName() == null ? " " : " "+candidate.getMiddleName()).concat(candidate.getLastName() == null ? " " : " "+candidate.getLastName()));
-			candidate.setSourceName(candidate.getSource()!=null ? candidate.getSource().getName() : "--");
-			candidate.setOnboardStatusValue(candidate.getOnboardStatus() != null ? candidate.getOnboardStatus().getStatus() : "--");
-			candidate.setMarketOfferingBusinessLine(candidate.getMarketBusinessLine()!=null ? candidate.getMarketBusinessLine().getMarketOffering().getMarket() : "--");
-			candidate.setCompetencyValue(candidate.getCompetency()!=null ? candidate.getCompetency().getSubCompetency() : "--");
+			candidate.setSourceName(candidate.getCandidateSource()!=null ? candidate.getCandidateSource().getCandidateSource() : "--");
+			candidate.setOnboardStatusValue(candidate.getOnboardStatus() != null ? candidate.getOnboardStatus().getOnboardStatus() : "--");
+			candidate.setMarketOfferingBusinessLine(candidate.getSubBusinessLine()!=null ? candidate.getSubBusinessLine().getMarketOffering().getMarket() : "--");
+			candidate.setCompetencyValue(candidate.getSubCompetency()!=null ? candidate.getSubCompetency().getSubCompetency() : "--");
 		}
 		
 		

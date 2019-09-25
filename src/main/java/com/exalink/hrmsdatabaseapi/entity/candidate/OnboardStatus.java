@@ -23,7 +23,7 @@ public class OnboardStatus {
 	@Column(name="id")
 	private Long id;
 	
-	@Column(name = "status")
-	private String status;
+	@Column(name = "onboardStatus")
+	private String onboardStatus;
 	
 }

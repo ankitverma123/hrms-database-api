@@ -31,7 +31,7 @@ public class CandidateController {
 	
 	@PutMapping(value="/", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseData saveCandidate(@RequestBody Map<String, Object> candidateRequestMap) throws BaseException{
-		return new ResponseData(candidateService.saveCandidate(candidateRequestMap), null, HttpStatus.OK, null);
+		return new ResponseData(candidateService.saveCandidate(candidateRequestMap), "Candidate Created Succesfully", HttpStatus.OK, null);
 	}
 	
 	@PutMapping(value="/batch", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
@@ -41,7 +41,7 @@ public class CandidateController {
 	
 	@PostMapping(value="/", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseData updateCandidate(@RequestBody Map<String, Object> candidateRequestMap) throws BaseException {
-		return new ResponseData(candidateService.updateCandidate(candidateRequestMap), null, HttpStatus.OK, null);
+		return new ResponseData(candidateService.updateCandidate(candidateRequestMap), "Candidate Updated Succesfully", HttpStatus.OK, null);
 	}
 	
 	@GetMapping(value="/", produces=MediaType.APPLICATION_JSON_VALUE)

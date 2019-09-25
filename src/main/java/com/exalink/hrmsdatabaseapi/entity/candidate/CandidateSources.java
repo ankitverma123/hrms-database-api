@@ -23,8 +23,8 @@ public class CandidateSources {
 	@Column(name="id")
 	private Long id;
 	
-	@Column(name = "name")
-	private String name;
+	@Column(name = "candidateSource")
+	private String candidateSource;
 	
 	@Column(name = "isActive")
 	private Boolean isActive;

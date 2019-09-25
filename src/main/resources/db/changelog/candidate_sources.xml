@@ -7,32 +7,32 @@
 	<changeSet id='candidate_sources-1' author='db_script'>
 	    
 	    <insert tableName='candidate_sources'>
-			<column name='name' value="Net Sourcing" />
+			<column name='candidate_source' value="Net Sourcing" />
 			<column name='is_active' valueBoolean="true" />
 		</insert>
 		
 		<insert tableName='candidate_sources'>
-			<column name='name' value="Referral" />
+			<column name='candidate_source' value="Referral" />
 			<column name='is_active' valueBoolean="true" />
 		</insert>
 		
 		<insert tableName='candidate_sources'>
-			<column name='name' value="Internal Mobility" />
+			<column name='candidate_source' value="Internal Mobility" />
 			<column name='is_active' valueBoolean="true" />
 		</insert>
 		
 		<insert tableName='candidate_sources'>
-			<column name='name' value="CTH to FTE" />
+			<column name='candidate_source' value="CTH to FTE" />
 			<column name='is_active' valueBoolean="true" />
 		</insert>
 		
 		<insert tableName='candidate_sources'>
-			<column name='name' value="Vendor" />
+			<column name='candidate_source' value="Vendor" />
 			<column name='is_active' valueBoolean="true" />
 		</insert>
 		
 		<insert tableName='candidate_sources'>
-			<column name='name' value="PDAT" />
+			<column name='candidate_source' value="PDAT" />
 			<column name='is_active' valueBoolean="true" />
 		</insert>
 	</changeSet>

@@ -19,6 +19,7 @@ import com.exalink.hrmsdatabaseapi.CommonConstants;
 import com.exalink.hrmsdatabaseapi.entity.candidate.CandidateSources;
 import com.exalink.hrmsdatabaseapi.entity.candidate.FinancialYear;
 import com.exalink.hrmsdatabaseapi.entity.candidate.OnboardStatus;
+import com.exalink.hrmsdatabaseapi.entity.competency.Competency;
 import com.exalink.hrmsdatabaseapi.entity.market.MarketOffering;
 import com.exalink.hrmsdatabaseapi.entity.offer.OfferDeclineCategory;
 import com.exalink.hrmsdatabaseapi.repository.ICandidateSourceRepository;
@@ -39,25 +40,25 @@ public class SQLServiceImpl implements ISQLService {
 
 	@Autowired
 	private EntityManager entityManager;
-	
+
 	@Autowired
 	private IFinancialYearRepository financialYearRepo;
-	
+
 	@Autowired
 	private ICandidateSourceRepository candidateSourceRepository;
 
 	@Autowired
 	private IOnBoardRepository onboardRepository;
-	
+
 	@Autowired
 	private IOfferDeclineRepository offerDeclineRepository;
-	
+
 	@Autowired
 	private IMarketOfferingRepository marketOfferingRepository;
-	
+
 	@Override
-	public Map<String, Object> listFinancialYear(Integer skip, Integer top, String sortField, String sortDirection,
-			String filter) throws BaseException {
+	public Object listFinancialYear(Integer skip, Integer top, String sortField, String sortDirection, String filter,
+			boolean requestForDropDown) throws BaseException {
 		List<Predicate> predicates = new ArrayList<>();
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<FinancialYear> query = builder.createQuery(FinancialYear.class);
@@ -77,21 +78,33 @@ public class SQLServiceImpl implements ISQLService {
 			}
 		}
 
-		List<FinancialYear> result = entityManager.createQuery(query).setFirstResult(skip).setMaxResults(top)
-				.getResultList();
+		if (requestForDropDown) {
+			List<FinancialYear> result = entityManager.createQuery(query).getResultList();
+			List<Map<String, Object>> con = new ArrayList<>();
+			for (FinancialYear fy : result) {
+				Map<String, Object> map = new HashMap<>();
+				map.put(CommonConstants.ID, fy.getId());
+				map.put(CommonConstants.LABEL, fy.getFinancialYear());
+				con.add(map);
+			}
+			return con;
+		} else {
+			List<FinancialYear> result = entityManager.createQuery(query).setFirstResult(skip).setMaxResults(top)
+					.getResultList();
 
-		int totalCount = entityManager.createQuery(query).getResultList().size();
+			int totalCount = entityManager.createQuery(query).getResultList().size();
 
-		Map<String, Object> dataToBeReturned = new HashMap<>();
-		dataToBeReturned.put(CommonConstants.RESULTS, result);
-		dataToBeReturned.put(CommonConstants.TOTAL_COUNT, totalCount);
+			Map<String, Object> dataToBeReturned = new HashMap<>();
+			dataToBeReturned.put(CommonConstants.RESULTS, result);
+			dataToBeReturned.put(CommonConstants.TOTAL_COUNT, totalCount);
 
-		return dataToBeReturned;
+			return dataToBeReturned;
+		}
 	}
 
 	@Override
-	public Map<String, Object> listCandidateSources(Integer skip, Integer top, String sortField, String sortDirection,
-			String filter) throws BaseException {
+	public Object listCandidateSources(Integer skip, Integer top, String sortField, String sortDirection, String filter,
+			boolean requestForDropDown) throws BaseException {
 		List<Predicate> predicates = new ArrayList<>();
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<CandidateSources> query = builder.createQuery(CandidateSources.class);
@@ -110,22 +123,33 @@ public class SQLServiceImpl implements ISQLService {
 				query.orderBy(builder.desc(r.get(sortField)));
 			}
 		}
+		if (requestForDropDown) {
+			List<CandidateSources> result = entityManager.createQuery(query).getResultList();
+			List<Map<String, Object>> con = new ArrayList<>();
+			for (CandidateSources fy : result) {
+				Map<String, Object> map = new HashMap<>();
+				map.put(CommonConstants.ID, fy.getId());
+				map.put(CommonConstants.LABEL, fy.getCandidateSource());
+				con.add(map);
+			}
+			return con;
+		} else {
+			List<CandidateSources> result = entityManager.createQuery(query).setFirstResult(skip).setMaxResults(top)
+					.getResultList();
 
-		List<CandidateSources> result = entityManager.createQuery(query).setFirstResult(skip).setMaxResults(top)
-				.getResultList();
-		
-		int totalCount = entityManager.createQuery(query).getResultList().size();
+			int totalCount = entityManager.createQuery(query).getResultList().size();
 
-		Map<String, Object> dataToBeReturned = new HashMap<>();
-		dataToBeReturned.put(CommonConstants.RESULTS, result);
-		dataToBeReturned.put(CommonConstants.TOTAL_COUNT, totalCount);
+			Map<String, Object> dataToBeReturned = new HashMap<>();
+			dataToBeReturned.put(CommonConstants.RESULTS, result);
+			dataToBeReturned.put(CommonConstants.TOTAL_COUNT, totalCount);
 
-		return dataToBeReturned;
+			return dataToBeReturned;
+		}
 	}
 
 	@Override
-	public Map<String, Object> listOnboardStatus(Integer skip, Integer top, String sortField, String sortDirection,
-			String filter) throws BaseException {
+	public Object listOnboardStatus(Integer skip, Integer top, String sortField, String sortDirection, String filter,
+			boolean requestForDropDown) throws BaseException {
 		List<Predicate> predicates = new ArrayList<>();
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<OnboardStatus> query = builder.createQuery(OnboardStatus.class);
@@ -145,21 +169,33 @@ public class SQLServiceImpl implements ISQLService {
 			}
 		}
 
-		List<OnboardStatus> result = entityManager.createQuery(query).setFirstResult(skip).setMaxResults(top)
-				.getResultList();
-		
-		int totalCount = entityManager.createQuery(query).getResultList().size();
+		if (requestForDropDown) {
+			List<OnboardStatus> result = entityManager.createQuery(query).getResultList();
+			List<Map<String, Object>> con = new ArrayList<>();
+			for (OnboardStatus fy : result) {
+				Map<String, Object> map = new HashMap<>();
+				map.put(CommonConstants.ID, fy.getId());
+				map.put(CommonConstants.LABEL, fy.getOnboardStatus());
+				con.add(map);
+			}
+			return con;
+		} else {
+			List<OnboardStatus> result = entityManager.createQuery(query).setFirstResult(skip).setMaxResults(top)
+					.getResultList();
 
-		Map<String, Object> dataToBeReturned = new HashMap<>();
-		dataToBeReturned.put(CommonConstants.RESULTS, result);
-		dataToBeReturned.put(CommonConstants.TOTAL_COUNT, totalCount);
+			int totalCount = entityManager.createQuery(query).getResultList().size();
 
-		return dataToBeReturned;
+			Map<String, Object> dataToBeReturned = new HashMap<>();
+			dataToBeReturned.put(CommonConstants.RESULTS, result);
+			dataToBeReturned.put(CommonConstants.TOTAL_COUNT, totalCount);
+
+			return dataToBeReturned;
+		}
 	}
 
 	@Override
-	public Map<String, Object> listOfferDeclineCategories(Integer skip, Integer top, String sortField,
-			String sortDirection, String filter) throws BaseException {
+	public Object listOfferDeclineCategories(Integer skip, Integer top, String sortField, String sortDirection,
+			String filter, boolean requestForDropDown) throws BaseException {
 		List<Predicate> predicates = new ArrayList<>();
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<OfferDeclineCategory> query = builder.createQuery(OfferDeclineCategory.class);
@@ -181,7 +217,7 @@ public class SQLServiceImpl implements ISQLService {
 
 		List<OfferDeclineCategory> result = entityManager.createQuery(query).setFirstResult(skip).setMaxResults(top)
 				.getResultList();
-		
+
 		int totalCount = entityManager.createQuery(query).getResultList().size();
 
 		Map<String, Object> dataToBeReturned = new HashMap<>();
@@ -193,48 +229,48 @@ public class SQLServiceImpl implements ISQLService {
 
 	@Override
 	public Object persist(String path, Map<String, Object> requestMap) throws BaseException {
-		if(path.equalsIgnoreCase(CommonConstants.FINANCIAL_YEAR)) {
+		if (path.equalsIgnoreCase(CommonConstants.FINANCIAL_YEAR)) {
 			FinancialYear obj = new ObjectMapper().convertValue(requestMap, FinancialYear.class);
-			if(obj!=null && !obj.getFinancialYear().isEmpty()) {
-				if(financialYearRepo.findByFinancialYear(obj.getFinancialYear()).isPresent()) {
-					String[] exception = new String[] { obj.getFinancialYear()+" financial year already there" };
+			if (obj != null && !obj.getFinancialYear().isEmpty()) {
+				if (financialYearRepo.findByFinancialYear(obj.getFinancialYear()).isPresent()) {
+					String[] exception = new String[] { obj.getFinancialYear() + " financial year already there" };
 					throwException(exception);
-				}	
+				}
 				return financialYearRepo.save(obj);
 			}
-		} else if(path.equalsIgnoreCase(CommonConstants.CANDIDATE_SOURCE)) {
+		} else if (path.equalsIgnoreCase(CommonConstants.CANDIDATE_SOURCE)) {
 			CandidateSources obj = new ObjectMapper().convertValue(requestMap, CandidateSources.class);
-			if(obj!=null && !obj.getName().isEmpty()) {
-				if(candidateSourceRepository.findByName(obj.getName()).isPresent()) {
-					String[] exception = new String[] { obj.getName()+ " candidate source already there" };
+			if (obj != null && !obj.getCandidateSource().isEmpty()) {
+				if (candidateSourceRepository.findByCandidateSource(obj.getCandidateSource()).isPresent()) {
+					String[] exception = new String[] { obj.getCandidateSource() + " candidate source already there" };
 					throwException(exception);
 				}
 				obj.setIsActive(true);
 				return candidateSourceRepository.save(obj);
 			}
-		} else if(path.equalsIgnoreCase(CommonConstants.ONBOARD_STATUS)) {
+		} else if (path.equalsIgnoreCase(CommonConstants.ONBOARD_STATUS)) {
 			OnboardStatus obj = new ObjectMapper().convertValue(requestMap, OnboardStatus.class);
-			if(obj!=null && !obj.getStatus().isEmpty()) {
-				if(onboardRepository.findByStatus(obj.getStatus()).isPresent()) {
-					String[] exception = new String[] { obj.getStatus()+ " onboard status already there" };
+			if (obj != null && !obj.getOnboardStatus().isEmpty()) {
+				if (onboardRepository.findByOnboardStatus(obj.getOnboardStatus()).isPresent()) {
+					String[] exception = new String[] { obj.getOnboardStatus() + " onboard status already there" };
 					throwException(exception);
 				}
 				return onboardRepository.save(obj);
 			}
-		} else if(path.equalsIgnoreCase(CommonConstants.OFFER_DECLINE_CATEGORIES)) {
-			OfferDeclineCategory obj =new ObjectMapper().convertValue(requestMap, OfferDeclineCategory.class);
-			if(obj!=null && !obj.getCategory().isEmpty()) {
-				if(offerDeclineRepository.findByCategory(obj.getCategory()).isPresent()) {
-					String[] exception = new String[] { obj.getCategory()+ " category already there" };
+		} else if (path.equalsIgnoreCase(CommonConstants.OFFER_DECLINE_CATEGORIES)) {
+			OfferDeclineCategory obj = new ObjectMapper().convertValue(requestMap, OfferDeclineCategory.class);
+			if (obj != null && !obj.getCategory().isEmpty()) {
+				if (offerDeclineRepository.findByCategory(obj.getCategory()).isPresent()) {
+					String[] exception = new String[] { obj.getCategory() + " category already there" };
 					throwException(exception);
 				}
 				return offerDeclineRepository.save(obj);
 			}
-		} else if(path.equalsIgnoreCase(CommonConstants.MARKET_OFFERING)) {
-			MarketOffering obj =new ObjectMapper().convertValue(requestMap, MarketOffering.class);
-			if(obj!=null && !obj.getMarket().isEmpty()) {
-				if(marketOfferingRepository.findByMarket(obj.getMarket()).isPresent()) {
-					String[] exception = new String[] { obj.getMarket()+ " market offering already there" };
+		} else if (path.equalsIgnoreCase(CommonConstants.MARKET_OFFERING)) {
+			MarketOffering obj = new ObjectMapper().convertValue(requestMap, MarketOffering.class);
+			if (obj != null && !obj.getMarket().isEmpty()) {
+				if (marketOfferingRepository.findByMarket(obj.getMarket()).isPresent()) {
+					String[] exception = new String[] { obj.getMarket() + " market offering already there" };
 					throwException(exception);
 				}
 				return marketOfferingRepository.save(obj);
@@ -248,8 +284,8 @@ public class SQLServiceImpl implements ISQLService {
 	}
 
 	@Override
-	public Map<String, Object> listMarketOffering(Integer skip, Integer top, String sortField, String sortDirection,
-			String filter) throws BaseException {
+	public Object listMarketOffering(Integer skip, Integer top, String sortField, String sortDirection, String filter,
+			boolean requestForDropDown) throws BaseException {
 		List<Predicate> predicates = new ArrayList<>();
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<MarketOffering> query = builder.createQuery(MarketOffering.class);
@@ -269,15 +305,72 @@ public class SQLServiceImpl implements ISQLService {
 			}
 		}
 
-		List<MarketOffering> result = entityManager.createQuery(query).setFirstResult(skip).setMaxResults(top)
-				.getResultList();
+		if (requestForDropDown) {
+			List<MarketOffering> result = entityManager.createQuery(query).getResultList();
+			List<Map<String, Object>> con = new ArrayList<>();
+			for (MarketOffering fy : result) {
+				Map<String, Object> map = new HashMap<>();
+				map.put(CommonConstants.ID, fy.getId());
+				map.put(CommonConstants.LABEL, fy.getMarket());
+				con.add(map);
+			}
+			return con;
+		} else {
+			List<MarketOffering> result = entityManager.createQuery(query).setFirstResult(skip).setMaxResults(top)
+					.getResultList();
 
-		int totalCount = entityManager.createQuery(query).getResultList().size();
+			int totalCount = entityManager.createQuery(query).getResultList().size();
 
-		Map<String, Object> dataToBeReturned = new HashMap<>();
-		dataToBeReturned.put(CommonConstants.RESULTS, result);
-		dataToBeReturned.put(CommonConstants.TOTAL_COUNT, totalCount);
+			Map<String, Object> dataToBeReturned = new HashMap<>();
+			dataToBeReturned.put(CommonConstants.RESULTS, result);
+			dataToBeReturned.put(CommonConstants.TOTAL_COUNT, totalCount);
 
-		return dataToBeReturned;
+			return dataToBeReturned;
+		}
+	}
+
+	@Override
+	public Object listCompetency(Integer skip, Integer top, String sortField, String sortDirection, String filter,
+			boolean requestForDropDown) throws BaseException {
+		List<Predicate> predicates = new ArrayList<>();
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Competency> query = builder.createQuery(Competency.class);
+		Root<Competency> r = query.from(Competency.class);
+		List<Predicate> predicatesGenerated = FiltersPredicateUtil.generatePredicatesFilters(builder, r, filter);
+
+		if (predicatesGenerated != null && !predicatesGenerated.isEmpty())
+			predicates.addAll(predicatesGenerated);
+
+		query.where(builder.and(predicates.toArray(new Predicate[predicates.size()])));
+
+		if (sortField != null && sortDirection != null) {
+			if (sortDirection.equals(CommonConstants.SORT_DIRECTION_ASC)) {
+				query.orderBy(builder.asc(r.get(sortField)));
+			} else if (sortDirection.equals(CommonConstants.SORT_DIRECTION_DESC)) {
+				query.orderBy(builder.desc(r.get(sortField)));
+			}
+		}
+		if (requestForDropDown) {
+			List<Competency> result = entityManager.createQuery(query).getResultList();
+			List<Map<String, Object>> con = new ArrayList<>();
+			for (Competency fy : result) {
+				Map<String, Object> map = new HashMap<>();
+				map.put(CommonConstants.ID, fy.getId());
+				map.put(CommonConstants.LABEL, fy.getCompetency());
+				con.add(map);
+			}
+			return con;
+		} else {
+			List<Competency> result = entityManager.createQuery(query).setFirstResult(skip).setMaxResults(top)
+					.getResultList();
+
+			int totalCount = entityManager.createQuery(query).getResultList().size();
+
+			Map<String, Object> dataToBeReturned = new HashMap<>();
+			dataToBeReturned.put(CommonConstants.RESULTS, result);
+			dataToBeReturned.put(CommonConstants.TOTAL_COUNT, totalCount);
+
+			return dataToBeReturned;
+		}
 	}
 }

@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -34,14 +35,18 @@ public class DashboardServiceImpl implements IDashboardService {
 	private static final String FROM_CANDIDATE = " FROM candidate c";
 	private static final String GROUP_BY_LABEL = " GROUP BY label";
 
+	private static final Logger logger = LogManager.getLogger(DashboardServiceImpl.class);
+	private static final String CLASSNAME = DashboardServiceImpl.class.getName();
+	
 	@Override
 	public Object topSourcesVisualisation(ChartRequestModel crb) throws BaseException {
+		logger.debug(CLASSNAME + " >> topSourcesVisualisation() >> START");
 		String chartType = crb.getChartType();
 		Map<String, Object> filters = crb.getFilters();
 		Map<String, Object> detailedAnalysis = detailedAnalysisRequested(crb);
 		StringBuilder sb = new StringBuilder();
 
-		sb.append("SELECT s.name as label");
+		sb.append("SELECT s.candidate_source as label");
 		if (crb.isPercentageRequested())
 			sb.append(COUNT_IN_PERCENTAGE);
 		else
@@ -50,7 +55,7 @@ public class DashboardServiceImpl implements IDashboardService {
 			sb.append(", " + detailedAnalysis.get(CommonConstants.QUERY).toString());
 		}
 		sb.append(FROM_CANDIDATE);
-		sb.append(" JOIN candidate_sources s ON c.source=s.id");
+		sb.append(" JOIN candidate_sources s ON c.candidate_source=s.id");
 		if (detailedAnalysis != null && Utils.checkCollectionHasKeyAndValue(detailedAnalysis, CommonConstants.JOIN)) {
 			sb.append(detailedAnalysis.get(CommonConstants.JOIN).toString());
 		}
@@ -74,9 +79,11 @@ public class DashboardServiceImpl implements IDashboardService {
 				&& Utils.checkCollectionHasKeyAndValue(detailedAnalysis, CommonConstants.GROUPBY)) {
 			sb.append(", " + detailedAnalysis.get(CommonConstants.GROUPBY).toString());
 		}
-
+		logger.debug(CLASSNAME + " >> topSourcesVisualisation() >> Query ");
+		logger.debug(sb.toString());
 		List<Map<String, Object>> queryResponse = jdbcTemplate.queryForList(sb.toString());
-
+		logger.debug(CLASSNAME + " >> topSourcesVisualisation() >> Query Response= "+queryResponse.size());
+		
 		if (chartType.equalsIgnoreCase(CommonConstants.BAR_CHART)) {
 			return echartService.convertToBarChart(queryResponse, crb);
 		} else if (chartType.equalsIgnoreCase(CommonConstants.PIE_CHART)) {
@@ -95,11 +102,12 @@ public class DashboardServiceImpl implements IDashboardService {
 
 	@Override
 	public Object recruitmentStatusVisualisation(ChartRequestModel crb) throws BaseException {
+		logger.debug(CLASSNAME + " >> recruitmentStatusVisualisation() >> START");
 		String chartType = crb.getChartType();
 		Map<String, Object> filters = crb.getFilters();
 		Map<String, Object> detailedAnalysis = detailedAnalysisRequested(crb);
 		StringBuilder sb = new StringBuilder();
-		sb.append("SELECT s.status as label");
+		sb.append("SELECT s.onboard_status as label");
 		if (crb.isPercentageRequested())
 			sb.append(COUNT_IN_PERCENTAGE);
 		else
@@ -133,7 +141,11 @@ public class DashboardServiceImpl implements IDashboardService {
 			sb.append(", " + detailedAnalysis.get(CommonConstants.GROUPBY).toString());
 		}
 
+		logger.debug(CLASSNAME + " >> recruitmentStatusVisualisation() >> Query ");
+		logger.debug(sb.toString());
 		List<Map<String, Object>> queryResponse = jdbcTemplate.queryForList(sb.toString());
+		logger.debug(CLASSNAME + " >> recruitmentStatusVisualisation() >> Query Response= "+queryResponse.size());
+		
 		if (chartType.equalsIgnoreCase(CommonConstants.BAR_CHART)) {
 			return echartService.convertToBarChart(queryResponse, crb);
 		} else if (chartType.equalsIgnoreCase(CommonConstants.PIE_CHART)) {
@@ -152,6 +164,7 @@ public class DashboardServiceImpl implements IDashboardService {
 
 	@Override
 	public Object genderMixtureVisualisation(ChartRequestModel crb) throws BaseException {
+		logger.debug(CLASSNAME + " >> genderMixtureVisualisation() >> START");
 		String chartType = crb.getChartType();
 		Map<String, Object> filters = crb.getFilters();
 		Map<String, Object> detailedAnalysis = detailedAnalysisRequested(crb);
@@ -189,7 +202,11 @@ public class DashboardServiceImpl implements IDashboardService {
 			sb.append(", " + detailedAnalysis.get(CommonConstants.GROUPBY).toString());
 		}
 
+		logger.debug(CLASSNAME + " >> genderMixtureVisualisation() >> Query ");
+		logger.debug(sb.toString());
 		List<Map<String, Object>> queryResponse = jdbcTemplate.queryForList(sb.toString());
+		logger.debug(CLASSNAME + " >> genderMixtureVisualisation() >> Query Response= "+queryResponse.size());
+		
 		if (chartType.equalsIgnoreCase(CommonConstants.BAR_CHART)) {
 			return echartService.convertToBarChart(queryResponse, crb);
 		} else if (chartType.equalsIgnoreCase(CommonConstants.PIE_CHART)) {
@@ -208,6 +225,7 @@ public class DashboardServiceImpl implements IDashboardService {
 
 	@Override
 	public Object offerDeclineVisualisation(ChartRequestModel crb) throws BaseException {
+		logger.debug(CLASSNAME + " >> offerDeclineVisualisation() >> START");
 		String chartType = crb.getChartType();
 		Map<String, Object> filters = crb.getFilters();
 		Map<String, Object> detailedAnalysis = detailedAnalysisRequested(crb);
@@ -248,7 +266,11 @@ public class DashboardServiceImpl implements IDashboardService {
 			sb.append(", " + detailedAnalysis.get(CommonConstants.GROUPBY).toString());
 		}
 
+		logger.debug(CLASSNAME + " >> offerDeclineVisualisation() >> Query ");
+		logger.debug(sb.toString());
 		List<Map<String, Object>> queryResponse = jdbcTemplate.queryForList(sb.toString());
+		logger.debug(CLASSNAME + " >> offerDeclineVisualisation() >> Query Response= "+queryResponse.size());
+		
 		if (chartType.equalsIgnoreCase(CommonConstants.BAR_CHART)) {
 			return echartService.convertToBarChart(queryResponse, crb);
 		} else if (chartType.equalsIgnoreCase(CommonConstants.PIE_CHART)) {
@@ -266,6 +288,7 @@ public class DashboardServiceImpl implements IDashboardService {
 	}
 
 	private String filterCriteriaPopulation(Map<String, Object> filters, String requestedString) {
+		logger.debug(CLASSNAME + " >> filterCriteriaPopulation() >> Query ");
 		ArrayList<String> joinClauses = new ArrayList<>();
 		ArrayList<String> whereClauses = new ArrayList<>();
 		if (Utils.checkCollectionHasKeyAndValueForFilters(filters, CommonConstants.FILTER_BY_FINANCIAL_YEAR)) {
@@ -277,7 +300,7 @@ public class DashboardServiceImpl implements IDashboardService {
 
 		if (Utils.checkCollectionHasKeyAndValueForFilters(filters, CommonConstants.FILTER_BY_MARKET_OFFERING)) {
 			if (requestedString.equals(CommonConstants.JOIN))
-				joinClauses.add(" JOIN market_subbusinessline mbl ON c.market_business_line=mbl.id");
+				joinClauses.add(" JOIN market_subbusinessline mbl ON c.sub_business_line=mbl.id");
 			else if (requestedString.equals(CommonConstants.WHERECLAUSE))
 				whereClauses
 						.add("mbl.market_offering='" + filters.get(CommonConstants.FILTER_BY_MARKET_OFFERING) + "'");
@@ -293,6 +316,7 @@ public class DashboardServiceImpl implements IDashboardService {
 	}
 
 	private HashMap<String, Object> detailedAnalysisRequested(ChartRequestModel crm) {
+		logger.debug(CLASSNAME + " >> detailedAnalysisRequested() >> START ");
 		ArrayList<String> joinClauses = new ArrayList<>();
 		ArrayList<String> queryClauses = new ArrayList<>();
 		ArrayList<String> groupByClauses = new ArrayList<>();
@@ -308,7 +332,7 @@ public class DashboardServiceImpl implements IDashboardService {
 					groupByClauses.add(detailsBy);
 				} else if (detailsBy.equals(CommonConstants.MARKET_OFFERING)) {
 					joinClauses.add(
-							" JOIN market_subbusinessline mbl ON c.market_business_line=mbl.id JOIN market_offering mo ON mbl.market_offering=mo.id");
+							" JOIN market_subbusinessline mbl ON c.sub_business_line=mbl.id JOIN market_offering mo ON mbl.market_offering=mo.id");
 					queryClauses.add(" mo.market as " + detailsBy);
 					groupByClauses.add(detailsBy);
 				}

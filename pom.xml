@@ -54,6 +54,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>hrms_database</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

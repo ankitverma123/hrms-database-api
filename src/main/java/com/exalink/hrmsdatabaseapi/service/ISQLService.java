@@ -12,11 +12,12 @@ import com.exalink.hrmsdatabaseapi.BaseException;
  */
 @Service
 public interface ISQLService {
-	public Map<String, Object> listFinancialYear(Integer skip, Integer top, String sortField, String sortDirection, String filter) throws BaseException;
-	public Map<String, Object> listCandidateSources(Integer skip, Integer top, String sortField, String sortDirection, String filter) throws BaseException;
-	public Map<String, Object> listOnboardStatus(Integer skip, Integer top, String sortField, String sortDirection, String filter) throws BaseException;
-	public Map<String, Object> listOfferDeclineCategories(Integer skip, Integer top, String sortField, String sortDirection, String filter) throws BaseException;
-	public Map<String, Object> listMarketOffering(Integer skip, Integer top, String sortField, String sortDirection, String filter) throws BaseException;
+	public Object listFinancialYear(Integer skip, Integer top, String sortField, String sortDirection, String filter, boolean requestForDropDown) throws BaseException;
+	public Object listCandidateSources(Integer skip, Integer top, String sortField, String sortDirection, String filter, boolean requestForDropDown) throws BaseException;
+	public Object listOnboardStatus(Integer skip, Integer top, String sortField, String sortDirection, String filter, boolean requestForDropDown) throws BaseException;
+	public Object listOfferDeclineCategories(Integer skip, Integer top, String sortField, String sortDirection, String filter, boolean requestForDropDown) throws BaseException;
+	public Object listMarketOffering(Integer skip, Integer top, String sortField, String sortDirection, String filter, boolean requestForDropDown) throws BaseException;
+	public Object listCompetency(Integer skip, Integer top, String sortField, String sortDirection, String filter, boolean requestForDropDown) throws BaseException;
 	
 	public Object persist(String path, Map<String, Object> requestMap) throws BaseException;
 }

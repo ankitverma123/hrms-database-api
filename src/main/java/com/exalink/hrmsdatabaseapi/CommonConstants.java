@@ -53,6 +53,9 @@ public final class CommonConstants {
 	public static final String RESULTS= "results";
 	public static final String TOTAL_COUNT= "totalCount";
 	
+	public static final String ID= "id";
+	public static final String LABEL= "label";
+	
 	public static final String FINANCIAL_YEAR= "financialYear";
 	public static final String CANDIDATE_SOURCE= "candidateSources";
 	public static final String ONBOARD_STATUS= "onboardStatus";
