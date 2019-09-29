@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -188,7 +189,7 @@ public class CandidateServiceImpl implements ICandidateService {
 			financialYearMapper(candidateRequestMap, candidateObj);
 			marketSubBusinessLineMapper(candidateRequestMap, candidateObj, false);
 			competencyMapper(candidateRequestMap, candidateObj, false);
-
+			candidateObj.setCreatedAt(new Date());
 			return candidateJPARepository.save(candidateObj);
 		} else {
 			if(candidateRequestMap == null) {
@@ -336,6 +337,7 @@ public class CandidateServiceImpl implements ICandidateService {
 					marketSubBusinessLineMapper(candidateRequestMap, candidateObj, true);
 					competencyMapper(candidateRequestMap, candidateObj, true);
 
+					candidateObj.setUpdatedAt(new Date());
 					return candidateJPARepository.save(candidateObj);
 				} else {
 					String[] exception = new String[] { "Invalid candidate request, Invalid Candidate Id" };
