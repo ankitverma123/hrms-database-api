@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.exalink.hrmsdatabaseapi.BaseException;
 import com.exalink.hrmsdatabaseapi.CommonConstants;
+import com.exalink.hrmsdatabaseapi.entity.FileTracking;
 import com.exalink.hrmsdatabaseapi.entity.candidate.CandidateSources;
 import com.exalink.hrmsdatabaseapi.entity.candidate.FinancialYear;
 import com.exalink.hrmsdatabaseapi.entity.candidate.OnboardStatus;
@@ -372,5 +373,40 @@ public class SQLServiceImpl implements ISQLService {
 
 			return dataToBeReturned;
 		}
+	}
+
+	@Override
+	public Object listFileTracking(Integer skip, Integer top, String sortField, String sortDirection, String filter,
+			boolean requestForDropDown) throws BaseException {
+		List<Predicate> predicates = new ArrayList<>();
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<FileTracking> query = builder.createQuery(FileTracking.class);
+		Root<FileTracking> r = query.from(FileTracking.class);
+		List<Predicate> predicatesGenerated = FiltersPredicateUtil.generatePredicatesFilters(builder, r, filter);
+
+		if (predicatesGenerated != null && !predicatesGenerated.isEmpty())
+			predicates.addAll(predicatesGenerated);
+
+		query.where(builder.and(predicates.toArray(new Predicate[predicates.size()])));
+
+		if (sortField != null && sortDirection != null) {
+			if (sortDirection.equals(CommonConstants.SORT_DIRECTION_ASC)) {
+				query.orderBy(builder.asc(r.get(sortField)));
+			} else if (sortDirection.equals(CommonConstants.SORT_DIRECTION_DESC)) {
+				query.orderBy(builder.desc(r.get(sortField)));
+			}
+		}
+		
+		List<FileTracking> result = entityManager.createQuery(query).setFirstResult(skip).setMaxResults(top)
+				.getResultList();
+
+		int totalCount = entityManager.createQuery(query).getResultList().size();
+
+		Map<String, Object> dataToBeReturned = new HashMap<>();
+		dataToBeReturned.put(CommonConstants.RESULTS, result);
+		dataToBeReturned.put(CommonConstants.TOTAL_COUNT, totalCount);
+
+		return dataToBeReturned;
+
 	}
 }

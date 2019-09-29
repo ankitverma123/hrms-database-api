@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<changeSet id='report-1' author='db_script'>
+
+		<insert tableName='reports'>
+			<column name='report_name' value="Comprehensive Report" />
+			<column name='headers'
+				value="ID,Fullname,Gender,Email Address,Primary Contact,Secondary Contact,Total Experience,Relevant Experience,Market Offering Business Line,Onboard Status" />
+			<column name='keys'
+				value="id,fullName,gender,emailAddress,primaryContact,secondaryContact,totalExperience,relevantExperience,marketOfferingBusinessLine,onboardStatusValue" />
+		</insert>
+
+	</changeSet>
+
+	<changeSet id='report-2' author='db_script'>
+		<insert tableName='reports'>
+			<column name='report_name' value="Candidate Template" />
+			<column name='headers'
+				value="firstName,middleName,lastName,primaryContact,secondaryContact,emailAddress,gender,totalExperience,relevantExperience,lastCompany,candidateSource,onboardStatus,financialYear,marketOffering,marketSubBusinessLine,competency,subCompetency" />
+			<column name='keys'
+				value="firstName,middleName,lastName,primaryContact,secondaryContact,emailAddress,gender,totalExperience,relevantExperience,lastCompany,candidateSource,onboardStatus,financialYear,marketOffering,marketSubBusinessLine,competency,subCompetency" />
+		</insert>
+	</changeSet>
+
+</databaseChangeLog>

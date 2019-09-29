@@ -22,4 +22,7 @@ public interface IMarketOfferingBusinessLineRepository extends JpaRepository<Sub
 	
 	@Query("FROM SubBusinessLine sbl where sbl.marketOffering.id = :marketOfferingId")
 	List<SubBusinessLine> listByMarketOffering(@Param("marketOfferingId") Long marketOfferingId);
+	
+	@Query("FROM SubBusinessLine sbl where sbl.subBusinessLine=:subBusinessLine and sbl.marketOffering.market = :marketOffering")
+	Optional<SubBusinessLine> findBySubBusinessLineAndMarketOffering(@Param("subBusinessLine") String subBusinessLine, @Param("marketOffering") String marketOffering);
 }

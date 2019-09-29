@@ -57,12 +57,24 @@ public class FiltersPredicateUtil {
 				} else {
 					if (filter.contains(" eq ")) {
 						String subString[] = filter.split(" eq ");
-						/*
-						 String key = subString[0];
-						 subString[1] = subString[1].trim();
-						 String value = subString[1].substring(1, subString[1].length() - 1);
-						 */
-						predicates.add(builder.equal(r.get(subString[0]), subString[1]));
+						String columns[] = subString[0].split(",");
+						String value = subString[1];
+						if(columns.length==1)
+							predicates.add(builder.equal(r.get(columns[0]), value));
+						else if (columns.length==2)
+							predicates.add(builder.equal(r.get(columns[0]).get(columns[1]), value));
+						else if (columns.length==3)
+							predicates.add(builder.equal(r.get(columns[0]).get(columns[1]).get(columns[2]), value));
+						else if (columns.length==4)
+							predicates.add(builder.equal(r.get(columns[0]).get(columns[1]).get(columns[2]).get(columns[3]), value));
+						else if (columns.length==5)
+							predicates.add(builder.equal(r.get(columns[0]).get(columns[1]).get(columns[2]).get(columns[3]).get(columns[4]), value));
+						else if (columns.length==6)
+							predicates.add(builder.equal(r.get(columns[0]).get(columns[1]).get(columns[2]).get(columns[3]).get(columns[4]).get(columns[5]), value));
+						else if (columns.length==7)
+							predicates.add(builder.equal(r.get(columns[0]).get(columns[1]).get(columns[2]).get(columns[3]).get(columns[4]).get(columns[5]).get(columns[6]), value));
+						else if (columns.length==8)
+							predicates.add(builder.equal(r.get(columns[0]).get(columns[1]).get(columns[2]).get(columns[3]).get(columns[4]).get(columns[5]).get(columns[6]).get(columns[7]), value));
 					} else if (filter.contains(" ne ")) {
 						String subString[] = filter.split(" ne ");
 						String key = subString[0];

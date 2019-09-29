@@ -1,5 +1,9 @@
 package com.exalink.hrmsdatabaseapi.impl;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,10 +20,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.exalink.hrmsdatabaseapi.BaseException;
 import com.exalink.hrmsdatabaseapi.CommonConstants;
 import com.exalink.hrmsdatabaseapi.Utils;
+import com.exalink.hrmsdatabaseapi.entity.Report;
 import com.exalink.hrmsdatabaseapi.entity.candidate.Candidate;
 import com.exalink.hrmsdatabaseapi.entity.candidate.CandidateSources;
 import com.exalink.hrmsdatabaseapi.entity.candidate.FinancialYear;
@@ -36,9 +42,12 @@ import com.exalink.hrmsdatabaseapi.repository.IMarketOfferingBusinessLineReposit
 import com.exalink.hrmsdatabaseapi.repository.IOfferDeclineRepository;
 import com.exalink.hrmsdatabaseapi.repository.IOfferStatusRepository;
 import com.exalink.hrmsdatabaseapi.repository.IOnBoardRepository;
+import com.exalink.hrmsdatabaseapi.repository.IReportRepository;
 import com.exalink.hrmsdatabaseapi.repository.ISubCompetencyRepository;
 import com.exalink.hrmsdatabaseapi.service.ICandidateService;
 import com.exalink.hrmsdatabaseapi.utils.FiltersPredicateUtil;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
 
 /**
  * @author ankitkverma
@@ -49,7 +58,7 @@ public class CandidateServiceImpl implements ICandidateService {
 
 	private static final Logger logger = LogManager.getLogger(CandidateServiceImpl.class);
 	private static final String CLASSNAME = CandidateServiceImpl.class.getName();
-	
+
 	private static final String ID = "id";
 	private static final String FIRST_NAME = "firstName";
 	private static final String MIDDLE_NAME = "middleName";
@@ -95,10 +104,13 @@ public class CandidateServiceImpl implements ICandidateService {
 	@Autowired
 	private EntityManager entityManager;
 
+	@Autowired
+	private IReportRepository reportRepo;
+
 	@Override
 	public Candidate saveCandidate(Map<String, Object> candidateRequestMap) throws BaseException {
 		logger.debug(CLASSNAME + " >> saveCandidate() >> START");
-		if (candidateRequestMap != null) {
+		if (candidateRequestMap != null && !Utils.checkCollectionHasKeyAndValue(candidateRequestMap, "id")) {
 			Candidate candidateObj = new Candidate();
 
 			/*
@@ -141,18 +153,13 @@ public class CandidateServiceImpl implements ICandidateService {
 			 */
 			if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap, EMAIL_ADDRESS)) {
 				String email = candidateRequestMap.get(EMAIL_ADDRESS).toString();
-				if (isEmailValid(email)) {
-					boolean candidateExist = candidateJPARepository.existsByEmailAddress(email);
-					if (candidateExist) {
-						String[] exception = new String[] {
-								"Invalid candidate request, One record already exist with this mail address " + email };
-						throwException(exception);
-					} else {
-						candidateObj.setEmailAddress(email);
-					}
-				} else {
-					String[] exception = new String[] { "Invalid candidate request, Email Address is not valid" };
+				boolean candidateExist = candidateJPARepository.existsByEmailAddress(email);
+				if (candidateExist) {
+					String[] exception = new String[] {
+							"Invalid candidate request, One record already exist with this mail address " + email };
 					throwException(exception);
+				} else {
+					candidateObj.setEmailAddress(email);
 				}
 			}
 
@@ -184,8 +191,12 @@ public class CandidateServiceImpl implements ICandidateService {
 
 			return candidateJPARepository.save(candidateObj);
 		} else {
+			if(candidateRequestMap == null) {
 			String[] exception = new String[] { "Invalid candidate request, request body can't be empty or null" };
 			throwException(exception);
+			} else {
+				updateCandidate(candidateRequestMap);
+			}
 		}
 
 		return null;
@@ -242,20 +253,14 @@ public class CandidateServiceImpl implements ICandidateService {
 					if (candidateRequestMap.containsKey(EMAIL_ADDRESS)
 							&& candidateRequestMap.get(EMAIL_ADDRESS) != null) {
 						String email = candidateRequestMap.get(EMAIL_ADDRESS).toString();
-						if (isEmailValid(email)) {
-							boolean someOtherCandidateExistWithRequestedMailAddress = candidateJPARepository
-									.existsByEmailAddressForSomeOtherUser(email, candidateId);
-							if (someOtherCandidateExistWithRequestedMailAddress) {
-								String[] exception = new String[] { "Invalid candidate request, This email address ("
-										+ email + ") is already being used" };
-								throwException(exception);
-							} else {
-								candidateObj.setEmailAddress(email);
-							}
-						} else {
-							String[] exception = new String[] {
-									"Invalid candidate request, Email Address is not valid" };
+						boolean someOtherCandidateExistWithRequestedMailAddress = candidateJPARepository
+								.existsByEmailAddressForSomeOtherUser(email, candidateId);
+						if (someOtherCandidateExistWithRequestedMailAddress) {
+							String[] exception = new String[] { "Invalid candidate request, This email address ("
+									+ email + ") is already being used" };
 							throwException(exception);
+						} else {
+							candidateObj.setEmailAddress(email);
 						}
 					}
 
@@ -354,8 +359,9 @@ public class CandidateServiceImpl implements ICandidateService {
 
 	private void candidateResourceMapper(Map<String, Object> candidateRequestMap, Candidate candidateObj)
 			throws BaseException {
-		if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap, CANDIDATE_SOURCEID)) {
-			Long candidateSourceId = Long.valueOf(candidateRequestMap.get(CANDIDATE_SOURCEID).toString());
+		if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap, CommonConstants.CSV_CANDIDATE_SOURCE_KEY)) {
+			Long candidateSourceId = Long
+					.valueOf(candidateRequestMap.get(CommonConstants.CSV_CANDIDATE_SOURCE_KEY).toString());
 			Optional<CandidateSources> cs = candidateSourceJPARepository.findById(candidateSourceId);
 			if (cs.isPresent()) {
 				candidateObj.setCandidateSource(cs.get());
@@ -368,8 +374,9 @@ public class CandidateServiceImpl implements ICandidateService {
 
 	private void onBoardStatusMapper(Map<String, Object> candidateRequestMap, Candidate candidateObj)
 			throws BaseException {
-		if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap, ONBOARD_STATUSID)) {
-			Long onboardStatusId = Long.valueOf(candidateRequestMap.get(ONBOARD_STATUSID).toString());
+		if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap, CommonConstants.CSV_ONBOARD_STATUS_KEY)) {
+			Long onboardStatusId = Long
+					.valueOf(candidateRequestMap.get(CommonConstants.CSV_ONBOARD_STATUS_KEY).toString());
 			Optional<OnboardStatus> cs = onboardJPARepository.findById(onboardStatusId);
 			if (cs.isPresent()) {
 				candidateObj.setOnboardStatus(cs.get());
@@ -382,8 +389,9 @@ public class CandidateServiceImpl implements ICandidateService {
 
 	private void financialYearMapper(Map<String, Object> candidateRequestMap, Candidate candidateObj)
 			throws BaseException {
-		if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap, FINANCIAL_YEAR)) {
-			Long financialYearId = Long.valueOf(candidateRequestMap.get(FINANCIAL_YEAR).toString());
+		if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap, CommonConstants.CSV_FINANCIAL_YEAR_KEY)) {
+			Long financialYearId = Long
+					.valueOf(candidateRequestMap.get(CommonConstants.CSV_FINANCIAL_YEAR_KEY).toString());
 			Optional<FinancialYear> cs = financialYearRepository.findById(financialYearId);
 			if (cs.isPresent()) {
 				candidateObj.setFinancialYear(cs.get());
@@ -397,7 +405,8 @@ public class CandidateServiceImpl implements ICandidateService {
 	private void marketSubBusinessLineMapper(Map<String, Object> candidateRequestMap, Candidate candidateObj,
 			boolean modifyRequest) throws BaseException {
 		if (!modifyRequest) {
-			if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap, MARKET_BUSINESSLINE)) {
+			if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap,
+					CommonConstants.CSV_MARKET_SUB_BUSINESS_LINE_KEY)) {
 				marketSubBusinessLineMapperInner(candidateRequestMap, candidateObj);
 			} else {
 				String[] exception = new String[] {
@@ -405,7 +414,8 @@ public class CandidateServiceImpl implements ICandidateService {
 				throwException(exception);
 			}
 		} else {
-			if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap, MARKET_BUSINESSLINE)) {
+			if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap,
+					CommonConstants.CSV_MARKET_SUB_BUSINESS_LINE_KEY)) {
 				marketSubBusinessLineMapperInner(candidateRequestMap, candidateObj);
 			}
 		}
@@ -413,7 +423,8 @@ public class CandidateServiceImpl implements ICandidateService {
 
 	private void marketSubBusinessLineMapperInner(Map<String, Object> candidateRequestMap, Candidate candidateObj)
 			throws BaseException {
-		Long subBusinessLine = Long.valueOf(candidateRequestMap.get(MARKET_BUSINESSLINE).toString());
+		Long subBusinessLine = Long
+				.valueOf(candidateRequestMap.get(CommonConstants.CSV_MARKET_SUB_BUSINESS_LINE_KEY).toString());
 		Optional<SubBusinessLine> cs = marketOfferingSubBusinessLineRepo.findById(subBusinessLine);
 		if (cs.isPresent()) {
 			candidateObj.setSubBusinessLine(cs.get());
@@ -427,14 +438,14 @@ public class CandidateServiceImpl implements ICandidateService {
 	private void competencyMapper(Map<String, Object> candidateRequestMap, Candidate candidateObj,
 			boolean modifyRequest) throws BaseException {
 		if (!modifyRequest) {
-			if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap, COMPETENCY)) {
+			if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap, CommonConstants.CSV_SUB_COMPETENCY_KEY)) {
 				competencyMapperInner(candidateRequestMap, candidateObj);
 			} else {
 				String[] exception = new String[] { "Invalid candidate request, competency missing from request" };
 				throwException(exception);
 			}
 		} else {
-			if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap, COMPETENCY)) {
+			if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap, CommonConstants.CSV_SUB_COMPETENCY_KEY)) {
 				competencyMapperInner(candidateRequestMap, candidateObj);
 			}
 		}
@@ -442,7 +453,7 @@ public class CandidateServiceImpl implements ICandidateService {
 
 	private void competencyMapperInner(Map<String, Object> candidateRequestMap, Candidate candidateObj)
 			throws BaseException {
-		Long competencyId = Long.valueOf(candidateRequestMap.get(COMPETENCY).toString());
+		Long competencyId = Long.valueOf(candidateRequestMap.get(CommonConstants.CSV_SUB_COMPETENCY_KEY).toString());
 		Optional<SubCompetency> cs = subCompetencyRepository.findById(competencyId);
 		if (cs.isPresent()) {
 			candidateObj.setSubCompetency(cs.get());
@@ -480,7 +491,7 @@ public class CandidateServiceImpl implements ICandidateService {
 				Candidate c = saveCandidate(map);
 				cs.add(c.getFirstName() + " Created Succfully");
 			} catch (BaseException e) {
-				
+
 			}
 		});
 		return cs;
@@ -512,15 +523,22 @@ public class CandidateServiceImpl implements ICandidateService {
 
 		List<Candidate> result = entityManager.createQuery(query).setFirstResult(skip).setMaxResults(top)
 				.getResultList();
-		for(Candidate candidate: result){
-			candidate.setFullName((candidate.getFirstName()==null ? "":candidate.getFirstName()).concat(candidate.getMiddleName() == null ? " " : " "+candidate.getMiddleName()).concat(candidate.getLastName() == null ? " " : " "+candidate.getLastName()));
-			candidate.setSourceName(candidate.getCandidateSource()!=null ? candidate.getCandidateSource().getCandidateSource() : "--");
-			candidate.setOnboardStatusValue(candidate.getOnboardStatus() != null ? candidate.getOnboardStatus().getOnboardStatus() : "--");
-			candidate.setMarketOfferingBusinessLine(candidate.getSubBusinessLine()!=null ? candidate.getSubBusinessLine().getMarketOffering().getMarket() : "--");
-			candidate.setCompetencyValue(candidate.getSubCompetency()!=null ? candidate.getSubCompetency().getSubCompetency() : "--");
+		for (Candidate candidate : result) {
+			candidate.setFullName((candidate.getFirstName() == null ? "" : candidate.getFirstName())
+					.concat(candidate.getMiddleName() == null ? " " : " " + candidate.getMiddleName())
+					.concat(candidate.getLastName() == null ? " " : " " + candidate.getLastName()));
+			candidate.setSourceName(
+					candidate.getCandidateSource() != null ? candidate.getCandidateSource().getCandidateSource()
+							: "--");
+			candidate.setOnboardStatusValue(
+					candidate.getOnboardStatus() != null ? candidate.getOnboardStatus().getOnboardStatus() : "--");
+			candidate.setMarketOfferingBusinessLine(candidate.getSubBusinessLine() != null
+					? candidate.getSubBusinessLine().getMarketOffering().getMarket()
+					: "--");
+			candidate.setCompetencyValue(
+					candidate.getSubCompetency() != null ? candidate.getSubCompetency().getSubCompetency() : "--");
 		}
-		
-		
+
 		int totalCount = entityManager.createQuery(query).getResultList().size();
 
 		Map<String, Object> dataToBeReturned = new HashMap<>();
@@ -530,4 +548,127 @@ public class CandidateServiceImpl implements ICandidateService {
 		return dataToBeReturned;
 
 	}
+
+	@Override
+	public Object saveCandidate(MultipartFile file) throws IOException, BaseException {
+		File convFile = new File(file.getOriginalFilename());
+		boolean createNewFileStatu = convFile.createNewFile();
+		if (!createNewFileStatu) {
+			throw new IOException("Not able to create file");
+		}
+
+		/*
+		 * Here we need to read the defined template, if this is there only then we 'll
+		 * maintain and go ahead otherwise throw exception
+		 */
+		Optional<Report> reportTemplate = reportRepo.findByReportName(CommonConstants.CANDIDATE_REPORT_TEMPLATE);
+		if (!reportTemplate.isPresent()) {
+			throw new IOException("No Report Template Found");
+		}
+
+		String headers[] = reportTemplate.get().getKeys().split(",");
+
+		/*
+		 * Here entire CSV is being read and returned with allData
+		 */
+		try (FileOutputStream fos = new FileOutputStream(convFile)) {
+			fos.write(file.getBytes());
+		}
+
+		CSVReader csvReader = new CSVReaderBuilder(new FileReader(convFile)).withSkipLines(0).build();
+		List<String[]> allData = csvReader.readAll();
+
+		/*
+		 * In this block we compare csv headers with defined template
+		 */
+		String[] headerRow = allData.get(0);
+		int col = 0;
+		Boolean headersMisMatch = false;
+		for (String string : headerRow) {
+			if (!string.equals(headers[col])) {
+				headersMisMatch = true;
+				break;
+			}
+			col++;
+		}
+
+		if (headersMisMatch) {
+			throw new BaseException(CandidateServiceImpl.class,
+					"CSV Headers Mismatch! Expected Headers are " + headerRow);
+		}
+
+		allData.remove(0);
+
+		int completeData = allData.size();
+		List<Map<String, Object>> candidatesRequestMap = new ArrayList<>();
+		for (int i = 0; i < completeData; i++) {
+			Map<String, Object> candidateMap = populateCandidateMap(allData.get(i), headers);
+			if (candidateMap != null) {
+				candidatesRequestMap.add(candidateMap);
+			}
+		}
+
+		return saveCandidate(candidatesRequestMap);
+	}
+
+	private Map<String, Object> populateCandidateMap(String[] rowData, String headers[]) {
+		int totalHeader = headers.length;
+		if (totalHeader == rowData.length) {
+			Map<String, Object> candidateMap = new HashMap<>();
+			for (int i = 0; i < totalHeader; i++) {
+				String header = headers[i];
+				String value = rowData[i];
+				if (header.equals(CommonConstants.CSV_CANDIDATE_SOURCE_KEY)) {
+					Optional<CandidateSources> persistedObject = checkIfLongValueSpecified(value)
+							? candidateSourceJPARepository.findById(Long.valueOf(value))
+							: candidateSourceJPARepository.findByCandidateSource(value);
+					if (persistedObject.isPresent()) {
+						candidateMap.put(header, persistedObject.get().getId());
+					}
+				} else if (header.equals(CommonConstants.CSV_ONBOARD_STATUS_KEY)) {
+					Optional<OnboardStatus> persistedObject = checkIfLongValueSpecified(value)
+							? onboardJPARepository.findById(Long.valueOf(value))
+							: onboardJPARepository.findByOnboardStatus(value);
+					if (persistedObject.isPresent()) {
+						candidateMap.put(header, persistedObject.get().getId());
+					} else {
+						System.out.println("Wrong OnBoardStatus= " + value + " for Header= " + header);
+					}
+				} else if (header.equals(CommonConstants.CSV_FINANCIAL_YEAR_KEY)) {
+					Optional<FinancialYear> persistedObject = checkIfLongValueSpecified(value)
+							? financialYearRepository.findById(Long.valueOf(value))
+							: financialYearRepository.findByFinancialYear(value);
+					if (persistedObject.isPresent()) {
+						candidateMap.put(header, persistedObject.get().getId());
+					}
+				} else if (header.equals(CommonConstants.CSV_MARKET_SUB_BUSINESS_LINE_KEY)) {
+					String marketOffering = candidateMap.get(CommonConstants.CSV_MARKET_OFFERING_KEY).toString();
+					Optional<SubBusinessLine> persistedObject = checkIfLongValueSpecified(value)
+							? marketOfferingSubBusinessLineRepo.findById(Long.valueOf(value))
+							: marketOfferingSubBusinessLineRepo.findBySubBusinessLineAndMarketOffering(value,
+									marketOffering);
+					if (persistedObject.isPresent()) {
+						candidateMap.put(header, persistedObject.get().getId());
+					}
+				} else if (header.equals(CommonConstants.CSV_SUB_COMPETENCY_KEY)) {
+					String competency = candidateMap.get(CommonConstants.CSV_COMPETENCY_KEY).toString();
+					Optional<SubCompetency> persistedObject = checkIfLongValueSpecified(value)
+							? subCompetencyRepository.findById(Long.valueOf(value))
+							: subCompetencyRepository.findBySubCompetencyAndCompetency(value, competency);
+					if (persistedObject.isPresent()) {
+						candidateMap.put(header, persistedObject.get().getId());
+					}
+				} else {
+					candidateMap.put(header, value);
+				}
+			}
+			return candidateMap;
+		}
+		return null;
+	}
+
+	private boolean checkIfLongValueSpecified(String value) {
+		return value.matches("-?\\d+(\\.\\d+)?");
+	}
+
 }

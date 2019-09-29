@@ -71,6 +71,13 @@ public class SQLController {
 		return new ResponseData(sqlService.listMarketOffering($skip, $top, sortField, sortDirection, $filter, requestForDropDown), null, HttpStatus.OK, null);
 	}
 	
+	@GetMapping(value="/fileTracking/", produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseData fileTrackingList(@RequestParam Integer $top, @RequestParam Integer $skip, @RequestParam(required = false) String sortDirection, 
+			@RequestParam(required = false) String sortField, @RequestParam(required = false) String $filter, @RequestParam(required = false) boolean requestForDropDown) throws BaseException{
+		return new ResponseData(sqlService.listFileTracking($skip, $top, sortField, sortDirection, $filter, requestForDropDown), null, HttpStatus.OK, null);
+	}
+	
 	@PutMapping(value="/{path}/", produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public ResponseData persist(@PathVariable String path, @RequestBody Map<String, Object> requestMap) throws BaseException{

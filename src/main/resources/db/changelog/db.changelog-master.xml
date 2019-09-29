@@ -26,4 +26,6 @@
   	<include file="CandidateOfferStatus.xml" relativeToChangelogFile="true"/>
   	<include file="CandidateOfferDeclineCategory.xml" relativeToChangelogFile="true"/>
   	
+  	<include file="Report.xml" relativeToChangelogFile="true"/>
+  	
 </databaseChangeLog>

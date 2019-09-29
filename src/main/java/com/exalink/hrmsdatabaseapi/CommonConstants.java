@@ -60,4 +60,16 @@ public final class CommonConstants {
 	public static final String CANDIDATE_SOURCE= "candidateSources";
 	public static final String ONBOARD_STATUS= "onboardStatus";
 	public static final String OFFER_DECLINE_CATEGORIES= "offerDeclineCategories";
+	
+	public static final String CANDIDATE_REPORT_TEMPLATE= "Candidate Template";
+	public static final String COMPREHENSIVE_REPORT_TEMPLATE= "Comprehensive Report";
+	
+	public static final String CSV_CANDIDATE_SOURCE_KEY= "candidateSource";
+	public static final String CSV_ONBOARD_STATUS_KEY= "onboardStatus";
+	public static final String CSV_FINANCIAL_YEAR_KEY= "financialYear";
+	public static final String CSV_MARKET_OFFERING_KEY= "marketOffering";
+	public static final String CSV_MARKET_SUB_BUSINESS_LINE_KEY= "marketSubBusinessLine";
+	public static final String CSV_COMPETENCY_KEY= "competency";
+	public static final String CSV_SUB_COMPETENCY_KEY= "subCompetency";
+	
 }

@@ -21,4 +21,7 @@ public interface ISubCompetencyRepository extends JpaRepository<SubCompetency, L
 	
 	@Query("FROM SubCompetency sc where sc.competency.id = :competencyId")
 	List<SubCompetency> listByCompetency(@Param("competencyId") Long competencyId);
+	
+	@Query("FROM SubCompetency sc where sc.subCompetency = :subCompetency and sc.competency.competency = :competency")
+	Optional<SubCompetency> findBySubCompetencyAndCompetency(@Param("subCompetency") String subCompetency, @Param("competency") String competency);
 }

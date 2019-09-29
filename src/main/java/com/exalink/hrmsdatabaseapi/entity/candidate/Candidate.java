@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.exalink.hrmsdatabaseapi.entity.BaseEntity;
 import com.exalink.hrmsdatabaseapi.entity.competency.SubCompetency;
 import com.exalink.hrmsdatabaseapi.entity.market.SubBusinessLine;
 import com.exalink.hrmsdatabaseapi.entity.offer.Offer;
@@ -25,7 +26,7 @@ import lombok.Data;
 @Entity
 @Table(name="CANDIDATE")
 @Data
-public class Candidate {
+public class Candidate extends BaseEntity{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
