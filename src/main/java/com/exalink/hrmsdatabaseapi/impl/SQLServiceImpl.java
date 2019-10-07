@@ -1,21 +1,26 @@
 package com.exalink.hrmsdatabaseapi.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.exalink.hrmsdatabaseapi.BaseException;
 import com.exalink.hrmsdatabaseapi.CommonConstants;
+import com.exalink.hrmsdatabaseapi.Utils;
 import com.exalink.hrmsdatabaseapi.entity.FileTracking;
 import com.exalink.hrmsdatabaseapi.entity.candidate.CandidateSources;
 import com.exalink.hrmsdatabaseapi.entity.candidate.FinancialYear;
@@ -58,6 +63,13 @@ public class SQLServiceImpl implements ISQLService {
 	@Autowired
 	private IMarketOfferingRepository marketOfferingRepository;
 
+	private static final String ID = "id";
+	private static final String MARKET = "market";
+	private static final String CATEGORY = "category";
+	private static final String ONBOARDSTATUS = "onboardStatus";
+	private static final String CANDIDATESOURCE = "candidateSource";
+	private static final String FIANNCIAL_YEAR = "financialYear";
+	
 	@Override
 	public Object listFinancialYear(Integer skip, Integer top, String sortField, String sortDirection, String filter,
 			boolean requestForDropDown) throws BaseException {
@@ -468,4 +480,84 @@ public class SQLServiceImpl implements ISQLService {
 			return dataToBeReturned;
 		}
 	}
+
+	@Transactional
+	@Override
+	public Object update(String path, Map<String, Object> requestMap) throws BaseException {
+		if (path.equalsIgnoreCase(CommonConstants.FINANCIAL_YEAR)
+				&& Utils.checkCollectionHasKeyAndValue(requestMap, ID)
+				&& Utils.checkCollectionHasKeyAndValue(requestMap, FIANNCIAL_YEAR)) {
+			
+			UUID id = UUID.fromString(requestMap.get(ID).toString());
+			String valueToBeUpdated = requestMap.get(FIANNCIAL_YEAR).toString();
+			return updateConfigurations(id, valueToBeUpdated, "FinancialYear", FIANNCIAL_YEAR, "Financial year ");
+			
+		} else if (path.equalsIgnoreCase(CommonConstants.CANDIDATE_SOURCE)
+				&& Utils.checkCollectionHasKeyAndValue(requestMap, ID)
+				&& Utils.checkCollectionHasKeyAndValue(requestMap, CANDIDATESOURCE)) {
+			
+			UUID id = UUID.fromString(requestMap.get(ID).toString());
+			String valueToBeUpdated = requestMap.get(CANDIDATESOURCE).toString();
+			return updateConfigurations(id, valueToBeUpdated, "CandidateSources", CANDIDATESOURCE, "Candidate source");
+			
+		} else if (path.equalsIgnoreCase(CommonConstants.ONBOARD_STATUS)
+				&& Utils.checkCollectionHasKeyAndValue(requestMap, ID)
+				&& Utils.checkCollectionHasKeyAndValue(requestMap, ONBOARDSTATUS)) {
+			
+			UUID id = UUID.fromString(requestMap.get(ID).toString());
+			String valueToBeUpdated = requestMap.get(ONBOARDSTATUS).toString();
+			return updateConfigurations(id, valueToBeUpdated, "OnboardStatus", ONBOARDSTATUS, "OnBoard status");
+			
+		} else if (path.equalsIgnoreCase(CommonConstants.OFFER_DECLINE_CATEGORIES)
+				&& Utils.checkCollectionHasKeyAndValue(requestMap, ID)
+				&& Utils.checkCollectionHasKeyAndValue(requestMap, CATEGORY)) {
+			
+			UUID id = UUID.fromString(requestMap.get(ID).toString());
+			String valueToBeUpdated = requestMap.get(CATEGORY).toString();
+			return updateConfigurations(id, valueToBeUpdated, "OfferDeclineCategory", CATEGORY, "Offer decline category");
+			
+		} else if (path.equalsIgnoreCase(CommonConstants.MARKET_OFFERING)
+				&& Utils.checkCollectionHasKeyAndValue(requestMap, ID)
+				&& Utils.checkCollectionHasKeyAndValue(requestMap, MARKET)) {
+			
+			UUID id = UUID.fromString(requestMap.get(ID).toString());
+			String valueToBeUpdated = requestMap.get(MARKET).toString();
+			return updateConfigurations(id, valueToBeUpdated, "MarketOffering", MARKET, "Market offering");
+			
+		}
+		return null;
+	}
+	
+	private String updateConfigurations(UUID id, String valueToBeUpdated, String table, String columnToBeUpdated, String entity) throws BaseException {
+		String selectStatement = "SELECT CASE WHEN COUNT(entityObj) > 0 THEN true ELSE false END FROM ";
+		String queryBasedOnId = selectStatement + table+" entityObj where entityObj.id = '" + id + "'";
+		String queryBasedOnAttribute = selectStatement +table+" entityObj where entityObj.id <> '" + id + "' and entityObj."+columnToBeUpdated+" = '"+valueToBeUpdated+"'";
+		String updateQuery = "UPDATE "+table+" entityObj SET entityObj."+columnToBeUpdated+"='"+valueToBeUpdated+"',entityObj.updatedAt='"+new Date()+"' WHERE entityObj.id='"+id+"'";
+		
+		if (executeCustomQuery(queryBasedOnId)) {
+			if (executeCustomQuery(queryBasedOnAttribute)) {
+				throw new BaseException(SQLServiceImpl.class, valueToBeUpdated + " is already being used");
+			}
+			int recordUpdated = updateQuery(updateQuery);
+			if(recordUpdated > 0) {
+				return entity+ " updated successfully";
+			}
+			return "Failed to update "+entity;
+		} else {
+			throw new BaseException(SQLServiceImpl.class, "Invalid request, No "+entity+" found for id: " + id);
+		}
+	}
+	
+	private boolean executeCustomQuery(String query) {
+		TypedQuery<Boolean> resultSet = entityManager.createQuery(query, Boolean.class);
+		if(resultSet!=null)
+			return resultSet.getSingleResult();
+		return false;
+	}
+	
+	@Transactional
+	private int updateQuery(String updateQuery) {
+		return entityManager.createQuery(updateQuery).executeUpdate();
+	}
+		
 }

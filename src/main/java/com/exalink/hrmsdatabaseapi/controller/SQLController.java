@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -88,6 +89,12 @@ public class SQLController {
 	@PutMapping(value="/{path}/", produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public ResponseData persist(@PathVariable String path, @RequestBody Map<String, Object> requestMap) throws BaseException{
-		return new ResponseData(sqlService.persist(path, requestMap), "Request accepted successfully", HttpStatus.OK, null);
+		return new ResponseData(sqlService.persist(path, requestMap), path.toUpperCase()+ " created successfully", HttpStatus.OK, null);
+	}
+	
+	@PostMapping(value="/{path}/", produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseData updateConfigurations(@PathVariable String path, @RequestBody Map<String, Object> requestMap) throws BaseException{
+		return new ResponseData(sqlService.update(path, requestMap), path.toUpperCase()+" updated successfully", HttpStatus.OK, null);
 	}
 }

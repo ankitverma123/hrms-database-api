@@ -14,7 +14,7 @@ public class BaseException extends Exception{
 	
 	private static final long serialVersionUID = 1601751258455108317L;
 
-	public BaseException(Class clazz, String... searchParamsMap) {
+	public BaseException(Class<?> clazz, String... searchParamsMap) {
         super(BaseException.generateMessage(clazz.getSimpleName(), toMap(String.class, String.class, searchParamsMap)));
     }
 

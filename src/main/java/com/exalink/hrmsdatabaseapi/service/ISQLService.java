@@ -22,4 +22,5 @@ public interface ISQLService {
 	public Object listFileTracking(Integer skip, Integer top, String sortField, String sortDirection, String filter, boolean requestForDropDown) throws BaseException;
 	
 	public Object persist(String path, Map<String, Object> requestMap) throws BaseException;
+	public Object update(String path, Map<String, Object> requestMap) throws BaseException;
 }
