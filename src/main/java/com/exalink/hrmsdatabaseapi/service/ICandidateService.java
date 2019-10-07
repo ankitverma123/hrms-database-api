@@ -21,6 +21,7 @@ public interface ICandidateService {
 	public List<String> saveCandidate(List<Map<String, Object>> candidateRequestMap) throws BaseException;
 	public Candidate updateCandidate(Map<String, Object> candidateRequestMap) throws BaseException;
 	public Object saveCandidate(MultipartFile file)throws IOException, BaseException;
+	public Object offerStatusUpdate(Map<String, Object> candidateRequestMap) throws BaseException;
 	
 	public Map<String, Object> listCandidates(Integer $skip, Integer $top, String sortField, String sortDirection, String $filter) throws BaseException;
 }

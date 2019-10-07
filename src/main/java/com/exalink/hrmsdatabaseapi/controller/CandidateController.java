@@ -25,7 +25,7 @@ import com.exalink.hrmsdatabaseapi.service.ICandidateService;
  *
  */
 @RestController
-@RequestMapping("/hrms_database/candidate")
+@RequestMapping("/candidate")
 public class CandidateController {
 	
 	@Autowired
@@ -55,5 +55,10 @@ public class CandidateController {
 	@PostMapping(value = "/csv", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseData uploadFile(@RequestParam("file") MultipartFile file) throws IOException, BaseException {
 		return new ResponseData(candidateService.saveCandidate(file), null, HttpStatus.OK, null);
+	}
+	
+	@PostMapping(value="/offerStatusUpdate", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseData offerStatusUpdate(@RequestBody Map<String, Object> candidateRequestMap) throws BaseException{
+		return new ResponseData(candidateService.offerStatusUpdate(candidateRequestMap), "offer status updated Succesfully", HttpStatus.OK, null);
 	}
 }

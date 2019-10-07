@@ -7,31 +7,49 @@
 	<changeSet id='market-offering-sub-businessline-1' author='db_script'>
 	    
 	    <insert tableName='market_subbusinessline'>
+	    	<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='sub_business_line' value="PROD STAFF" />
 			<column name='market_offering' valueComputed="(select id from market_offering where market='Assurance &amp; Internal Audit')" />
 		</insert>
 		
 		<insert tableName='market_subbusinessline'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='sub_business_line' value="PROD STAFF" />
 			<column name='market_offering' valueComputed="(select id from market_offering where market='Regulatory &amp; Operational Risk')" />
 		</insert>
 		
 		<insert tableName='market_subbusinessline'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='sub_business_line' value="PROD STAFF" />
 			<column name='market_offering' valueComputed="(select id from market_offering where market='Risk Intelligence')" />
 		</insert>
 		
 		<insert tableName='market_subbusinessline'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='sub_business_line' value="PROD STAFF" />
 			<column name='market_offering' valueComputed="(select id from market_offering where market='Fin Risk Trans &amp; Restructuring')" />
 		</insert>
 		
 		<insert tableName='market_subbusinessline'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='sub_business_line' value="PROD STAFF" />
 			<column name='market_offering' valueComputed="(select id from market_offering where market='Forensic')" />
 		</insert>
 		
 		<insert tableName='market_subbusinessline'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='sub_business_line' value="PROD STAFF" />
 			<column name='market_offering' valueComputed="(select id from market_offering where market='National')" />
 		</insert>

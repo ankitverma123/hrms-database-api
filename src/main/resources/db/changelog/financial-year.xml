@@ -1,30 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
-	
+
 	<changeSet id='financial_year-1' author='db_script'>
-	    <insert tableName='financial_year'>
+		<insert tableName='financial_year'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='financial_year' value="FY20 P1" />
+			<column name='is_active' valueBoolean="true" />
 		</insert>
 		<insert tableName='financial_year'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='financial_year' value="FY20 P2" />
+			<column name='is_active' valueBoolean="true" />
 		</insert>
 		<insert tableName='financial_year'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='financial_year' value="FY20 P3" />
+			<column name='is_active' valueBoolean="true" />
 		</insert>
 		<insert tableName='financial_year'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='financial_year' value="FY20 P4" />
+			<column name='is_active' valueBoolean="true" />
 		</insert>
 		<insert tableName='financial_year'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='financial_year' value="FY20 P5" />
+			<column name='is_active' valueBoolean="true" />
 		</insert>
 		<insert tableName='financial_year'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='financial_year' value="FY20 P6" />
+			<column name='is_active' valueBoolean="true" />
 		</insert>
 	</changeSet>
-	
-	
+
+
 
 </databaseChangeLog>

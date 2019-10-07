@@ -72,4 +72,15 @@ public final class CommonConstants {
 	public static final String CSV_COMPETENCY_KEY= "competency";
 	public static final String CSV_SUB_COMPETENCY_KEY= "subCompetency";
 	
+	
+	public static final String FORM_FIELD_MAT_INPUT= "matInput";
+	public static final String FORM_FIELD_MAT_SELECT= "matSelect";
+	public static final String FORM_FIELD_MAT_QUARTZ= "matQuartzScheduler";
+	
+	public static final String OPTIONS= "options";
+	public static final String ELEMENTS= "elements";
+	
+	public static final String REQ_CAT_CREATE = "Create";
+	public static final String REQ_CAT_MODIFY = "Modify";
+	
 }

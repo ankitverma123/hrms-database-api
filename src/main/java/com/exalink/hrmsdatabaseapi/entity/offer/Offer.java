@@ -3,17 +3,16 @@ package com.exalink.hrmsdatabaseapi.entity.offer;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.exalink.hrmsdatabaseapi.entity.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @author ankitkverma
@@ -22,12 +21,8 @@ import lombok.Data;
 @Entity
 @Table(name="CANDIDATE_OFFER")
 @Data
-public class Offer {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
-	private Long id;
+@EqualsAndHashCode(callSuper=false)
+public class Offer extends BaseEntity{
 	
 	@Column(name = "comment")
 	private String comment;

@@ -2,12 +2,12 @@ package com.exalink.hrmsdatabaseapi.entity.offer;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.exalink.hrmsdatabaseapi.entity.BaseEntity;
+
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @author ankitkverma
@@ -16,14 +16,12 @@ import lombok.Data;
 @Entity
 @Table(name="OFFER_DECLINE_CATEGORY")
 @Data
-public class OfferDeclineCategory {
+@EqualsAndHashCode(callSuper=false)
+public class OfferDeclineCategory extends BaseEntity{
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
-	private Long id;
-	
 	@Column(name = "category")
 	private String category;
 	
+	@Column(name = "isActive")
+	private Boolean isActive = true;
 }

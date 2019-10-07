@@ -2,16 +2,15 @@ package com.exalink.hrmsdatabaseapi.entity.competency;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.exalink.hrmsdatabaseapi.entity.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @author ankitkverma
@@ -20,13 +19,9 @@ import lombok.Data;
 @Entity
 @Table(name="SUB_COMPETENCY")
 @Data
-public class SubCompetency {
+@EqualsAndHashCode(callSuper=false)
+public class SubCompetency extends BaseEntity{
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
-	private Long id;
-	
 	@Column(name = "subCompetency")
 	private String subCompetency;
 	

@@ -1,60 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
-	
+
 	<changeSet id='sub-competency-1' author='db_script'>
-	    <insert tableName='sub_competency'>
+		<insert tableName='sub_competency'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='sub_competency' value="Prod Staff" />
-			<column name='competency' valueComputed="(select id from competency where competency='MS&amp;P ACTT')" />
+			<column name='competency'
+				valueComputed="(select id from competency where competency='MS&amp;P ACTT')" />
 		</insert>
 		<insert tableName='sub_competency'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='sub_competency' value="PaCS" />
-			<column name='competency' valueComputed="(select id from competency where competency='MS&amp;P CIS')" />
+			<column name='competency'
+				valueComputed="(select id from competency where competency='MS&amp;P CIS')" />
 		</insert>
 		<insert tableName='sub_competency'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='sub_competency' value="ValueD" />
-			<column name='competency' valueComputed="(select id from competency where competency='MS&amp;P CIS')" />
+			<column name='competency'
+				valueComputed="(select id from competency where competency='MS&amp;P CIS')" />
 		</insert>
 		<insert tableName='sub_competency'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='sub_competency' value="AFES" />
-			<column name='competency' valueComputed="(select id from competency where competency='MS&amp;P CIS')" />
+			<column name='competency'
+				valueComputed="(select id from competency where competency='MS&amp;P CIS')" />
 		</insert>
 		<insert tableName='sub_competency'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='sub_competency' value="QSpace" />
-			<column name='competency' valueComputed="(select id from competency where competency='MS&amp;P')" />
+			<column name='competency'
+				valueComputed="(select id from competency where competency='MS&amp;P')" />
 		</insert>
 		<insert tableName='sub_competency'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='sub_competency' value="Client Support" />
-			<column name='competency' valueComputed="(select id from competency where competency='MS&amp;P')" />
+			<column name='competency'
+				valueComputed="(select id from competency where competency='MS&amp;P')" />
 		</insert>
 		<insert tableName='sub_competency'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='sub_competency' value="Decipher" />
-			<column name='competency' valueComputed="(select id from competency where competency='MS&amp;P')" />
+			<column name='competency'
+				valueComputed="(select id from competency where competency='MS&amp;P')" />
 		</insert>
 		<insert tableName='sub_competency'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='sub_competency' value="TrueView" />
-			<column name='competency' valueComputed="(select id from competency where competency='MS&amp;P LRA')" />
+			<column name='competency'
+				valueComputed="(select id from competency where competency='MS&amp;P LRA')" />
 		</insert>
 		<insert tableName='sub_competency'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='sub_competency' value="Accounting Technology" />
-			<column name='competency' valueComputed="(select id from competency where competency='Controllership')" />
+			<column name='competency'
+				valueComputed="(select id from competency where competency='Controllership')" />
 		</insert>
 		<insert tableName='sub_competency'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='sub_competency' value="Financial Technology" />
-			<column name='competency' valueComputed="(select id from competency where competency='Securitization')" />
+			<column name='competency'
+				valueComputed="(select id from competency where competency='Securitization')" />
 		</insert>
 		<insert tableName='sub_competency'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='sub_competency' value="EDSC Developer(.Net)" />
-			<column name='competency' valueComputed="(select id from competency where competency='D3')" />
+			<column name='competency'
+				valueComputed="(select id from competency where competency='D3')" />
 		</insert>
 		<insert tableName='sub_competency'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='sub_competency' value="SQL DBA" />
-			<column name='competency' valueComputed="(select id from competency where competency='D3')" />
+			<column name='competency'
+				valueComputed="(select id from competency where competency='D3')" />
 		</insert>
 	</changeSet>
-	
-	
+
+
 
 </databaseChangeLog>

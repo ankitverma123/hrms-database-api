@@ -2,12 +2,12 @@ package com.exalink.hrmsdatabaseapi.entity.offer;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.exalink.hrmsdatabaseapi.entity.BaseEntity;
+
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @author ankitkverma
@@ -16,13 +16,9 @@ import lombok.Data;
 @Entity
 @Table(name="OFFER_STATUS")
 @Data
-public class OfferStatus {
+@EqualsAndHashCode(callSuper=false)
+public class OfferStatus extends BaseEntity{
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
-	private Long id;
-	
 	@Column(name = "status")
 	private String status;
 }

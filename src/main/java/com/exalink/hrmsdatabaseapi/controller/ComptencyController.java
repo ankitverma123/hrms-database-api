@@ -20,7 +20,7 @@ import com.exalink.hrmsdatabaseapi.service.ISubCompetencyService;
  *
  */
 @RestController
-@RequestMapping("/hrms_database/competency")
+@RequestMapping("/competency")
 public class ComptencyController {
 	
 	@Autowired

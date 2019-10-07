@@ -1,31 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <databaseChangeLog
-  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
-	
-	
-	<property name="now" value="sysdate" dbms="oracle"/>
-	<property name="now" value="now()" dbms="mysql"/>
-	<property name="now" value="now()" dbms="postgresql"/>
-	<property name="now" value="GETDATE()" dbms="mssql"/>
-    
-    <include file="candidate_sources.xml" relativeToChangelogFile="true"/>
-    
-   	<include file="market-offering.xml" relativeToChangelogFile="true"/>
-  	<include file="market-offering-sub-businessline.xml" relativeToChangelogFile="true"/>
-  	
-  	<include file="onboard-status.xml" relativeToChangelogFile="true"/>
-  	
-  	<include file="financial-year.xml" relativeToChangelogFile="true"/>
-  	
-  	<include file="competency.xml" relativeToChangelogFile="true"/>
-  	<include file="sub-competency.xml" relativeToChangelogFile="true"/>
-  	
-  	<include file="CandidateOfferStatus.xml" relativeToChangelogFile="true"/>
-  	<include file="CandidateOfferDeclineCategory.xml" relativeToChangelogFile="true"/>
-  	
-  	<include file="Report.xml" relativeToChangelogFile="true"/>
-  	
+
+
+	<property name="now" value="sysdate" dbms="oracle" />
+	<property name="now" value="now()" dbms="mysql" />
+	<property name="now" value="now()" dbms="postgresql" />
+	<property name="now" value="GETDATE()" dbms="mssql" />
+
+	<property name="uuid_type" value="uuid" dbms="postgresql" />
+	<property name="uuid_function" value="md5(random()::text || now()::text)::uuid" dbms="postgresql" />
+
+	<include file="candidate_sources.xml" relativeToChangelogFile="true" />
+
+	<include file="market-offering.xml" relativeToChangelogFile="true" />
+	<include file="market-offering-sub-businessline.xml" relativeToChangelogFile="true" />
+
+	<include file="onboard-status.xml" relativeToChangelogFile="true" />
+
+	<include file="financial-year.xml" relativeToChangelogFile="true" />
+
+	<include file="competency.xml" relativeToChangelogFile="true" />
+	<include file="sub-competency.xml" relativeToChangelogFile="true" />
+
+	<include file="CandidateOfferStatus.xml" relativeToChangelogFile="true" />
+	<include file="CandidateOfferDeclineCategory.xml" relativeToChangelogFile="true" />
+
+	<include file="Report.xml" relativeToChangelogFile="true" />
+	<include file="Quartz_Entities_Script.xml" relativeToChangelogFile="true" />
+
+	<include
+		file="DynamicForms/FinancialYear/init-data-request-category.xml" relativeToChangelogFile="true" />
+	<include file="DynamicForms/FinancialYear/init-data-layout.xml" relativeToChangelogFile="true" />
+	<include
+		file="DynamicForms/FinancialYear/init-data-elements.xml" relativeToChangelogFile="true" />
+
+	<include
+		file="DynamicForms/MarketOffering/init-data-request-category.xml"
+		relativeToChangelogFile="true" />
+	<include
+		file="DynamicForms/MarketOffering/init-data-layout.xml"
+		relativeToChangelogFile="true" />
+	<include
+		file="DynamicForms/MarketOffering/init-data-elements.xml"
+		relativeToChangelogFile="true" />
+
+	<include
+		file="DynamicForms/OnBoardStatus/init-data-request-category.xml"
+		relativeToChangelogFile="true" />
+	<include file="DynamicForms/OnBoardStatus/init-data-layout.xml"
+		relativeToChangelogFile="true" />
+	<include
+		file="DynamicForms/OnBoardStatus/init-data-elements.xml"
+		relativeToChangelogFile="true" />
+
+	<include
+		file="DynamicForms/CandidateSources/init-data-request-category.xml"
+		relativeToChangelogFile="true" />
+	<include
+		file="DynamicForms/CandidateSources/init-data-layout.xml"
+		relativeToChangelogFile="true" />
+	<include
+		file="DynamicForms/CandidateSources/init-data-elements.xml"
+		relativeToChangelogFile="true" />
+
+	<include
+		file="DynamicForms/DeclineCategories/init-data-request-category.xml"
+		relativeToChangelogFile="true" />
+	<include
+		file="DynamicForms/DeclineCategories/init-data-layout.xml"
+		relativeToChangelogFile="true" />
+	<include
+		file="DynamicForms/DeclineCategories/init-data-elements.xml"
+		relativeToChangelogFile="true" />
+
+	<include
+		file="DynamicForms/ComprehensiveReportConfiguration/init-data-request-category.xml"
+		relativeToChangelogFile="true" />
+	<include
+		file="DynamicForms/ComprehensiveReportConfiguration/init-data-layout.xml"
+		relativeToChangelogFile="true" />
+	<include
+		file="DynamicForms/ComprehensiveReportConfiguration/init-data-elements.xml"
+		relativeToChangelogFile="true" />
+
+	<include
+		file="DynamicForms/Candidate/init-data-request-category.xml"
+		relativeToChangelogFile="true" />
+	<include file="DynamicForms/Candidate/init-data-layout.xml"
+		relativeToChangelogFile="true" />
+	<include file="DynamicForms/Candidate/init-data-fieldset.xml"
+		relativeToChangelogFile="true" />
+	<include
+		file="DynamicForms/Candidate/init-data-create_candidate-elements.xml"
+		relativeToChangelogFile="true" />
+	<include
+		file="DynamicForms/Candidate/init-data-modify_candidate-elements.xml"
+		relativeToChangelogFile="true" />
 </databaseChangeLog>

@@ -8,6 +8,9 @@
 	<changeSet id='report-1' author='db_script'>
 
 		<insert tableName='reports'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='report_name' value="Comprehensive Report" />
 			<column name='headers'
 				value="ID,Fullname,Gender,Email Address,Primary Contact,Secondary Contact,Total Experience,Relevant Experience,Market Offering Business Line,Onboard Status" />
@@ -19,6 +22,9 @@
 
 	<changeSet id='report-2' author='db_script'>
 		<insert tableName='reports'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='report_name' value="Candidate Template" />
 			<column name='headers'
 				value="firstName,middleName,lastName,primaryContact,secondaryContact,emailAddress,gender,totalExperience,relevantExperience,lastCompany,candidateSource,onboardStatus,financialYear,marketOffering,marketSubBusinessLine,competency,subCompetency" />

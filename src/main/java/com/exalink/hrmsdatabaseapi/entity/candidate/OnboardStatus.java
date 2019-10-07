@@ -2,12 +2,12 @@ package com.exalink.hrmsdatabaseapi.entity.candidate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.exalink.hrmsdatabaseapi.entity.BaseEntity;
+
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @author ankitkverma
@@ -16,14 +16,12 @@ import lombok.Data;
 @Entity
 @Table(name="ONBOARD_STATUS")
 @Data
-public class OnboardStatus {
+@EqualsAndHashCode(callSuper=false)
+public class OnboardStatus extends BaseEntity{
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
-	private Long id;
-	
 	@Column(name = "onboardStatus")
 	private String onboardStatus;
 	
+	@Column(name = "isActive")
+	private Boolean isActive = true;
 }

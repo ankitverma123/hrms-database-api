@@ -17,7 +17,7 @@ import com.exalink.hrmsdatabaseapi.service.IFinancialYearService;
  *
  */
 @RestController
-@RequestMapping("/hrms_database/financial")
+@RequestMapping("/financial")
 public class FinancialYearController {
 	
 	@Autowired

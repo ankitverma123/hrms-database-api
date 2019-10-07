@@ -1,4 +1,6 @@
 server:
+  servlet:
+    contextPath: /hrms_database/v1
   port: 7661
 spring:
   liquibase:

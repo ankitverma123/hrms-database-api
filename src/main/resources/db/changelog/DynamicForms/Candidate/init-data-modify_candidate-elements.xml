@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<changeSet id='digital_init_element_modifycandidate_1'
+		author='db_script'>
+
+		<insert tableName='df_element'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='api_query' value='NULL' />
+			<column name='control_type' value='matInput' />
+			<column name='dependent_on' value='NULL' />
+			<column name='is_dependent' value='NULL' />
+			<column name='label' value='First name' />
+			<column name='show_label' valueBoolean="true" />
+			<column name='name' value="firstName" />
+			<column name='required' valueBoolean="true" />
+			<column name='special_note' value="NULL" />
+			<column name='ui_sequence' value="1" />
+			<column name='default_value' value="NULL" />
+			<column name='visibility' valueBoolean="true" />
+			<column name='field_set_id'
+				valueComputed="(select id from df_fieldset where name='General Details' and type='Modify')" />
+		</insert>
+		
+		<insert tableName='df_element'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='api_query' value='NULL' />
+			<column name='control_type' value='matInput' />
+			<column name='dependent_on' value='NULL' />
+			<column name='is_dependent' value='NULL' />
+			<column name='label' value='Middle name' />
+			<column name='show_label' valueBoolean="true" />
+			<column name='name' value="middleName" />
+			<column name='required' valueBoolean="false" />
+			<column name='special_note' value="NULL" />
+			<column name='ui_sequence' value="2" />
+			<column name='default_value' value="NULL" />
+			<column name='visibility' valueBoolean="true" />
+			<column name='field_set_id'
+				valueComputed="(select id from df_fieldset where name='General Details' and type='Modify')" />
+		</insert>
+		
+		<insert tableName='df_element'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='api_query' value='NULL' />
+			<column name='control_type' value='matInput' />
+			<column name='dependent_on' value='NULL' />
+			<column name='is_dependent' value='NULL' />
+			<column name='label' value='Last name' />
+			<column name='show_label' valueBoolean="true" />
+			<column name='name' value="lastName" />
+			<column name='required' valueBoolean="false" />
+			<column name='special_note' value="NULL" />
+			<column name='ui_sequence' value="3" />
+			<column name='default_value' value="NULL" />
+			<column name='visibility' valueBoolean="true" />
+			<column name='field_set_id'
+				valueComputed="(select id from df_fieldset where name='General Details' and type='Modify')" />
+		</insert>
+
+		<insert tableName='df_element'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='api_query' value='NULL' />
+			<column name='control_type' value='matSelect' />
+			<column name='dependent_on' value='NULL' />
+			<column name='is_dependent' value='NULL' />
+			<column name='label' value='Gender' />
+			<column name='show_label' valueBoolean="true" />
+			<column name='name' value="gender" />
+			<column name='required' valueBoolean="true" />
+			<column name='special_note' value="NULL" />
+			<column name='ui_sequence' value="4" />
+			<column name='default_value' value="NULL" />
+			<column name='visibility' valueBoolean="true" />
+			<column name='field_set_id'
+				valueComputed="(select id from df_fieldset where name='General Details' and type='Modify')" />
+		</insert>
+	</changeSet>
+	
+	<changeSet id='digital_init_element_modifycandidate_2'
+		author='db_script'>
+
+		<insert tableName='df_element'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='api_query' value='NULL' />
+			<column name='control_type' value='matInput' />
+			<column name='dependent_on' value='NULL' />
+			<column name='is_dependent' value='NULL' />
+			<column name='label' value='Primary contact number' />
+			<column name='show_label' valueBoolean="true" />
+			<column name='name' value="primaryContact" />
+			<column name='required' valueBoolean="true" />
+			<column name='special_note' value="NULL" />
+			<column name='ui_sequence' value="1" />
+			<column name='default_value' value="NULL" />
+			<column name='visibility' valueBoolean="true" />
+			<column name='field_set_id'
+				valueComputed="(select id from df_fieldset where name='Contact Details' and type='Modify')" />
+		</insert>
+		
+		<insert tableName='df_element'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='api_query' value='NULL' />
+			<column name='control_type' value='matInput' />
+			<column name='dependent_on' value='NULL' />
+			<column name='is_dependent' value='NULL' />
+			<column name='label' value='Secondary contact number' />
+			<column name='show_label' valueBoolean="true" />
+			<column name='name' value="secondaryContact" />
+			<column name='required' valueBoolean="false" />
+			<column name='special_note' value="NULL" />
+			<column name='ui_sequence' value="2" />
+			<column name='default_value' value="NULL" />
+			<column name='visibility' valueBoolean="true" />
+			<column name='field_set_id'
+				valueComputed="(select id from df_fieldset where name='Contact Details' and type='Modify')" />
+		</insert>
+		
+		<insert tableName='df_element'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='api_query' value='NULL' />
+			<column name='control_type' value='matInput' />
+			<column name='dependent_on' value='NULL' />
+			<column name='is_dependent' value='NULL' />
+			<column name='label' value='Email address' />
+			<column name='show_label' valueBoolean="true" />
+			<column name='name' value="emailAddress" />
+			<column name='required' valueBoolean="true" />
+			<column name='special_note' value="NULL" />
+			<column name='ui_sequence' value="3" />
+			<column name='default_value' value="NULL" />
+			<column name='visibility' valueBoolean="true" />
+			<column name='field_set_id'
+				valueComputed="(select id from df_fieldset where name='Contact Details' and type='Modify')" />
+		</insert>
+
+	</changeSet>
+	
+	<changeSet id='digital_init_element_modifycandidate_3'
+		author='db_script'>
+
+		<insert tableName='df_element'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='api_query' value='NULL' />
+			<column name='control_type' value='matInput' />
+			<column name='dependent_on' value='NULL' />
+			<column name='is_dependent' value='NULL' />
+			<column name='label' value='Total Experience (in months)' />
+			<column name='show_label' valueBoolean="true" />
+			<column name='name' value="totalExperience" />
+			<column name='required' valueBoolean="true" />
+			<column name='special_note' value="NULL" />
+			<column name='ui_sequence' value="1" />
+			<column name='default_value' value="NULL" />
+			<column name='visibility' valueBoolean="true" />
+			<column name='field_set_id'
+				valueComputed="(select id from df_fieldset where name='Last Company Details' and type='Modify')" />
+		</insert>
+		
+		<insert tableName='df_element'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='api_query' value='NULL' />
+			<column name='control_type' value='matInput' />
+			<column name='dependent_on' value='NULL' />
+			<column name='is_dependent' value='NULL' />
+			<column name='label' value='Relevant Experience (in months)' />
+			<column name='show_label' valueBoolean="true" />
+			<column name='name' value="relevantExperience" />
+			<column name='required' valueBoolean="true" />
+			<column name='special_note' value="NULL" />
+			<column name='ui_sequence' value="2" />
+			<column name='default_value' value="NULL" />
+			<column name='visibility' valueBoolean="true" />
+			<column name='field_set_id'
+				valueComputed="(select id from df_fieldset where name='Last Company Details' and type='Modify')" />
+		</insert>
+		
+		<insert tableName='df_element'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='api_query' value='NULL' />
+			<column name='control_type' value='matInput' />
+			<column name='dependent_on' value='NULL' />
+			<column name='is_dependent' value='NULL' />
+			<column name='label' value='Last Company' />
+			<column name='show_label' valueBoolean="true" />
+			<column name='name' value="lastCompany" />
+			<column name='required' valueBoolean="true" />
+			<column name='special_note' value="NULL" />
+			<column name='ui_sequence' value="3" />
+			<column name='default_value' value="NULL" />
+			<column name='visibility' valueBoolean="true" />
+			<column name='field_set_id'
+				valueComputed="(select id from df_fieldset where name='Last Company Details' and type='Modify')" />
+		</insert>
+
+	</changeSet>
+	
+	<changeSet id='digital_init_element_modifycandidate_4'
+		author='db_script'>
+
+		<insert tableName='df_element'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='api_query' value="/hrms_database/v1/sql/onboardStatus/?$top=5000&amp;requestForDropDown=true&amp;$skip=0" />
+			<column name='control_type' value='matSelect' />
+			<column name='dependent_on' value='NULL' />
+			<column name='is_dependent' value='NULL' />
+			<column name='label' value='Onboard Status' />
+			<column name='show_label' valueBoolean="true" />
+			<column name='name' value="onboardStatus" />
+			<column name='required' valueBoolean="true" />
+			<column name='special_note' value="NULL" />
+			<column name='ui_sequence' value="1" />
+			<column name='default_value' value="NULL" />
+			<column name='visibility' valueBoolean="true" />
+			<column name='field_set_id'
+				valueComputed="(select id from df_fieldset where name='Office Use Details' and type='Modify')" />
+		</insert>
+		
+		<insert tableName='df_element'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='api_query' value="/hrms_database/v1/sql/candidateSources/?$top=5000&amp;requestForDropDown=true&amp;$skip=0" />
+			<column name='control_type' value='matSelect' />
+			<column name='dependent_on' value='NULL' />
+			<column name='is_dependent' value='NULL' />
+			<column name='label' value='Candidate Source' />
+			<column name='show_label' valueBoolean="true" />
+			<column name='name' value="candidateSource" />
+			<column name='required' valueBoolean="true" />
+			<column name='special_note' value="NULL" />
+			<column name='ui_sequence' value="2" />
+			<column name='default_value' value="NULL" />
+			<column name='visibility' valueBoolean="true" />
+			<column name='field_set_id'
+				valueComputed="(select id from df_fieldset where name='Office Use Details' and type='Modify')" />
+		</insert>
+		
+		<insert tableName='df_element'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='api_query' value="/hrms_database/v1/sql/financialYear/?$top=5000&amp;requestForDropDown=true&amp;$skip=0" />
+			<column name='control_type' value='matSelect' />
+			<column name='dependent_on' value='NULL' />
+			<column name='is_dependent' value='NULL' />
+			<column name='label' value='Financial year' />
+			<column name='show_label' valueBoolean="true" />
+			<column name='name' value="financialYear" />
+			<column name='required' valueBoolean="true" />
+			<column name='special_note' value="NULL" />
+			<column name='ui_sequence' value="3" />
+			<column name='default_value' value="NULL" />
+			<column name='visibility' valueBoolean="true" />
+			<column name='field_set_id'
+				valueComputed="(select id from df_fieldset where name='Office Use Details' and type='Modify')" />
+		</insert>
+		
+	</changeSet>
+
+</databaseChangeLog>

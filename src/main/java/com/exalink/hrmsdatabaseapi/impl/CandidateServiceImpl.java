@@ -673,4 +673,41 @@ public class CandidateServiceImpl implements ICandidateService {
 		return value.matches("-?\\d+(\\.\\d+)?");
 	}
 
+	@Override
+	public Object offerStatusUpdate(Map<String, Object> candidateRequestMap) throws BaseException {
+		Long offerStatus = Utils.checkCollectionHasKeyAndValue(candidateRequestMap, "offerStatus")
+				? Long.valueOf(candidateRequestMap.get("offerStatus").toString())
+				: 0L;
+		Long declineCategory = Utils.checkCollectionHasKeyAndValue(candidateRequestMap, "offerDeclineCategory")
+				? Long.valueOf(candidateRequestMap.get("offerDeclineCategory").toString())
+				: 0L;
+		String comment = Utils.checkCollectionHasKeyAndValue(candidateRequestMap, "comment")
+				? candidateRequestMap.get("comment").toString()
+				: "";
+		Long candidateId = Utils.checkCollectionHasKeyAndValue(candidateRequestMap, "candidateId")
+				? Long.valueOf(candidateRequestMap.get("candidateId").toString())
+				: 0L;
+		
+		Offer offer = new Offer();
+		offer.setComment(comment);
+		
+		OfferStatus of = new OfferStatus();
+		// of.setId(offerStatus);
+		
+		OfferDeclineCategory odc = new OfferDeclineCategory();
+		// odc.setId(declineCategory);
+		
+		offer.setDeclineCategory(odc);
+		offer.setStatus(of);
+		
+		Optional<Candidate> candidate = candidateJPARepository.findById(candidateId);
+		if(candidate.isPresent()) {
+			Candidate c = candidate.get();
+			c.setCandidateOfferStatus(offer);
+			return candidateJPARepository.save(c);
+		}
+		
+		return null;
+	}
+
 }

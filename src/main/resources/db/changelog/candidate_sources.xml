@@ -7,36 +7,52 @@
 	<changeSet id='candidate_sources-1' author='db_script'>
 	    
 	    <insert tableName='candidate_sources'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+	    	<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='candidate_source' value="Net Sourcing" />
 			<column name='is_active' valueBoolean="true" />
 		</insert>
 		
 		<insert tableName='candidate_sources'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+	    	<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='candidate_source' value="Referral" />
 			<column name='is_active' valueBoolean="true" />
 		</insert>
 		
 		<insert tableName='candidate_sources'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+	    	<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='candidate_source' value="Internal Mobility" />
 			<column name='is_active' valueBoolean="true" />
 		</insert>
 		
 		<insert tableName='candidate_sources'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+	    	<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='candidate_source' value="CTH to FTE" />
 			<column name='is_active' valueBoolean="true" />
 		</insert>
 		
 		<insert tableName='candidate_sources'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+	    	<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='candidate_source' value="Vendor" />
 			<column name='is_active' valueBoolean="true" />
 		</insert>
 		
 		<insert tableName='candidate_sources'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+	    	<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='candidate_source' value="PDAT" />
 			<column name='is_active' valueBoolean="true" />
 		</insert>
 	</changeSet>
-	
-	
 
 </databaseChangeLog>

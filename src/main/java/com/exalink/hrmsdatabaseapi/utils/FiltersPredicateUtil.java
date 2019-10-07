@@ -2,6 +2,8 @@ package com.exalink.hrmsdatabaseapi.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import java.util.regex.Pattern;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
@@ -18,7 +20,7 @@ public class FiltersPredicateUtil {
 	}
 
 	static List<Predicate> predicates = new ArrayList<Predicate>();
-
+	
 	public static List<Predicate> generatePredicatesFilters(CriteriaBuilder builder, Root<?> r, String $filter) {
 		predicates.clear();
 		if ($filter != null) {
@@ -58,7 +60,7 @@ public class FiltersPredicateUtil {
 					if (filter.contains(" eq ")) {
 						String subString[] = filter.split(" eq ");
 						String columns[] = subString[0].split(",");
-						String value = subString[1];
+						Object value = checkIfUUID(subString[1]) ? UUID.fromString(subString[1]) : subString[1];
 						if(columns.length==1)
 							predicates.add(builder.equal(r.get(columns[0]), value));
 						else if (columns.length==2)
@@ -88,6 +90,11 @@ public class FiltersPredicateUtil {
 
 		return predicates;
 
+	}
+	
+	protected static boolean checkIfUUID(String uuidString) {
+		Pattern p = Pattern.compile("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$");
+		return p.matcher(uuidString).matches();
 	}
 
 }

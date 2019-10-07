@@ -4,11 +4,17 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 
 
 /**
@@ -89,7 +95,7 @@ public class Utils {
 	
 	public static boolean checkCollectionHasKeyAndValue(Map<String, Object> map, String key){
 		boolean result=false;
-		if(map.containsKey(key) && map.get(key)!=null && !map.get(key).toString().isEmpty())
+		if(map!=null && !map.isEmpty() && map.containsKey(key) && map.get(key)!=null && !map.get(key).toString().isEmpty())
 			result= true;
 		return result;
 	}
@@ -107,6 +113,29 @@ public class Utils {
 			setCollector.add(mapObject.get(key).toString());
 		});
 		return setCollector;
+	}
+	
+	public static String getHttpRequestUriInformation(HttpServletRequest request) {
+		int port = request.getServerPort();
+		StringBuilder uriInformation = new StringBuilder();
+		uriInformation.append(request.getScheme())
+        .append("://")
+        .append(request.getServerName())
+        .append(":"+port);
+		return uriInformation.toString();
+	}
+	
+	public static HttpHeaders getHttpRequestHeadersInformation(HttpServletRequest request) {
+		Enumeration<String> headerNames = request.getHeaderNames();
+
+		HttpHeaders headers = new HttpHeaders();
+		while (headerNames.hasMoreElements()) {
+			String key = headerNames.nextElement();
+			String value = request.getHeader(key);
+			headers.add(key, value);
+		}
+	    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+	    return headers;
 	}
 	
 }

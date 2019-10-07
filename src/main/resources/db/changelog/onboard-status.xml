@@ -1,26 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
-	
+
 	<changeSet id='onboard-status-1' author='db_script'>
-	    
-	    <insert tableName='onboard_status'>
+
+		<insert tableName='onboard_status'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='onboard_status' value="Joined" />
+			<column name='is_active' valueBoolean="true" />
 		</insert>
 		<insert tableName='onboard_status'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='onboard_status' value="Offer Accepted" />
+			<column name='is_active' valueBoolean="true" />
 		</insert>
 		<insert tableName='onboard_status'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='onboard_status' value="Placed on Hold" />
+			<column name='is_active' valueBoolean="true" />
 		</insert>
 		<insert tableName='onboard_status'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='onboard_status' value="Current Orderboard" />
+			<column name='is_active' valueBoolean="true" />
 		</insert>
-		
+
 	</changeSet>
-	
-	
+
+
 
 </databaseChangeLog>

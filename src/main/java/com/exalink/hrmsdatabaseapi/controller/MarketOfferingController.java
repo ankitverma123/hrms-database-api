@@ -20,7 +20,7 @@ import com.exalink.hrmsdatabaseapi.service.IMarketOfferingService;
  *
  */
 @RestController
-@RequestMapping("/hrms_database/offering")
+@RequestMapping("/offering")
 public class MarketOfferingController {
 
 	@Autowired

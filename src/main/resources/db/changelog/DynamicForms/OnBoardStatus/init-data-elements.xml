@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	
+	<changeSet id='digital_init_element_onboardstatus_1' author='ankitkverma@deloitte.com'>
+	    
+	    <insert tableName='df_element'>
+	    	<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at'  value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='api_query' value='NULL' />
+			<column name='control_type' value='matInput'  />
+			<column name='dependent_on' value='NULL' />
+			<column name='is_dependent' value='NULL' />
+			<column name='label' value='Create new onboard status' />
+			<column name='show_label' valueBoolean="true" />
+			<column name='name' value="onboardStatus" />
+			<column name='required' valueBoolean="true" />
+			<column name='special_note' value="NULL" />
+			<column name='ui_sequence' value="1" />
+			<column name='default_value' value="NULL" />
+			<column name='visibility' valueBoolean="true" />
+			<column name='layout_id' valueComputed="(select id from df_layout where name='CreateOnboardStatus' and type='Create')" />
+		</insert>
+		
+	</changeSet>
+	
+	<changeSet id='digital_init_element_onboardstatus_2' author='ankitkverma@deloitte.com'>
+	    
+	    <insert tableName='df_element'>
+	    	<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at'  value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='api_query' value='NULL' />
+			<column name='control_type' value='matInput'  />
+			<column name='dependent_on' value='NULL' />
+			<column name='is_dependent' value='NULL' />
+			<column name='label' value='Onboard Status ID' />
+			<column name='show_label' valueBoolean="false" />
+			<column name='name' value="id" />
+			<column name='required' valueBoolean="true" />
+			<column name='special_note' value="NULL" />
+			<column name='ui_sequence' value="1" />
+			<column name='default_value' value="NULL" />
+			<column name='visibility' valueBoolean="false" />
+			<column name='layout_id' valueComputed="(select id from df_layout where name='ModifyOnboardStatus' and type='Modify')" />
+		</insert>
+		
+		<insert tableName='df_element'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at'  value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='api_query' value='NULL' />
+			<column name='control_type' value='matInput'  />
+			<column name='dependent_on' value='NULL' />
+			<column name='is_dependent' value='NULL' />
+			<column name='label' value='Modify onboard status' />
+			<column name='show_label' valueBoolean="true" />
+			<column name='name' value="onboardStatus" />
+			<column name='required' valueBoolean="true" />
+			<column name='special_note' value="NULL" />
+			<column name='ui_sequence' value="2" />
+			<column name='default_value' value="NULL" />
+			<column name='visibility' valueBoolean="true" />
+			<column name='layout_id' valueComputed="(select id from df_layout where name='ModifyOnboardStatus' and type='Modify')" />
+		</insert>
+	</changeSet>
+	
+</databaseChangeLog>

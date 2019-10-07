@@ -19,7 +19,7 @@ import com.exalink.hrmsdatabaseapi.service.IDashboardService;
  *
  */
 @RestController
-@RequestMapping("/hrms_database/dashboard")
+@RequestMapping("/dashboard")
 public class DashboardController {
 
 	@Autowired

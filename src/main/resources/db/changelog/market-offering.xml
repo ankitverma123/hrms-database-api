@@ -6,22 +6,46 @@
 	
 	<changeSet id='market-offering-1' author='db_script'>
 	    <insert tableName='market_offering'>
+	    	<column name="id" valueComputed="${uuid_function}"></column>
+	    	<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='market' value="Assurance &amp; Internal Audit" />
+			<column name='is_active' valueBoolean="true" />
 		</insert>
 		<insert tableName='market_offering'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+	    	<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='market' value="Regulatory &amp; Operational Risk" />
+			<column name='is_active' valueBoolean="true" />
 		</insert>
 		<insert tableName='market_offering'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+	    	<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='market' value='Risk Intelligence' />
+			<column name='is_active' valueBoolean="true" />
 		</insert>
 		<insert tableName='market_offering'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+	    	<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='market' value="Fin Risk Trans &amp; Restructuring" />
+			<column name='is_active' valueBoolean="true" />
 		</insert>
 		<insert tableName='market_offering'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+	    	<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='market' value='Forensic' />
+			<column name='is_active' valueBoolean="true" />
 		</insert>
 		<insert tableName='market_offering'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+	    	<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
 			<column name='market' value='National' />
+			<column name='is_active' valueBoolean="true" />
 		</insert>
 	</changeSet>
 	

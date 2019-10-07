@@ -23,6 +23,7 @@ import com.exalink.hrmsdatabaseapi.entity.candidate.OnboardStatus;
 import com.exalink.hrmsdatabaseapi.entity.competency.Competency;
 import com.exalink.hrmsdatabaseapi.entity.market.MarketOffering;
 import com.exalink.hrmsdatabaseapi.entity.offer.OfferDeclineCategory;
+import com.exalink.hrmsdatabaseapi.entity.offer.OfferStatus;
 import com.exalink.hrmsdatabaseapi.repository.ICandidateSourceRepository;
 import com.exalink.hrmsdatabaseapi.repository.IFinancialYearRepository;
 import com.exalink.hrmsdatabaseapi.repository.IMarketOfferingRepository;
@@ -216,16 +217,29 @@ public class SQLServiceImpl implements ISQLService {
 			}
 		}
 
-		List<OfferDeclineCategory> result = entityManager.createQuery(query).setFirstResult(skip).setMaxResults(top)
-				.getResultList();
+		
+		if (requestForDropDown) {
+			List<OfferDeclineCategory> result = entityManager.createQuery(query).getResultList();
+			List<Map<String, Object>> con = new ArrayList<>();
+			for (OfferDeclineCategory fy : result) {
+				Map<String, Object> map = new HashMap<>();
+				map.put(CommonConstants.ID, fy.getId());
+				map.put(CommonConstants.LABEL, fy.getCategory());
+				con.add(map);
+			}
+			return con;
+		}else {
+			List<OfferDeclineCategory> result = entityManager.createQuery(query).setFirstResult(skip).setMaxResults(top)
+					.getResultList();
 
-		int totalCount = entityManager.createQuery(query).getResultList().size();
+			int totalCount = entityManager.createQuery(query).getResultList().size();
 
-		Map<String, Object> dataToBeReturned = new HashMap<>();
-		dataToBeReturned.put(CommonConstants.RESULTS, result);
-		dataToBeReturned.put(CommonConstants.TOTAL_COUNT, totalCount);
+			Map<String, Object> dataToBeReturned = new HashMap<>();
+			dataToBeReturned.put(CommonConstants.RESULTS, result);
+			dataToBeReturned.put(CommonConstants.TOTAL_COUNT, totalCount);
 
-		return dataToBeReturned;
+			return dataToBeReturned;
+		}
 	}
 
 	@Override
@@ -408,5 +422,50 @@ public class SQLServiceImpl implements ISQLService {
 
 		return dataToBeReturned;
 
+	}
+
+	@Override
+	public Object listCandidateOfferStatus(Integer skip, Integer top, String sortField, String sortDirection,
+			String filter, boolean requestForDropDown) throws BaseException {
+		List<Predicate> predicates = new ArrayList<>();
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<OfferStatus> query = builder.createQuery(OfferStatus.class);
+		Root<OfferStatus> r = query.from(OfferStatus.class);
+		List<Predicate> predicatesGenerated = FiltersPredicateUtil.generatePredicatesFilters(builder, r, filter);
+
+		if (predicatesGenerated != null && !predicatesGenerated.isEmpty())
+			predicates.addAll(predicatesGenerated);
+
+		query.where(builder.and(predicates.toArray(new Predicate[predicates.size()])));
+
+		if (sortField != null && sortDirection != null) {
+			if (sortDirection.equals(CommonConstants.SORT_DIRECTION_ASC)) {
+				query.orderBy(builder.asc(r.get(sortField)));
+			} else if (sortDirection.equals(CommonConstants.SORT_DIRECTION_DESC)) {
+				query.orderBy(builder.desc(r.get(sortField)));
+			}
+		}
+		
+		if(requestForDropDown) {
+			List<OfferStatus> result = entityManager.createQuery(query).getResultList();
+			List<Map<String, Object>> con = new ArrayList<>();
+			for (OfferStatus fy : result) {
+				Map<String, Object> map = new HashMap<>();
+				map.put(CommonConstants.ID, fy.getId());
+				map.put(CommonConstants.LABEL, fy.getStatus());
+				con.add(map);
+			}
+			return con;
+		}else {
+			List<OfferStatus> result = entityManager.createQuery(query).setFirstResult(skip).setMaxResults(top)
+					.getResultList();
+			int totalCount = entityManager.createQuery(query).getResultList().size();
+
+			Map<String, Object> dataToBeReturned = new HashMap<>();
+			dataToBeReturned.put(CommonConstants.RESULTS, result);
+			dataToBeReturned.put(CommonConstants.TOTAL_COUNT, totalCount);
+
+			return dataToBeReturned;
+		}
 	}
 }

@@ -23,7 +23,7 @@ import com.exalink.hrmsdatabaseapi.service.ISQLService;
  *
  */
 @RestController
-@RequestMapping("/hrms_database/sql")
+@RequestMapping("/sql")
 public class SQLController {
 	
 	@Autowired
@@ -76,6 +76,13 @@ public class SQLController {
 	public ResponseData fileTrackingList(@RequestParam Integer $top, @RequestParam Integer $skip, @RequestParam(required = false) String sortDirection, 
 			@RequestParam(required = false) String sortField, @RequestParam(required = false) String $filter, @RequestParam(required = false) boolean requestForDropDown) throws BaseException{
 		return new ResponseData(sqlService.listFileTracking($skip, $top, sortField, sortDirection, $filter, requestForDropDown), null, HttpStatus.OK, null);
+	}
+	
+	@GetMapping(value="/candidateOfferStatus/", produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseData candidateOfferStatusList(@RequestParam Integer $top, @RequestParam Integer $skip, @RequestParam(required = false) String sortDirection, 
+			@RequestParam(required = false) String sortField, @RequestParam(required = false) String $filter, @RequestParam(required = false) boolean requestForDropDown) throws BaseException{
+		return new ResponseData(sqlService.listCandidateOfferStatus($skip, $top, sortField, sortDirection, $filter, requestForDropDown), null, HttpStatus.OK, null);
 	}
 	
 	@PutMapping(value="/{path}/", produces=MediaType.APPLICATION_JSON_VALUE)
