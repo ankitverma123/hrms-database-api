@@ -5,6 +5,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.exalink.hrmsdatabaseapi.BaseException;
-import com.exalink.hrmsdatabaseapi.ResponseData;
 import com.exalink.hrmsdatabaseapi.service.ISQLService;
+import com.exalink.hrmsfabric.common.BaseException;
+import com.exalink.hrmsfabric.common.ResponseData;
 
 /**
  * @author ankitkverma
@@ -69,7 +70,7 @@ public class SQLController {
 	@ResponseBody
 	public ResponseData competency(@RequestParam Integer $top, @RequestParam Integer $skip, @RequestParam(required = false) String sortDirection, 
 			@RequestParam(required = false) String sortField, @RequestParam(required = false) String $filter, @RequestParam(required = false) boolean requestForDropDown) throws BaseException{
-		return new ResponseData(sqlService.listMarketOffering($skip, $top, sortField, sortDirection, $filter, requestForDropDown), null, HttpStatus.OK, null);
+		return new ResponseData(sqlService.listCompetency($skip, $top, sortField, sortDirection, $filter, requestForDropDown), null, HttpStatus.OK, null);
 	}
 	
 	@GetMapping(value="/fileTracking/", produces=MediaType.APPLICATION_JSON_VALUE)
@@ -96,5 +97,11 @@ public class SQLController {
 	@ResponseBody
 	public ResponseData updateConfigurations(@PathVariable String path, @RequestBody Map<String, Object> requestMap) throws BaseException{
 		return new ResponseData(sqlService.update(path, requestMap), path.toUpperCase()+" updated successfully", HttpStatus.OK, null);
+	}
+	
+	@DeleteMapping(value="/{path}/{uuid}", produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseData deleteEntity(@PathVariable String path, @PathVariable String uuid) throws BaseException{
+		return new ResponseData(sqlService.delete(path, uuid), path.toUpperCase()+" deleted successfully", HttpStatus.OK, null);
 	}
 }

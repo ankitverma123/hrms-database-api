@@ -4,7 +4,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import com.exalink.hrmsfabric.common.BaseEntity;
+
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 
 /**
  * @author ankitkverma
@@ -13,6 +17,7 @@ import lombok.Data;
 @Entity
 @Table(name="FILE_TRACKING")
 @Data
+@EqualsAndHashCode(callSuper=false)
 public class FileTracking extends BaseEntity{
 	
 	@Column(name = "fileName")

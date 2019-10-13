@@ -1,6 +1,7 @@
 package com.exalink.hrmsdatabaseapi.service;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -15,5 +16,5 @@ import com.exalink.hrmsdatabaseapi.entity.market.SubBusinessLine;
 public interface IMarketOfferingService {
 	List<MarketOffering> listAllMarketOffering();
 	List<SubBusinessLine> listAllSubBusinessLine();
-	Object listSubBusinesslineByMarketOffering(Long marketOfferingId, boolean dropdownRequested);
+	Object listSubBusinesslineByMarketOffering(UUID marketOfferingId, boolean dropdownRequested);
 }

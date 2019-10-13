@@ -7,6 +7,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 
+import com.exalink.hrmsfabric.common.BaseEntity;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

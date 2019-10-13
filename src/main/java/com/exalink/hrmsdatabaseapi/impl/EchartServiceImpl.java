@@ -12,10 +12,10 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.exalink.hrmsdatabaseapi.CommonConstants;
-import com.exalink.hrmsdatabaseapi.Utils;
 import com.exalink.hrmsdatabaseapi.model.ChartRequestModel;
 import com.exalink.hrmsdatabaseapi.service.IEchartService;
+import com.exalink.hrmsfabric.common.CommonConstants;
+import com.exalink.hrmsfabric.common.Utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**

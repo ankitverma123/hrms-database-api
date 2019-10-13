@@ -2,8 +2,8 @@ package com.exalink.hrmsdatabaseapi.service;
 
 import org.springframework.stereotype.Service;
 
-import com.exalink.hrmsdatabaseapi.BaseException;
 import com.exalink.hrmsdatabaseapi.model.ChartRequestModel;
+import com.exalink.hrmsfabric.common.BaseException;
 
 /**
  * @author ankitkverma

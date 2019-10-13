@@ -18,9 +18,6 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.exalink.hrmsdatabaseapi.BaseException;
-import com.exalink.hrmsdatabaseapi.CommonConstants;
-import com.exalink.hrmsdatabaseapi.Utils;
 import com.exalink.hrmsdatabaseapi.entity.FileTracking;
 import com.exalink.hrmsdatabaseapi.entity.candidate.CandidateSources;
 import com.exalink.hrmsdatabaseapi.entity.candidate.FinancialYear;
@@ -36,6 +33,9 @@ import com.exalink.hrmsdatabaseapi.repository.IOfferDeclineRepository;
 import com.exalink.hrmsdatabaseapi.repository.IOnBoardRepository;
 import com.exalink.hrmsdatabaseapi.service.ISQLService;
 import com.exalink.hrmsdatabaseapi.utils.FiltersPredicateUtil;
+import com.exalink.hrmsfabric.common.BaseException;
+import com.exalink.hrmsfabric.common.CommonConstants;
+import com.exalink.hrmsfabric.common.Utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -90,6 +90,8 @@ public class SQLServiceImpl implements ISQLService {
 			} else if (sortDirection.equals(CommonConstants.SORT_DIRECTION_DESC)) {
 				query.orderBy(builder.desc(r.get(sortField)));
 			}
+		}else {
+			query.orderBy(builder.desc(r.get("updatedAt")));
 		}
 
 		if (requestForDropDown) {
@@ -487,43 +489,38 @@ public class SQLServiceImpl implements ISQLService {
 		if (path.equalsIgnoreCase(CommonConstants.FINANCIAL_YEAR)
 				&& Utils.checkCollectionHasKeyAndValue(requestMap, ID)
 				&& Utils.checkCollectionHasKeyAndValue(requestMap, FIANNCIAL_YEAR)) {
-			
 			UUID id = UUID.fromString(requestMap.get(ID).toString());
 			String valueToBeUpdated = requestMap.get(FIANNCIAL_YEAR).toString();
-			return updateConfigurations(id, valueToBeUpdated, "FinancialYear", FIANNCIAL_YEAR, "Financial year ");
-			
+			String msg = updateConfigurations(id, valueToBeUpdated, "FinancialYear", FIANNCIAL_YEAR, "Financial year ");
+			return generalStringResponse(msg);
 		} else if (path.equalsIgnoreCase(CommonConstants.CANDIDATE_SOURCE)
 				&& Utils.checkCollectionHasKeyAndValue(requestMap, ID)
 				&& Utils.checkCollectionHasKeyAndValue(requestMap, CANDIDATESOURCE)) {
-			
 			UUID id = UUID.fromString(requestMap.get(ID).toString());
 			String valueToBeUpdated = requestMap.get(CANDIDATESOURCE).toString();
-			return updateConfigurations(id, valueToBeUpdated, "CandidateSources", CANDIDATESOURCE, "Candidate source");
-			
+			String msg =  updateConfigurations(id, valueToBeUpdated, "CandidateSources", CANDIDATESOURCE, "Candidate source");
+			return generalStringResponse(msg);
 		} else if (path.equalsIgnoreCase(CommonConstants.ONBOARD_STATUS)
 				&& Utils.checkCollectionHasKeyAndValue(requestMap, ID)
 				&& Utils.checkCollectionHasKeyAndValue(requestMap, ONBOARDSTATUS)) {
-			
 			UUID id = UUID.fromString(requestMap.get(ID).toString());
 			String valueToBeUpdated = requestMap.get(ONBOARDSTATUS).toString();
-			return updateConfigurations(id, valueToBeUpdated, "OnboardStatus", ONBOARDSTATUS, "OnBoard status");
-			
+			String msg =  updateConfigurations(id, valueToBeUpdated, "OnboardStatus", ONBOARDSTATUS, "OnBoard status");
+			return generalStringResponse(msg);
 		} else if (path.equalsIgnoreCase(CommonConstants.OFFER_DECLINE_CATEGORIES)
 				&& Utils.checkCollectionHasKeyAndValue(requestMap, ID)
 				&& Utils.checkCollectionHasKeyAndValue(requestMap, CATEGORY)) {
-			
 			UUID id = UUID.fromString(requestMap.get(ID).toString());
 			String valueToBeUpdated = requestMap.get(CATEGORY).toString();
-			return updateConfigurations(id, valueToBeUpdated, "OfferDeclineCategory", CATEGORY, "Offer decline category");
-			
+			String msg =  updateConfigurations(id, valueToBeUpdated, "OfferDeclineCategory", CATEGORY, "Offer decline category");
+			return generalStringResponse(msg);
 		} else if (path.equalsIgnoreCase(CommonConstants.MARKET_OFFERING)
 				&& Utils.checkCollectionHasKeyAndValue(requestMap, ID)
 				&& Utils.checkCollectionHasKeyAndValue(requestMap, MARKET)) {
-			
 			UUID id = UUID.fromString(requestMap.get(ID).toString());
 			String valueToBeUpdated = requestMap.get(MARKET).toString();
-			return updateConfigurations(id, valueToBeUpdated, "MarketOffering", MARKET, "Market offering");
-			
+			String msg =  updateConfigurations(id, valueToBeUpdated, "MarketOffering", MARKET, "Market offering");
+			return generalStringResponse(msg);
 		}
 		return null;
 	}
@@ -559,5 +556,52 @@ public class SQLServiceImpl implements ISQLService {
 	private int updateQuery(String updateQuery) {
 		return entityManager.createQuery(updateQuery).executeUpdate();
 	}
+
+	@Transactional
+	@Override
+	public Object delete(String path, String uuid) throws BaseException {
+		UUID entityUUID = null;
+		String query = "";
+		switch (path) {
+		case CommonConstants.FINANCIAL_YEAR:
+			entityUUID = UUID.fromString(uuid);
+			query+="DELETE FROM FinancialYear Where id = '"+entityUUID+"'";
+			break;
+		case CommonConstants.CANDIDATE_SOURCE:
+			entityUUID = UUID.fromString(uuid);
+			query+="DELETE FROM CandidateSources Where id = '"+entityUUID+"'";
+			break;
+		case CommonConstants.ONBOARD_STATUS:
+			entityUUID = UUID.fromString(uuid);
+			query+="DELETE FROM OnboardStatus Where id = '"+entityUUID+"'";
+			break;
+		case CommonConstants.OFFER_DECLINE_CATEGORIES:
+			entityUUID = UUID.fromString(uuid);
+			query+="DELETE FROM OfferDeclineCategory Where id = '"+entityUUID+"'";
+			break;
+		case CommonConstants.MARKET_OFFERING:
+			entityUUID = UUID.fromString(uuid);
+			query+="DELETE FROM MarketOffering Where id = '"+entityUUID+"'";
+			break;
+		case CommonConstants.CANDIDATE:
+			entityUUID = UUID.fromString(uuid);
+			query+="DELETE FROM Candidate Where id = '"+entityUUID+"'";
+			break;
+		default:
+				break;
+		}
+		if (query != null && !query.isEmpty()) {
+			int recordUpdated = updateQuery(query);
+			if (recordUpdated > 0) {
+				return generalStringResponse(path + " deleted successfully");
+			}
+		}
+		return generalStringResponse("Failed to delete "+path);
+	}
 		
+	private Map<String, Object> generalStringResponse(String message) {
+		Map<String, Object> map= new HashMap<>();
+		map.put("message", message);
+		return map;
+	}
 }

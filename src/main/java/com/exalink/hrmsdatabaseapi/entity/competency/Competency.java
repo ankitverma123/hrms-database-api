@@ -9,7 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.exalink.hrmsdatabaseapi.entity.BaseEntity;
+import com.exalink.hrmsfabric.common.BaseEntity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

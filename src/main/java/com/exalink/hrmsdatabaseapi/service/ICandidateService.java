@@ -7,8 +7,8 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.exalink.hrmsdatabaseapi.BaseException;
 import com.exalink.hrmsdatabaseapi.entity.candidate.Candidate;
+import com.exalink.hrmsfabric.common.BaseException;
 
 /**
  * @author ankitkverma

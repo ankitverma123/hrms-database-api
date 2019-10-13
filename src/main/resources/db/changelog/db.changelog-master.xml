@@ -12,92 +12,27 @@
 	<property name="now" value="GETDATE()" dbms="mssql" />
 
 	<property name="uuid_type" value="uuid" dbms="postgresql" />
-	<property name="uuid_function" value="md5(random()::text || now()::text)::uuid" dbms="postgresql" />
+	<property name="uuid_function"
+		value="md5(random()::text || now()::text)::uuid" dbms="postgresql" />
 
-	<include file="candidate_sources.xml" relativeToChangelogFile="true" />
+	<include file="candidateSources/init-data-candiate_sources.xml" relativeToChangelogFile="true" />
 
-	<include file="market-offering.xml" relativeToChangelogFile="true" />
-	<include file="market-offering-sub-businessline.xml" relativeToChangelogFile="true" />
+	<include file="marketOffering/init-data-market_offering.xml" relativeToChangelogFile="true" />
+	<include file="marketOffering/init-data-sub-businessline.xml" relativeToChangelogFile="true" />
 
-	<include file="onboard-status.xml" relativeToChangelogFile="true" />
+	<include file="onboardStatus/init-data-onboard_status.xml" relativeToChangelogFile="true" />
 
-	<include file="financial-year.xml" relativeToChangelogFile="true" />
+	<include file="financialYear/init-data-financial_year.xml" relativeToChangelogFile="true" />
 
-	<include file="competency.xml" relativeToChangelogFile="true" />
-	<include file="sub-competency.xml" relativeToChangelogFile="true" />
+	<include file="competency/init-data-competency.xml" relativeToChangelogFile="true" />
+	<include file="competency/init-data-sub_competency.xml" relativeToChangelogFile="true" />
 
-	<include file="CandidateOfferStatus.xml" relativeToChangelogFile="true" />
-	<include file="CandidateOfferDeclineCategory.xml" relativeToChangelogFile="true" />
+	<include file="offerStatus/init-data-candidate_offer_status.xml" relativeToChangelogFile="true" />
+	
+	<include file="offerDeclineCategories/init-data-offer_decline_categories.xml" relativeToChangelogFile="true" />
 
-	<include file="Report.xml" relativeToChangelogFile="true" />
-	<include file="Quartz_Entities_Script.xml" relativeToChangelogFile="true" />
+	<include file="reports/init-data-reports.xml" relativeToChangelogFile="true" />
+	
+	<include file="quartz/quartz_entities.xml" relativeToChangelogFile="true" />
 
-	<include
-		file="DynamicForms/FinancialYear/init-data-request-category.xml" relativeToChangelogFile="true" />
-	<include file="DynamicForms/FinancialYear/init-data-layout.xml" relativeToChangelogFile="true" />
-	<include
-		file="DynamicForms/FinancialYear/init-data-elements.xml" relativeToChangelogFile="true" />
-
-	<include
-		file="DynamicForms/MarketOffering/init-data-request-category.xml"
-		relativeToChangelogFile="true" />
-	<include
-		file="DynamicForms/MarketOffering/init-data-layout.xml"
-		relativeToChangelogFile="true" />
-	<include
-		file="DynamicForms/MarketOffering/init-data-elements.xml"
-		relativeToChangelogFile="true" />
-
-	<include
-		file="DynamicForms/OnBoardStatus/init-data-request-category.xml"
-		relativeToChangelogFile="true" />
-	<include file="DynamicForms/OnBoardStatus/init-data-layout.xml"
-		relativeToChangelogFile="true" />
-	<include
-		file="DynamicForms/OnBoardStatus/init-data-elements.xml"
-		relativeToChangelogFile="true" />
-
-	<include
-		file="DynamicForms/CandidateSources/init-data-request-category.xml"
-		relativeToChangelogFile="true" />
-	<include
-		file="DynamicForms/CandidateSources/init-data-layout.xml"
-		relativeToChangelogFile="true" />
-	<include
-		file="DynamicForms/CandidateSources/init-data-elements.xml"
-		relativeToChangelogFile="true" />
-
-	<include
-		file="DynamicForms/DeclineCategories/init-data-request-category.xml"
-		relativeToChangelogFile="true" />
-	<include
-		file="DynamicForms/DeclineCategories/init-data-layout.xml"
-		relativeToChangelogFile="true" />
-	<include
-		file="DynamicForms/DeclineCategories/init-data-elements.xml"
-		relativeToChangelogFile="true" />
-
-	<include
-		file="DynamicForms/ComprehensiveReportConfiguration/init-data-request-category.xml"
-		relativeToChangelogFile="true" />
-	<include
-		file="DynamicForms/ComprehensiveReportConfiguration/init-data-layout.xml"
-		relativeToChangelogFile="true" />
-	<include
-		file="DynamicForms/ComprehensiveReportConfiguration/init-data-elements.xml"
-		relativeToChangelogFile="true" />
-
-	<include
-		file="DynamicForms/Candidate/init-data-request-category.xml"
-		relativeToChangelogFile="true" />
-	<include file="DynamicForms/Candidate/init-data-layout.xml"
-		relativeToChangelogFile="true" />
-	<include file="DynamicForms/Candidate/init-data-fieldset.xml"
-		relativeToChangelogFile="true" />
-	<include
-		file="DynamicForms/Candidate/init-data-create_candidate-elements.xml"
-		relativeToChangelogFile="true" />
-	<include
-		file="DynamicForms/Candidate/init-data-modify_candidate-elements.xml"
-		relativeToChangelogFile="true" />
 </databaseChangeLog>

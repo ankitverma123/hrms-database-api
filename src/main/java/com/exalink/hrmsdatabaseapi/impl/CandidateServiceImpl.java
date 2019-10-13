@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -23,9 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.exalink.hrmsdatabaseapi.BaseException;
-import com.exalink.hrmsdatabaseapi.CommonConstants;
-import com.exalink.hrmsdatabaseapi.Utils;
 import com.exalink.hrmsdatabaseapi.entity.Report;
 import com.exalink.hrmsdatabaseapi.entity.candidate.Candidate;
 import com.exalink.hrmsdatabaseapi.entity.candidate.CandidateSources;
@@ -47,6 +45,9 @@ import com.exalink.hrmsdatabaseapi.repository.IReportRepository;
 import com.exalink.hrmsdatabaseapi.repository.ISubCompetencyRepository;
 import com.exalink.hrmsdatabaseapi.service.ICandidateService;
 import com.exalink.hrmsdatabaseapi.utils.FiltersPredicateUtil;
+import com.exalink.hrmsfabric.common.BaseException;
+import com.exalink.hrmsfabric.common.CommonConstants;
+import com.exalink.hrmsfabric.common.Utils;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 
@@ -71,11 +72,6 @@ public class CandidateServiceImpl implements ICandidateService {
 	private static final String TOTAL_EXPERIENCE = "totalExperience";
 	private static final String RELEVANT_EXPERIENCE = "relevantExperience";
 	private static final String LAST_COMPANY = "lastCompany";
-	private static final String CANDIDATE_SOURCEID = "candidateSourceId";
-	private static final String ONBOARD_STATUSID = "onboardStatus";
-	private static final String FINANCIAL_YEAR = "financialYear";
-	private static final String MARKET_BUSINESSLINE = "marketBusinessLine";
-	private static final String COMPETENCY = "competency";
 	private static final String OFFER_STATUS = "offerStatus";
 
 	@Autowired
@@ -208,7 +204,7 @@ public class CandidateServiceImpl implements ICandidateService {
 	public Candidate updateCandidate(Map<String, Object> candidateRequestMap) throws BaseException {
 		if (candidateRequestMap != null) {
 			if (candidateRequestMap.containsKey(ID) && candidateRequestMap.get(ID) != null) {
-				Long candidateId = Long.valueOf(candidateRequestMap.get(ID).toString());
+				UUID candidateId = UUID.fromString(candidateRequestMap.get(ID).toString());
 				Optional<Candidate> existingCandidate = candidateJPARepository.findById(candidateId);
 				if (existingCandidate.isPresent()) {
 					Candidate candidateObj = existingCandidate.get();
@@ -362,11 +358,10 @@ public class CandidateServiceImpl implements ICandidateService {
 	private void candidateResourceMapper(Map<String, Object> candidateRequestMap, Candidate candidateObj)
 			throws BaseException {
 		if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap, CommonConstants.CSV_CANDIDATE_SOURCE_KEY)) {
-			Long candidateSourceId = Long
-					.valueOf(candidateRequestMap.get(CommonConstants.CSV_CANDIDATE_SOURCE_KEY).toString());
-			Optional<CandidateSources> cs = candidateSourceJPARepository.findById(candidateSourceId);
-			if (cs.isPresent()) {
-				candidateObj.setCandidateSource(cs.get());
+			UUID candidateSourceUUID = UUID.fromString(candidateRequestMap.get(CommonConstants.CSV_CANDIDATE_SOURCE_KEY).toString());
+			Optional<CandidateSources> candidateSource = candidateSourceJPARepository.findById(candidateSourceUUID);
+			if (candidateSource.isPresent()) {
+				candidateObj.setCandidateSource(candidateSource.get());
 			} else {
 				String[] exception = new String[] { "Invalid candidate request, Invalid candidateSourceId passed" };
 				throwException(exception);
@@ -377,11 +372,10 @@ public class CandidateServiceImpl implements ICandidateService {
 	private void onBoardStatusMapper(Map<String, Object> candidateRequestMap, Candidate candidateObj)
 			throws BaseException {
 		if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap, CommonConstants.CSV_ONBOARD_STATUS_KEY)) {
-			Long onboardStatusId = Long
-					.valueOf(candidateRequestMap.get(CommonConstants.CSV_ONBOARD_STATUS_KEY).toString());
-			Optional<OnboardStatus> cs = onboardJPARepository.findById(onboardStatusId);
-			if (cs.isPresent()) {
-				candidateObj.setOnboardStatus(cs.get());
+			UUID onboardStatusUUID = UUID.fromString(candidateRequestMap.get(CommonConstants.CSV_ONBOARD_STATUS_KEY).toString());
+			Optional<OnboardStatus> onboardStatus = onboardJPARepository.findById(onboardStatusUUID);
+			if (onboardStatus.isPresent()) {
+				candidateObj.setOnboardStatus(onboardStatus.get());
 			} else {
 				String[] exception = new String[] { "Invalid candidate request, Invalid Onboard Status passed" };
 				throwException(exception);
@@ -392,11 +386,10 @@ public class CandidateServiceImpl implements ICandidateService {
 	private void financialYearMapper(Map<String, Object> candidateRequestMap, Candidate candidateObj)
 			throws BaseException {
 		if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap, CommonConstants.CSV_FINANCIAL_YEAR_KEY)) {
-			Long financialYearId = Long
-					.valueOf(candidateRequestMap.get(CommonConstants.CSV_FINANCIAL_YEAR_KEY).toString());
-			Optional<FinancialYear> cs = financialYearRepository.findById(financialYearId);
-			if (cs.isPresent()) {
-				candidateObj.setFinancialYear(cs.get());
+			UUID financialYearUUID = UUID.fromString(candidateRequestMap.get(CommonConstants.CSV_FINANCIAL_YEAR_KEY).toString());
+			Optional<FinancialYear> financialYear = financialYearRepository.findById(financialYearUUID);
+			if (financialYear.isPresent()) {
+				candidateObj.setFinancialYear(financialYear.get());
 			} else {
 				String[] exception = new String[] { "Invalid candidate request, Invalid fianancial year passed" };
 				throwException(exception);
@@ -425,11 +418,10 @@ public class CandidateServiceImpl implements ICandidateService {
 
 	private void marketSubBusinessLineMapperInner(Map<String, Object> candidateRequestMap, Candidate candidateObj)
 			throws BaseException {
-		Long subBusinessLine = Long
-				.valueOf(candidateRequestMap.get(CommonConstants.CSV_MARKET_SUB_BUSINESS_LINE_KEY).toString());
-		Optional<SubBusinessLine> cs = marketOfferingSubBusinessLineRepo.findById(subBusinessLine);
-		if (cs.isPresent()) {
-			candidateObj.setSubBusinessLine(cs.get());
+		UUID subBusinessLineUUID = UUID.fromString(candidateRequestMap.get(CommonConstants.CSV_MARKET_SUB_BUSINESS_LINE_KEY).toString());
+		Optional<SubBusinessLine> subBusinessLine = marketOfferingSubBusinessLineRepo.findById(subBusinessLineUUID);
+		if (subBusinessLine.isPresent()) {
+			candidateObj.setSubBusinessLine(subBusinessLine.get());
 		} else {
 			String[] exception = new String[] {
 					"Invalid candidate request, Invalid market offering or sub business line passed" };
@@ -455,10 +447,10 @@ public class CandidateServiceImpl implements ICandidateService {
 
 	private void competencyMapperInner(Map<String, Object> candidateRequestMap, Candidate candidateObj)
 			throws BaseException {
-		Long competencyId = Long.valueOf(candidateRequestMap.get(CommonConstants.CSV_SUB_COMPETENCY_KEY).toString());
-		Optional<SubCompetency> cs = subCompetencyRepository.findById(competencyId);
-		if (cs.isPresent()) {
-			candidateObj.setSubCompetency(cs.get());
+		UUID subCompetencyUUID = UUID.fromString(candidateRequestMap.get(CommonConstants.CSV_SUB_COMPETENCY_KEY).toString());
+		Optional<SubCompetency> subCompetency = subCompetencyRepository.findById(subCompetencyUUID);
+		if (subCompetency.isPresent()) {
+			candidateObj.setSubCompetency(subCompetency.get());
 		} else {
 			String[] exception = new String[] { "Invalid candidate request, Invalid competency passed" };
 			throwException(exception);

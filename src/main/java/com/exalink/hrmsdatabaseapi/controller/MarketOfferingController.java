@@ -1,5 +1,7 @@
 package com.exalink.hrmsdatabaseapi.controller;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -10,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.exalink.hrmsdatabaseapi.BaseException;
-import com.exalink.hrmsdatabaseapi.CommonConstants;
-import com.exalink.hrmsdatabaseapi.ResponseData;
 import com.exalink.hrmsdatabaseapi.service.IMarketOfferingService;
+import com.exalink.hrmsfabric.common.BaseException;
+import com.exalink.hrmsfabric.common.CommonConstants;
+import com.exalink.hrmsfabric.common.ResponseData;
 
 /**
  * @author ankitkverma
@@ -40,7 +42,7 @@ public class MarketOfferingController {
 	@GetMapping(value="/subBusinessLine/byMarketOffering/{marketOffering}", produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public ResponseData listSubBusinessLine(@PathVariable("marketOffering") String marketOffering, @RequestParam(required = false) boolean requestForDropDown) throws BaseException{
-		return new ResponseData(marketOfferingService.listSubBusinesslineByMarketOffering(Long.valueOf(marketOffering), requestForDropDown), CommonConstants.SUCCESS, HttpStatus.OK, null);
+		return new ResponseData(marketOfferingService.listSubBusinesslineByMarketOffering(UUID.fromString(marketOffering), requestForDropDown), CommonConstants.SUCCESS, HttpStatus.OK, null);
 	}
 	
 }

@@ -6,14 +6,13 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.exalink.hrmsdatabaseapi.entity.market.MarketOffering;
+import com.exalink.hrmsdatabaseapi.entity.competency.Competency;
 
 /**
  * @author ankitkverma
  *
  */
 @Repository
-public interface IMarketOfferingRepository extends JpaRepository<MarketOffering, Long>{
-	Optional<MarketOffering> findByMarket(String market);
-	Optional<MarketOffering> findById(UUID id);
+public interface ICompetencyRepository extends JpaRepository<Competency, Long>{
+	Optional<Competency> findById(UUID uuid);
 }

@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import com.exalink.hrmsdatabaseapi.BaseException;
+import com.exalink.hrmsfabric.common.BaseException;
 
 /**
  * @author ankitkverma
@@ -23,4 +23,5 @@ public interface ISQLService {
 	
 	public Object persist(String path, Map<String, Object> requestMap) throws BaseException;
 	public Object update(String path, Map<String, Object> requestMap) throws BaseException;
+	public Object delete(String path, String uuid) throws BaseException;
 }

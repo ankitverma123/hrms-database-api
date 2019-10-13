@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.exalink.hrmsdatabaseapi.BaseException;
-import com.exalink.hrmsdatabaseapi.ResponseData;
 import com.exalink.hrmsdatabaseapi.service.ICandidateService;
+import com.exalink.hrmsfabric.common.BaseException;
+import com.exalink.hrmsfabric.common.ResponseData;
 
 /**
  * @author ankitkverma

@@ -4,16 +4,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.exalink.hrmsdatabaseapi.CommonConstants;
 import com.exalink.hrmsdatabaseapi.entity.market.MarketOffering;
 import com.exalink.hrmsdatabaseapi.entity.market.SubBusinessLine;
 import com.exalink.hrmsdatabaseapi.repository.IMarketOfferingBusinessLineRepository;
 import com.exalink.hrmsdatabaseapi.repository.IMarketOfferingRepository;
 import com.exalink.hrmsdatabaseapi.service.IMarketOfferingService;
+import com.exalink.hrmsfabric.common.CommonConstants;
 
 /**
  * @author ankitkverma
@@ -39,7 +40,7 @@ public class MarketOfferingServiceImpl implements IMarketOfferingService{
 	}
 
 	@Override
-	public Object listSubBusinesslineByMarketOffering(Long marketOfferingId, boolean dropdownRequested) {
+	public Object listSubBusinesslineByMarketOffering(UUID marketOfferingId, boolean dropdownRequested) {
 		List<SubBusinessLine> subBusinessLineList= subBusinessLineRepo.listByMarketOffering(marketOfferingId);
 		if(dropdownRequested) {
 			List<Map<String, Object>> subBusinessLineDropDownCollector = new ArrayList<>();

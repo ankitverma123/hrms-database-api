@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import com.exalink.hrmsdatabaseapi.BaseException;
+import com.exalink.hrmsfabric.common.BaseException;
 
 /**
  * @author ankitkverma

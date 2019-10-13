@@ -8,11 +8,11 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.exalink.hrmsdatabaseapi.BaseException;
-import com.exalink.hrmsdatabaseapi.Utils;
 import com.exalink.hrmsdatabaseapi.entity.candidate.FinancialYear;
 import com.exalink.hrmsdatabaseapi.repository.IFinancialYearRepository;
 import com.exalink.hrmsdatabaseapi.service.IFinancialYearService;
+import com.exalink.hrmsfabric.common.BaseException;
+import com.exalink.hrmsfabric.common.Utils;
 
 /**
  * @author ankitkverma

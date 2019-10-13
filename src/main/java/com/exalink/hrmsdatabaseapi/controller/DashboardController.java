@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.exalink.hrmsdatabaseapi.BaseException;
-import com.exalink.hrmsdatabaseapi.ResponseData;
 import com.exalink.hrmsdatabaseapi.model.ChartRequestModel;
 import com.exalink.hrmsdatabaseapi.service.IDashboardService;
+import com.exalink.hrmsfabric.common.BaseException;
+import com.exalink.hrmsfabric.common.ResponseData;
 
 /**
  * @author ankitkverma

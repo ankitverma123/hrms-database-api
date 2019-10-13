@@ -2,6 +2,7 @@ package com.exalink.hrmsdatabaseapi.repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -19,12 +20,12 @@ import com.exalink.hrmsdatabaseapi.entity.candidate.CandidateSources;
 public interface ICandidateSourceRepository extends JpaRepository<CandidateSources, Long>, JpaSpecificationExecutor<CandidateSources>{
 	
 	@Query("SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM CandidateSources c WHERE c.id = :id")
-    boolean candidateSourceExistance(@Param("id") Long id);
+    boolean candidateSourceExistance(@Param("id") UUID id);
 	
 	@Query("SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM CandidateSources c WHERE c.candidateSource = :name")
     boolean candidateSourceExistance(@Param("name") String name);
 	
-    Optional<CandidateSources> findById(Long id);
+    Optional<CandidateSources> findById(UUID id);
     
     Optional<CandidateSources> findByCandidateSource(String name);
     
