@@ -27,6 +27,7 @@ import com.exalink.hrmsdatabaseapi.entity.market.MarketOffering;
 import com.exalink.hrmsdatabaseapi.entity.offer.OfferDeclineCategory;
 import com.exalink.hrmsdatabaseapi.entity.offer.OfferStatus;
 import com.exalink.hrmsdatabaseapi.repository.ICandidateSourceRepository;
+import com.exalink.hrmsdatabaseapi.repository.IFileTrackingRepository;
 import com.exalink.hrmsdatabaseapi.repository.IFinancialYearRepository;
 import com.exalink.hrmsdatabaseapi.repository.IMarketOfferingRepository;
 import com.exalink.hrmsdatabaseapi.repository.IOfferDeclineRepository;
@@ -62,6 +63,9 @@ public class SQLServiceImpl implements ISQLService {
 
 	@Autowired
 	private IMarketOfferingRepository marketOfferingRepository;
+	
+	@Autowired
+	private IFileTrackingRepository fileTrackingRepository;
 
 	private static final String ID = "id";
 	private static final String MARKET = "market";
@@ -303,6 +307,11 @@ public class SQLServiceImpl implements ISQLService {
 					throwException(exception);
 				}
 				return marketOfferingRepository.save(obj);
+			}
+		} else if(path.equals(CommonConstants.FILE_TRACKING)) {
+			FileTracking obj = new ObjectMapper().convertValue(requestMap, FileTracking.class);
+			if (obj != null && !obj.getDocumentUUID().isEmpty() && !obj.getFileName().isEmpty()) {
+				return fileTrackingRepository.save(obj);
 			}
 		}
 		return null;

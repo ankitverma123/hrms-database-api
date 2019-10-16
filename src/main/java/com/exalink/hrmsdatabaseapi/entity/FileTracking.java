@@ -23,6 +23,9 @@ public class FileTracking extends BaseEntity{
 	@Column(name = "fileName")
 	private String fileName;
 	
+	@Column(name = "documentUUID")
+	private String documentUUID;
+	
 	@Column(name = "fileConsumeState")
 	private String fileConsumeState;
 	
