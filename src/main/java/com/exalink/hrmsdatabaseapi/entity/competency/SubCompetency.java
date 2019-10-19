@@ -9,8 +9,8 @@ import javax.persistence.Table;
 import com.exalink.hrmsfabric.common.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author ankitkverma
@@ -18,8 +18,8 @@ import lombok.EqualsAndHashCode;
  */
 @Entity
 @Table(name="SUB_COMPETENCY")
-@Data
-@EqualsAndHashCode(callSuper=false)
+@Getter
+@Setter
 public class SubCompetency extends BaseEntity{
 
 	@Column(name = "subCompetency")

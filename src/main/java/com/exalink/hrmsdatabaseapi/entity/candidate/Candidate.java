@@ -7,7 +7,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.exalink.hrmsdatabaseapi.entity.competency.Competency;
 import com.exalink.hrmsdatabaseapi.entity.competency.SubCompetency;
+import com.exalink.hrmsdatabaseapi.entity.market.MarketOffering;
 import com.exalink.hrmsdatabaseapi.entity.market.SubBusinessLine;
 import com.exalink.hrmsdatabaseapi.entity.offer.Offer;
 import com.exalink.hrmsfabric.common.BaseEntity;
@@ -78,8 +80,20 @@ public class Candidate extends BaseEntity{
 	@JsonBackReference
 	@ManyToOne (cascade=CascadeType.ALL)  
 	@JsonIgnore
+	@JoinColumn(name="marketOffering", nullable=false)
+	private MarketOffering marketOffering;
+	
+	@JsonBackReference
+	@ManyToOne (cascade=CascadeType.ALL)  
+	@JsonIgnore
 	@JoinColumn(name="subBusinessLine", nullable=false)
 	private SubBusinessLine subBusinessLine;
+	
+	@JsonBackReference
+	@ManyToOne (cascade=CascadeType.ALL)  
+	@JsonIgnore
+	@JoinColumn(name="competency", nullable=false)
+	private Competency competency;
 	
 	@JsonBackReference
 	@ManyToOne (cascade=CascadeType.ALL)  

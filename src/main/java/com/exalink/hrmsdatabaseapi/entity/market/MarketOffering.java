@@ -12,8 +12,8 @@ import javax.persistence.Table;
 import com.exalink.hrmsfabric.common.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author ankitkverma
@@ -21,8 +21,8 @@ import lombok.EqualsAndHashCode;
  */
 @Entity
 @Table(name="MARKET_OFFERING")
-@Data
-@EqualsAndHashCode(callSuper=false)
+@Getter
+@Setter
 public class MarketOffering extends BaseEntity{
 	
 	@Column(name = "market")

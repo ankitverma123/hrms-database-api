@@ -11,8 +11,8 @@ import javax.persistence.Table;
 
 import com.exalink.hrmsfabric.common.BaseEntity;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author ankitkverma
@@ -20,8 +20,8 @@ import lombok.EqualsAndHashCode;
  */
 @Entity
 @Table(name="COMPETENCY")
-@Data
-@EqualsAndHashCode(callSuper=false)
+@Getter
+@Setter
 public class Competency extends BaseEntity{
 	
 	@Column(name = "competency")

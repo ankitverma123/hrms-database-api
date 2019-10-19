@@ -89,8 +89,8 @@ public class JobPostServiceImpl implements IJobPostService {
 						jobPost.setMarketOffering((MarketOffering)entityObject);
 					}
 				} else {
-					String[] exception = new String[] { CommonConstants.INVALID_UUID_ERROR_MESSAGE };
-					throwException(exception);
+					throw new BaseException(CandidateServiceImpl.class,
+							String.format(CommonConstants.INVALID_UUID_ERROR_MESSAGE, "MarketOffering"));
 				}
 			}
 
@@ -103,8 +103,8 @@ public class JobPostServiceImpl implements IJobPostService {
 						jobPost.setSubBusinessLine((SubBusinessLine)entityObject);
 					}
 				} else {
-					String[] exception = new String[] { CommonConstants.INVALID_UUID_ERROR_MESSAGE };
-					throwException(exception);
+					throw new BaseException(CandidateServiceImpl.class,
+							String.format(CommonConstants.INVALID_UUID_ERROR_MESSAGE, "SubBusinessLine"));
 				}
 			}
 
@@ -117,8 +117,8 @@ public class JobPostServiceImpl implements IJobPostService {
 						jobPost.setCompetency((Competency)entityObject);
 					}
 				} else {
-					String[] exception = new String[] { CommonConstants.INVALID_UUID_ERROR_MESSAGE };
-					throwException(exception);
+					throw new BaseException(CandidateServiceImpl.class,
+							String.format(CommonConstants.INVALID_UUID_ERROR_MESSAGE, "Competency"));
 				}
 			}
 
@@ -131,8 +131,8 @@ public class JobPostServiceImpl implements IJobPostService {
 						jobPost.setSubCompetency((SubCompetency)entityObject);
 					}
 				} else {
-					String[] exception = new String[] { CommonConstants.INVALID_UUID_ERROR_MESSAGE };
-					throwException(exception);
+					throw new BaseException(CandidateServiceImpl.class,
+							String.format(CommonConstants.INVALID_UUID_ERROR_MESSAGE, "SubCompetency"));
 				}
 			}
 

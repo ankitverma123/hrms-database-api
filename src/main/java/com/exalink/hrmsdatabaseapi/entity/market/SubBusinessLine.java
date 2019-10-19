@@ -10,8 +10,8 @@ import com.exalink.hrmsfabric.common.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author ankitkverma
@@ -19,8 +19,8 @@ import lombok.EqualsAndHashCode;
  */
 @Entity
 @Table(name="MARKET_SUBBUSINESSLINE")
-@Data
-@EqualsAndHashCode(callSuper=false)
+@Getter
+@Setter
 public class SubBusinessLine extends BaseEntity{
 
 	@Column(name = "subBusinessLine")

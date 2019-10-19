@@ -15,4 +15,5 @@ import com.exalink.hrmsdatabaseapi.entity.competency.Competency;
 @Repository
 public interface ICompetencyRepository extends JpaRepository<Competency, Long>{
 	Optional<Competency> findById(UUID uuid);
+	Optional<Competency> findByCompetency(String competency);
 }
