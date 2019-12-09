@@ -13,5 +13,6 @@ import com.exalink.hrmsfabric.common.BaseException;
 @Service
 public interface IJobPostService {
 	Object save(Map<String, Object> requestMap) throws BaseException;
-	Map<String, Object> queryService(Integer $skip, Integer $top, String sortField, String sortDirection, String $filter) throws BaseException;
+	Object update(Map<String, Object> requestMap) throws BaseException;
+	Map<String, Object> queryService(Integer pageNumber, Integer pageSize, String sortField, String sortDirection, String filter) throws BaseException;
 }

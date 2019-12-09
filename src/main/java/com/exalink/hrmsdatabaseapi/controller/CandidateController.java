@@ -3,11 +3,13 @@ package com.exalink.hrmsdatabaseapi.controller;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.exalink.hrmsdatabaseapi.service.ICandidateService;
 import com.exalink.hrmsfabric.common.BaseException;
 import com.exalink.hrmsfabric.common.ResponseData;
+import com.exalink.hrmsfabric.common.Utils;
 
 /**
  * @author ankitkverma
@@ -47,9 +50,9 @@ public class CandidateController {
 	}
 	
 	@GetMapping(value="/", produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseData listCandidate(@RequestParam Integer $top, @RequestParam Integer $skip, @RequestParam(required = false) String sortDirection, 
-			@RequestParam(required = false) String sortField, @RequestParam(required = false) String $filter) throws BaseException {
-		return new ResponseData(candidateService.listCandidates($skip, $top, sortField, sortDirection, $filter), null, HttpStatus.OK, null);
+	public ResponseData listCandidate(@RequestParam Integer pageNumber, @RequestParam Integer pageSize, @RequestParam(required = false) String sortDirection, 
+			@RequestParam(required = false) String sortField, @RequestParam(required = false) String filter) throws BaseException {
+		return new ResponseData(candidateService.listCandidates(pageNumber, pageSize, sortField, sortDirection, filter), null, HttpStatus.OK, null);
 	}
 	
 	@PostMapping(value = "/csv", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -57,8 +60,10 @@ public class CandidateController {
 		return new ResponseData(candidateService.saveCandidate(file), null, HttpStatus.OK, null);
 	}
 	
-	@PostMapping(value="/offerStatusUpdate", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseData offerStatusUpdate(@RequestBody Map<String, Object> candidateRequestMap) throws BaseException{
-		return new ResponseData(candidateService.offerStatusUpdate(candidateRequestMap), "offer status updated Succesfully", HttpStatus.OK, null);
+	@GetMapping(value="/offerStatus/{candidateId}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseData candidateofferStatus(@PathVariable String candidateId) throws BaseException{
+		if(candidateId == null || candidateId.isEmpty() || !Utils.checkIfUUID(candidateId))
+			throw new BaseException(CandidateController.class, "Invalid candidateId Specified in URL");
+		return new ResponseData(candidateService.candidateOfferStatus(UUID.fromString(candidateId)), "Candidate Offer Status", HttpStatus.OK, null);
 	}
 }

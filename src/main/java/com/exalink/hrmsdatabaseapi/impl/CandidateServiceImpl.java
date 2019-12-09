@@ -165,7 +165,7 @@ public class CandidateServiceImpl implements ICandidateService {
 	}
 
 	@Override
-	public Map<String, Object> listCandidates(Integer skip, Integer top, String sortField, String sortDirection,
+	public Map<String, Object> listCandidates(Integer pageNumber, Integer pageSize, String sortField, String sortDirection,
 			String filter) throws BaseException {
 		List<Predicate> predicates = new ArrayList<>();
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
@@ -185,31 +185,22 @@ public class CandidateServiceImpl implements ICandidateService {
 				query.orderBy(builder.desc(r.get(sortField)));
 			}
 		} else {
-			query.orderBy(builder.desc(r.get("id")));
+			query.orderBy(builder.desc(r.get(CommonConstants.ID)));
 		}
-
-		List<Candidate> result = entityManager.createQuery(query).setFirstResult(skip).setMaxResults(top)
+		
+		List<Candidate> result = entityManager.createQuery(query).setFirstResult((pageNumber-1) * pageSize).setMaxResults(pageSize)
 				.getResultList();
 		for (Candidate candidate : result) {
 			candidate.setFullName((candidate.getFirstName() == null ? "" : candidate.getFirstName())
 					.concat(candidate.getMiddleName() == null ? " " : " " + candidate.getMiddleName())
 					.concat(candidate.getLastName() == null ? " " : " " + candidate.getLastName()));
-			candidate.setSourceName(
-					candidate.getCandidateSource() != null ? candidate.getCandidateSource().getCandidateSource()
-							: "--");
-			candidate.setOnboardStatusValue(
-					candidate.getOnboardStatus() != null ? candidate.getOnboardStatus().getOnboardStatus() : "--");
-			candidate.setMarketOfferingBusinessLine(candidate.getSubBusinessLine() != null
-					? candidate.getSubBusinessLine().getMarketOffering().getMarket()
-					: "--");
-			candidate.setCompetencyValue(
-					candidate.getSubCompetency() != null ? candidate.getSubCompetency().getSubCompetency() : "--");
 		}
 		int totalCount = entityManager.createQuery(query).getResultList().size();
 
 		Map<String, Object> dataToBeReturned = new HashMap<>();
 		dataToBeReturned.put(CommonConstants.RESULTS, result);
 		dataToBeReturned.put(CommonConstants.TOTAL_COUNT, totalCount);
+		dataToBeReturned.put(CommonConstants.LAST_PAGE, (int)((totalCount/pageSize)+1));
 
 		return dataToBeReturned;
 	}
@@ -244,15 +235,14 @@ public class CandidateServiceImpl implements ICandidateService {
 		allData.remove(0);
 
 		int completeData = allData.size();
-		List<Map<String, Object>> candidatesRequestMap = new ArrayList<>();
 		for (int i = 0; i < completeData; i++) {
 			Map<String, Object> candidateMap = populateCandidateMap(allData.get(i), headers);
 			if (candidateMap != null) {
-				candidatesRequestMap.add(candidateMap);
+				saveCandidate(candidateMap);
 			}
 		}
 
-		return saveCandidate(candidatesRequestMap);
+		return "Candidate saved successfully";
 	}
 
 	private void throwException(String[] exception) throws BaseException {
@@ -673,10 +663,32 @@ public class CandidateServiceImpl implements ICandidateService {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.exalink.hrmsdatabaseapi.service.ICandidateService#candidateOfferStatus(java.util.UUID)
+	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public Object offerStatusUpdate(Map<String, Object> candidateRequestMap) throws BaseException {
-
-		return null;
+	public Object candidateOfferStatus(UUID candidateId) throws BaseException {
+		/*
+		 * This code needs to be reformatted, want to use left outer join so that even if the values 
+		 * are not present in Offer entity then it should return null in those cases.
+		 */
+		StringBuilder sb = new StringBuilder();
+		sb.append("SELECT new map(");
+		sb.append("c.id as id, ");
+		sb.append("c.candidateOfferStatus.comment as offerComment, ");
+		sb.append("c.candidateOfferStatus.status.id as offerStatusSelected, ");
+		sb.append("c.candidateOfferStatus.declineCategory.id as offerDeclineCategory) ");
+		sb.append("FROM Candidate c ");
+		sb.append("WHERE c.id = '"+candidateId+"'");
+		List<Map<String, Object>> resultSet = entityManager.createQuery(sb.toString()).getResultList();
+		if(resultSet.isEmpty()) {
+			Map<String, Object> tempResponse = new HashMap<>();
+			tempResponse.put(CommonConstants.ID, candidateId);
+			return tempResponse;
+		}
+		return resultSet.get(0);
 	}
-
+	
+	
 }

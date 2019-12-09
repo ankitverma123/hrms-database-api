@@ -1,3 +1,4 @@
+MAINTAINER Ankit Verma "ankitkverma@deloitte.com"
 FROM maven:3.6.1-jdk-8-slim AS build
 COPY pom.xml /tmp/
 COPY src /tmp/src/
@@ -19,6 +20,7 @@ WORKDIR /app
 ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-Dspring.profiles.active=container", "-Dserver.port=7661", "-jar", "/app/app.jar"]
 
 #
+# . at the end of docker build command signifies that all the files, folders and sub-folders will be visible to the docker
 # To Create Docker Build From Command Line
 # docker build ./ -t hrms_database
 # To Run Docker Image

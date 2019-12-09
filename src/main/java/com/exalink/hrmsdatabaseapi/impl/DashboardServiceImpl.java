@@ -292,19 +292,19 @@ public class DashboardServiceImpl implements IDashboardService {
 		logger.debug(CLASSNAME + " >> filterCriteriaPopulation() >> Query ");
 		ArrayList<String> joinClauses = new ArrayList<>();
 		ArrayList<String> whereClauses = new ArrayList<>();
-		if (Utils.checkCollectionHasKeyAndValueForFilters(filters, CommonConstants.FILTER_BY_FINANCIAL_YEAR)) {
+		if (Utils.checkCollectionHasKeyAndValueForFilters(filters, CommonConstants.FINANCIAL_YEAR)) {
 			if (requestedString.equals(CommonConstants.JOIN))
 				joinClauses.add(" JOIN financial_year fy ON c.financial_year=fy.id");
 			else if (requestedString.equals(CommonConstants.WHERECLAUSE))
-				whereClauses.add("fy.id='" + filters.get(CommonConstants.FILTER_BY_FINANCIAL_YEAR) + "'");
+				whereClauses.add("fy.id='" + filters.get(CommonConstants.FINANCIAL_YEAR) + "'");
 		}
 
-		if (Utils.checkCollectionHasKeyAndValueForFilters(filters, CommonConstants.FILTER_BY_MARKET_OFFERING)) {
+		if (Utils.checkCollectionHasKeyAndValueForFilters(filters, CommonConstants.MARKET_OFFERING)) {
 			if (requestedString.equals(CommonConstants.JOIN))
 				joinClauses.add(" JOIN market_subbusinessline mbl ON c.sub_business_line=mbl.id");
 			else if (requestedString.equals(CommonConstants.WHERECLAUSE))
 				whereClauses
-						.add("mbl.market_offering='" + filters.get(CommonConstants.FILTER_BY_MARKET_OFFERING) + "'");
+						.add("mbl.market_offering='" + filters.get(CommonConstants.MARKET_OFFERING) + "'");
 		}
 
 		if (requestedString.equals(CommonConstants.JOIN))

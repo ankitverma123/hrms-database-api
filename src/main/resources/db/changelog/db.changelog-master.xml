@@ -35,4 +35,5 @@
 	
 	<include file="quartz/quartz_entities.xml" relativeToChangelogFile="true" />
 
+	<include file="JobPost/init-data-jobPostStatus.xml" relativeToChangelogFile="true" />
 </databaseChangeLog>

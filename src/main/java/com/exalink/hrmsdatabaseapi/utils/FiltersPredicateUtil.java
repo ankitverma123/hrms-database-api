@@ -2,12 +2,18 @@ package com.exalink.hrmsdatabaseapi.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
-import java.util.regex.Pattern;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.metamodel.Attribute;
+
+import com.exalink.hrmsfabric.common.CommonConstants;
+import com.exalink.hrmsfabric.common.Utils;
 
 /**
  * @author ankitkverma
@@ -24,77 +30,72 @@ public class FiltersPredicateUtil {
 	public static List<Predicate> generatePredicatesFilters(CriteriaBuilder builder, Root<?> r, String $filter) {
 		predicates.clear();
 		if ($filter != null) {
-			String[] filtersToBeApplied = $filter.split(" and ");
+			String[] filtersToBeApplied = $filter.split(",");
 			for (String filter : filtersToBeApplied) {
-				if (filter.contains("(") && filter.contains("")) {
-					String subString = filter.substring(filter.indexOf("(") + 1, filter.indexOf(")"));
-					String subStringProperties[] = subString.split(",");
-					String key = subStringProperties[0];
-					String value = subStringProperties[1].substring(1, subStringProperties[1].length() - 1);
-					if (filter.contains("startswith")) {
-						if (r.get(key).getJavaType().getName().equals("java.lang.String")) {
-							predicates.add(builder.like(r.get(key), value + "%"));
-						} else if (r.get(key).getJavaType().getName().equals("java.lang.Long")) {
-							predicates.add(builder.equal(r.get(key), value));
-						}
-					} else if (filter.contains("endswith")) {
-						if (r.get(key).getJavaType().getName().equals("java.lang.String")) {
-							predicates.add(builder.like(r.get(key), "%" + value));
-						} else if (r.get(key).getJavaType().getName().equals("java.lang.Long")) {
-							predicates.add(builder.equal(r.get(key), value));
-						}
-					} else if (filter.contains("indexof") && filter.contains("ge 0")) {
-						if (r.get(key).getJavaType().getName().equals("java.lang.String")) {
-							predicates.add(builder.like(r.get(key), "%" + value + "%"));
-						} else if (r.get(key).getJavaType().getName().equals("java.lang.Long")) {
-							predicates.add(builder.equal(r.get(key), value));
-						}
-					} else if (filter.contains("indexof") && filter.contains("ge -1")) {
-						if (r.get(key).getJavaType().getName().equals("java.lang.String")) {
-							predicates.add(builder.notLike(r.get(key), "%" + value + "%"));
-						} else if (r.get(key).getJavaType().getName().equals("java.lang.Long")) {
-							predicates.add(builder.notEqual(r.get(key), value));
-						}
+				if (filter.contains(" eq ")) {
+					String[] subString = filter.split(" eq ");
+					String columnName = subString[0];
+					String columnValue = subString[1];
+					Boolean uuidStringColumnValue = Utils.checkIfUUID(columnValue);
+					Object value = uuidStringColumnValue ? UUID.fromString(subString[1]) : subString[1];
+					Class<?> attributeClassType = r.getModel().getAttribute(columnName).getJavaType();
+					if(attributeClassType.getName().startsWith("java.lang")) {
+						predicates.add(builder.like(r.get(columnName), "%"+value+"%"));
+					} else {
+						predicates.add(builder.like(filterColumnExpressionIdentifier(columnName, uuidStringColumnValue, r), "%"+value+"%"));
 					}
-				} else {
-					if (filter.contains(" eq ")) {
-						String subString[] = filter.split(" eq ");
-						String columns[] = subString[0].split(",");
-						Object value = checkIfUUID(subString[1]) ? UUID.fromString(subString[1]) : subString[1];
-						if(columns.length==1)
-							predicates.add(builder.equal(r.get(columns[0]), value));
-						else if (columns.length==2)
-							predicates.add(builder.equal(r.get(columns[0]).get(columns[1]), value));
-						else if (columns.length==3)
-							predicates.add(builder.equal(r.get(columns[0]).get(columns[1]).get(columns[2]), value));
-						else if (columns.length==4)
-							predicates.add(builder.equal(r.get(columns[0]).get(columns[1]).get(columns[2]).get(columns[3]), value));
-						else if (columns.length==5)
-							predicates.add(builder.equal(r.get(columns[0]).get(columns[1]).get(columns[2]).get(columns[3]).get(columns[4]), value));
-						else if (columns.length==6)
-							predicates.add(builder.equal(r.get(columns[0]).get(columns[1]).get(columns[2]).get(columns[3]).get(columns[4]).get(columns[5]), value));
-						else if (columns.length==7)
-							predicates.add(builder.equal(r.get(columns[0]).get(columns[1]).get(columns[2]).get(columns[3]).get(columns[4]).get(columns[5]).get(columns[6]), value));
-						else if (columns.length==8)
-							predicates.add(builder.equal(r.get(columns[0]).get(columns[1]).get(columns[2]).get(columns[3]).get(columns[4]).get(columns[5]).get(columns[6]).get(columns[7]), value));
-					} else if (filter.contains(" ne ")) {
-						String subString[] = filter.split(" ne ");
-						String key = subString[0];
-						subString[1] = subString[1].trim();
-						String value = subString[1].substring(1, subString[1].length() - 1);
-						predicates.add(builder.notEqual(r.get(key), value));
+				} else if (filter.contains(" con ")) {
+					String[] subString = filter.split(" con ");
+					String columnName = subString[0];
+					String columnValue = subString[1];
+					Boolean uuidStringColumnValue = Utils.checkIfUUID(columnValue);
+					Object value = uuidStringColumnValue ? UUID.fromString(subString[1]) : subString[1];
+					Class<?> attributeClassType = r.getModel().getAttribute(columnName).getJavaType();
+					if(attributeClassType.getName().startsWith("java.lang")) {
+						predicates.add(builder.like(r.get(columnName), "%"+value+"%"));
+					} else {
+						predicates.add(builder.like(filterColumnExpressionIdentifier(columnName, uuidStringColumnValue, r), "%"+value+"%"));
 					}
 				}
 			}
 		}
-
 		return predicates;
-
 	}
 	
-	protected static boolean checkIfUUID(String uuidString) {
-		Pattern p = Pattern.compile("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$");
-		return p.matcher(uuidString).matches();
+	private static Expression<String> filterColumnExpressionIdentifier(String columnName, Boolean uuidValueSpecified, Root<?> r) {
+		Expression<String> fieldExpression = null;
+		switch (columnName) {
+		case CommonConstants.FINANCIAL_YEAR:
+			fieldExpression = expressionBuilder(CommonConstants.FINANCIAL_YEAR, uuidValueSpecified, r);
+			break;
+		case CommonConstants.CANDIDATE_SOURCE:
+			fieldExpression = expressionBuilder(CommonConstants.CANDIDATE_SOURCE, uuidValueSpecified, r);
+			break;
+		case CommonConstants.COMPETENCY:
+			fieldExpression = expressionBuilder(CommonConstants.COMPETENCY, uuidValueSpecified, r);
+			break;
+		case CommonConstants.SUB_COMPETENCY:
+			fieldExpression = expressionBuilder(CommonConstants.SUB_COMPETENCY, uuidValueSpecified, r);
+			break;
+		case CommonConstants.MARKET_OFFERING:
+			fieldExpression = expressionBuilder(CommonConstants.MARKET_OFFERING, uuidValueSpecified, r);
+			break;
+		case CommonConstants.SUB_BUSINESS_LINE:
+			fieldExpression = expressionBuilder(CommonConstants.SUB_BUSINESS_LINE, uuidValueSpecified, r);
+			break;
+		default:
+			fieldExpression = r.get(columnName);
+			break;
+		}
+		return fieldExpression;
 	}
-
+	
+	private static Expression<String> expressionBuilder(String field, Boolean uuidValueSpecified, Root<?> r) {
+		if(uuidValueSpecified) {
+			return r.get(field).get(CommonConstants.ID);
+		} else {
+			return r.get(field).get(field);
+		}
+	}
+	
 }

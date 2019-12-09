@@ -33,58 +33,58 @@ public class SQLController {
 	
 	@GetMapping(value="/financialYear/", produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseData financialYear(@RequestParam Integer $top, @RequestParam Integer $skip, @RequestParam(required = false) String sortDirection, 
-			@RequestParam(required = false) String sortField, @RequestParam(required = false) String $filter, @RequestParam(required = false) boolean requestForDropDown) throws BaseException{
-		return new ResponseData(sqlService.listFinancialYear($skip, $top, sortField, sortDirection, $filter, requestForDropDown), null, HttpStatus.OK, null);
+	public ResponseData financialYear(@RequestParam Integer pageNumber, @RequestParam Integer pageSize, @RequestParam(required = false) String sortDirection, 
+			@RequestParam(required = false) String sortField, @RequestParam(required = false) String filter, @RequestParam(required = false) boolean requestForDropDown) throws BaseException{
+		return new ResponseData(sqlService.listFinancialYear(pageNumber, pageSize, sortField, sortDirection, filter, requestForDropDown), null, HttpStatus.OK, null);
 	}
 	
 	@GetMapping(value="/candidateSources/", produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseData candidateSources(@RequestParam Integer $top, @RequestParam Integer $skip, @RequestParam(required = false) String sortDirection, 
-			@RequestParam(required = false) String sortField, @RequestParam(required = false) String $filter, @RequestParam(required = false) boolean requestForDropDown) throws BaseException{
-		return new ResponseData(sqlService.listCandidateSources($skip, $top, sortField, sortDirection, $filter, requestForDropDown), null, HttpStatus.OK, null);
+	public ResponseData candidateSources(@RequestParam Integer pageNumber, @RequestParam Integer pageSize, @RequestParam(required = false) String sortDirection, 
+			@RequestParam(required = false) String sortField, @RequestParam(required = false) String filter, @RequestParam(required = false) boolean requestForDropDown) throws BaseException{
+		return new ResponseData(sqlService.listCandidateSources(pageNumber, pageSize, sortField, sortDirection, filter, requestForDropDown), null, HttpStatus.OK, null);
 	}
 	
 	@GetMapping(value="/onboardStatus/", produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseData onboardStatus(@RequestParam Integer $top, @RequestParam Integer $skip, @RequestParam(required = false) String sortDirection, 
-			@RequestParam(required = false) String sortField, @RequestParam(required = false) String $filter, @RequestParam(required = false) boolean requestForDropDown) throws BaseException{
-		return new ResponseData(sqlService.listOnboardStatus($skip, $top, sortField, sortDirection, $filter, requestForDropDown), null, HttpStatus.OK, null);
+	public ResponseData onboardStatus(@RequestParam Integer pageNumber, @RequestParam Integer pageSize, @RequestParam(required = false) String sortDirection, 
+			@RequestParam(required = false) String sortField, @RequestParam(required = false) String filter, @RequestParam(required = false) boolean requestForDropDown) throws BaseException{
+		return new ResponseData(sqlService.listOnboardStatus(pageNumber, pageSize, sortField, sortDirection, filter, requestForDropDown), null, HttpStatus.OK, null);
 	}
 	
 	@GetMapping(value="/offerDeclineCategory/", produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseData offerDeclineCategory(@RequestParam Integer $top, @RequestParam Integer $skip, @RequestParam(required = false) String sortDirection, 
-			@RequestParam(required = false) String sortField, @RequestParam(required = false) String $filter, @RequestParam(required = false) boolean requestForDropDown) throws BaseException{
-		return new ResponseData(sqlService.listOfferDeclineCategories($skip, $top, sortField, sortDirection, $filter, requestForDropDown), null, HttpStatus.OK, null);
+	public ResponseData offerDeclineCategory(@RequestParam Integer pageNumber, @RequestParam Integer pageSize, @RequestParam(required = false) String sortDirection, 
+			@RequestParam(required = false) String sortField, @RequestParam(required = false) String filter, @RequestParam(required = false) boolean requestForDropDown) throws BaseException{
+		return new ResponseData(sqlService.listOfferDeclineCategories(pageNumber, pageSize, sortField, sortDirection, filter, requestForDropDown), null, HttpStatus.OK, null);
 	}
 	
 	@GetMapping(value="/marketOffering/", produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseData marketOffering(@RequestParam Integer $top, @RequestParam Integer $skip, @RequestParam(required = false) String sortDirection, 
-			@RequestParam(required = false) String sortField, @RequestParam(required = false) String $filter, @RequestParam(required = false) boolean requestForDropDown) throws BaseException{
-		return new ResponseData(sqlService.listMarketOffering($skip, $top, sortField, sortDirection, $filter, requestForDropDown), null, HttpStatus.OK, null);
+	public ResponseData marketOffering(@RequestParam Integer pageNumber, @RequestParam Integer pageSize, @RequestParam(required = false) String sortDirection, 
+			@RequestParam(required = false) String sortField, @RequestParam(required = false) String filter, @RequestParam(required = false) boolean requestForDropDown) throws BaseException{
+		return new ResponseData(sqlService.listMarketOffering(pageNumber, pageSize, sortField, sortDirection, filter, requestForDropDown), null, HttpStatus.OK, null);
 	}
 	
 	@GetMapping(value="/competency/", produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseData competency(@RequestParam Integer $top, @RequestParam Integer $skip, @RequestParam(required = false) String sortDirection, 
-			@RequestParam(required = false) String sortField, @RequestParam(required = false) String $filter, @RequestParam(required = false) boolean requestForDropDown) throws BaseException{
-		return new ResponseData(sqlService.listCompetency($skip, $top, sortField, sortDirection, $filter, requestForDropDown), null, HttpStatus.OK, null);
+	public ResponseData competency(@RequestParam Integer pageNumber, @RequestParam Integer pageSize, @RequestParam(required = false) String sortDirection, 
+			@RequestParam(required = false) String sortField, @RequestParam(required = false) String filter, @RequestParam(required = false) boolean requestForDropDown) throws BaseException{
+		return new ResponseData(sqlService.listCompetency(pageNumber, pageSize, sortField, sortDirection, filter, requestForDropDown), null, HttpStatus.OK, null);
 	}
 	
 	@GetMapping(value="/fileTracking/", produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseData fileTrackingList(@RequestParam Integer $top, @RequestParam Integer $skip, @RequestParam(required = false) String sortDirection, 
-			@RequestParam(required = false) String sortField, @RequestParam(required = false) String $filter, @RequestParam(required = false) boolean requestForDropDown) throws BaseException{
-		return new ResponseData(sqlService.listFileTracking($skip, $top, sortField, sortDirection, $filter, requestForDropDown), null, HttpStatus.OK, null);
+	public ResponseData fileTrackingList(@RequestParam Integer pageNumber, @RequestParam Integer pageSize, @RequestParam(required = false) String sortDirection, 
+			@RequestParam(required = false) String sortField, @RequestParam(required = false) String filter, @RequestParam(required = false) boolean requestForDropDown) throws BaseException{
+		return new ResponseData(sqlService.listFileTracking(pageNumber, pageSize, sortField, sortDirection, filter, requestForDropDown), null, HttpStatus.OK, null);
 	}
 	
 	@GetMapping(value="/candidateOfferStatus/", produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseData candidateOfferStatusList(@RequestParam Integer $top, @RequestParam Integer $skip, @RequestParam(required = false) String sortDirection, 
-			@RequestParam(required = false) String sortField, @RequestParam(required = false) String $filter, @RequestParam(required = false) boolean requestForDropDown) throws BaseException{
-		return new ResponseData(sqlService.listCandidateOfferStatus($skip, $top, sortField, sortDirection, $filter, requestForDropDown), null, HttpStatus.OK, null);
+	public ResponseData candidateOfferStatusList(@RequestParam Integer pageNumber, @RequestParam Integer pageSize, @RequestParam(required = false) String sortDirection, 
+			@RequestParam(required = false) String sortField, @RequestParam(required = false) String filter, @RequestParam(required = false) boolean requestForDropDown) throws BaseException{
+		return new ResponseData(sqlService.listCandidateOfferStatus(pageNumber, pageSize, sortField, sortDirection, filter, requestForDropDown), null, HttpStatus.OK, null);
 	}
 	
 	@PutMapping(value="/{path}/", produces=MediaType.APPLICATION_JSON_VALUE)

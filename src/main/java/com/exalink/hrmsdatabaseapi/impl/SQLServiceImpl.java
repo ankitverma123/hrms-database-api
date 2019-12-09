@@ -27,6 +27,7 @@ import com.exalink.hrmsdatabaseapi.entity.market.MarketOffering;
 import com.exalink.hrmsdatabaseapi.entity.offer.OfferDeclineCategory;
 import com.exalink.hrmsdatabaseapi.entity.offer.OfferStatus;
 import com.exalink.hrmsdatabaseapi.repository.ICandidateSourceRepository;
+import com.exalink.hrmsdatabaseapi.repository.ICompetencyRepository;
 import com.exalink.hrmsdatabaseapi.repository.IFileTrackingRepository;
 import com.exalink.hrmsdatabaseapi.repository.IFinancialYearRepository;
 import com.exalink.hrmsdatabaseapi.repository.IMarketOfferingRepository;
@@ -66,6 +67,9 @@ public class SQLServiceImpl implements ISQLService {
 	
 	@Autowired
 	private IFileTrackingRepository fileTrackingRepository;
+	
+	@Autowired
+	private ICompetencyRepository competencyRepository;
 
 	private static final String ID = "id";
 	private static final String MARKET = "market";
@@ -75,7 +79,7 @@ public class SQLServiceImpl implements ISQLService {
 	private static final String FIANNCIAL_YEAR = "financialYear";
 	
 	@Override
-	public Object listFinancialYear(Integer skip, Integer top, String sortField, String sortDirection, String filter,
+	public Object listFinancialYear(Integer pageNumber, Integer pageSize, String sortField, String sortDirection, String filter,
 			boolean requestForDropDown) throws BaseException {
 		List<Predicate> predicates = new ArrayList<>();
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
@@ -94,10 +98,10 @@ public class SQLServiceImpl implements ISQLService {
 			} else if (sortDirection.equals(CommonConstants.SORT_DIRECTION_DESC)) {
 				query.orderBy(builder.desc(r.get(sortField)));
 			}
-		}else {
-			query.orderBy(builder.desc(r.get("updatedAt")));
+		} else {
+			query.orderBy(builder.desc(r.get(CommonConstants.ID)));
 		}
-
+		
 		if (requestForDropDown) {
 			List<FinancialYear> result = entityManager.createQuery(query).getResultList();
 			List<Map<String, Object>> con = new ArrayList<>();
@@ -109,21 +113,21 @@ public class SQLServiceImpl implements ISQLService {
 			}
 			return con;
 		} else {
-			List<FinancialYear> result = entityManager.createQuery(query).setFirstResult(skip).setMaxResults(top)
-					.getResultList();
-
+			List<FinancialYear> result = entityManager.createQuery(query).setFirstResult((pageNumber - 1) * pageSize)
+					.setMaxResults(pageSize).getResultList();
 			int totalCount = entityManager.createQuery(query).getResultList().size();
 
 			Map<String, Object> dataToBeReturned = new HashMap<>();
 			dataToBeReturned.put(CommonConstants.RESULTS, result);
 			dataToBeReturned.put(CommonConstants.TOTAL_COUNT, totalCount);
+			dataToBeReturned.put(CommonConstants.LAST_PAGE, (int) ((totalCount / pageSize) + 1));
 
 			return dataToBeReturned;
 		}
 	}
 
 	@Override
-	public Object listCandidateSources(Integer skip, Integer top, String sortField, String sortDirection, String filter,
+	public Object listCandidateSources(Integer pageNumber, Integer pageSize, String sortField, String sortDirection, String filter,
 			boolean requestForDropDown) throws BaseException {
 		List<Predicate> predicates = new ArrayList<>();
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
@@ -154,7 +158,7 @@ public class SQLServiceImpl implements ISQLService {
 			}
 			return con;
 		} else {
-			List<CandidateSources> result = entityManager.createQuery(query).setFirstResult(skip).setMaxResults(top)
+			List<CandidateSources> result = entityManager.createQuery(query).setFirstResult((pageNumber-1) * pageSize).setMaxResults(pageSize)
 					.getResultList();
 
 			int totalCount = entityManager.createQuery(query).getResultList().size();
@@ -162,13 +166,14 @@ public class SQLServiceImpl implements ISQLService {
 			Map<String, Object> dataToBeReturned = new HashMap<>();
 			dataToBeReturned.put(CommonConstants.RESULTS, result);
 			dataToBeReturned.put(CommonConstants.TOTAL_COUNT, totalCount);
+			dataToBeReturned.put(CommonConstants.LAST_PAGE, (int)((totalCount/pageSize)+1));
 
 			return dataToBeReturned;
 		}
 	}
 
 	@Override
-	public Object listOnboardStatus(Integer skip, Integer top, String sortField, String sortDirection, String filter,
+	public Object listOnboardStatus(Integer pageNumber, Integer pageSize, String sortField, String sortDirection, String filter,
 			boolean requestForDropDown) throws BaseException {
 		List<Predicate> predicates = new ArrayList<>();
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
@@ -200,7 +205,7 @@ public class SQLServiceImpl implements ISQLService {
 			}
 			return con;
 		} else {
-			List<OnboardStatus> result = entityManager.createQuery(query).setFirstResult(skip).setMaxResults(top)
+			List<OnboardStatus> result = entityManager.createQuery(query).setFirstResult((pageNumber-1) * pageSize).setMaxResults(pageSize)
 					.getResultList();
 
 			int totalCount = entityManager.createQuery(query).getResultList().size();
@@ -208,13 +213,14 @@ public class SQLServiceImpl implements ISQLService {
 			Map<String, Object> dataToBeReturned = new HashMap<>();
 			dataToBeReturned.put(CommonConstants.RESULTS, result);
 			dataToBeReturned.put(CommonConstants.TOTAL_COUNT, totalCount);
+			dataToBeReturned.put(CommonConstants.LAST_PAGE, (int)((totalCount/pageSize)+1));
 
 			return dataToBeReturned;
 		}
 	}
 
 	@Override
-	public Object listOfferDeclineCategories(Integer skip, Integer top, String sortField, String sortDirection,
+	public Object listOfferDeclineCategories(Integer pageNumber, Integer pageSize, String sortField, String sortDirection,
 			String filter, boolean requestForDropDown) throws BaseException {
 		List<Predicate> predicates = new ArrayList<>();
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
@@ -247,7 +253,7 @@ public class SQLServiceImpl implements ISQLService {
 			}
 			return con;
 		}else {
-			List<OfferDeclineCategory> result = entityManager.createQuery(query).setFirstResult(skip).setMaxResults(top)
+			List<OfferDeclineCategory> result = entityManager.createQuery(query).setFirstResult((pageNumber-1) * pageSize).setMaxResults(pageSize)
 					.getResultList();
 
 			int totalCount = entityManager.createQuery(query).getResultList().size();
@@ -255,6 +261,7 @@ public class SQLServiceImpl implements ISQLService {
 			Map<String, Object> dataToBeReturned = new HashMap<>();
 			dataToBeReturned.put(CommonConstants.RESULTS, result);
 			dataToBeReturned.put(CommonConstants.TOTAL_COUNT, totalCount);
+			dataToBeReturned.put(CommonConstants.LAST_PAGE, (int)((totalCount/pageSize)+1));
 
 			return dataToBeReturned;
 		}
@@ -313,6 +320,11 @@ public class SQLServiceImpl implements ISQLService {
 			if (obj != null && !obj.getDocumentUUID().isEmpty() && !obj.getFileName().isEmpty()) {
 				return fileTrackingRepository.save(obj);
 			}
+		} else if(path.equals(CommonConstants.COMPETENCY)) {
+			Competency obj = new ObjectMapper().convertValue(requestMap, Competency.class);
+			if (obj != null && !obj.getCompetency().isEmpty()) {
+				return competencyRepository.save(obj);
+			}
 		}
 		return null;
 	}
@@ -322,7 +334,7 @@ public class SQLServiceImpl implements ISQLService {
 	}
 
 	@Override
-	public Object listMarketOffering(Integer skip, Integer top, String sortField, String sortDirection, String filter,
+	public Object listMarketOffering(Integer pageNumber, Integer pageSize, String sortField, String sortDirection, String filter,
 			boolean requestForDropDown) throws BaseException {
 		List<Predicate> predicates = new ArrayList<>();
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
@@ -354,21 +366,32 @@ public class SQLServiceImpl implements ISQLService {
 			}
 			return con;
 		} else {
-			List<MarketOffering> result = entityManager.createQuery(query).setFirstResult(skip).setMaxResults(top)
+			List<MarketOffering> result = entityManager.createQuery(query).setFirstResult((pageNumber-1) * pageSize).setMaxResults(pageSize)
 					.getResultList();
 
 			int totalCount = entityManager.createQuery(query).getResultList().size();
-
+			
+			List<Map<String, Object>> results = new ArrayList<>();
+			for(MarketOffering mo : result) {
+				Map<String, Object> map = new HashMap<>();
+				map.put(CommonConstants.ID, mo.getId());
+				map.put("market", mo.getMarket());
+				map.put("isActive", mo.getIsActive());
+				map.put("subBusinessLine", mo.getSubBusinessLine());
+				results.add(map);
+			}
+			
 			Map<String, Object> dataToBeReturned = new HashMap<>();
-			dataToBeReturned.put(CommonConstants.RESULTS, result);
+			dataToBeReturned.put(CommonConstants.RESULTS, results);
 			dataToBeReturned.put(CommonConstants.TOTAL_COUNT, totalCount);
+			dataToBeReturned.put(CommonConstants.LAST_PAGE, (int)((totalCount/pageSize)+1));
 
 			return dataToBeReturned;
 		}
 	}
 
 	@Override
-	public Object listCompetency(Integer skip, Integer top, String sortField, String sortDirection, String filter,
+	public Object listCompetency(Integer pageNumber, Integer pageSize, String sortField, String sortDirection, String filter,
 			boolean requestForDropDown) throws BaseException {
 		List<Predicate> predicates = new ArrayList<>();
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
@@ -399,7 +422,7 @@ public class SQLServiceImpl implements ISQLService {
 			}
 			return con;
 		} else {
-			List<Competency> result = entityManager.createQuery(query).setFirstResult(skip).setMaxResults(top)
+			List<Competency> result = entityManager.createQuery(query).setFirstResult((pageNumber-1) * pageSize).setMaxResults(pageSize)
 					.getResultList();
 
 			int totalCount = entityManager.createQuery(query).getResultList().size();
@@ -407,13 +430,14 @@ public class SQLServiceImpl implements ISQLService {
 			Map<String, Object> dataToBeReturned = new HashMap<>();
 			dataToBeReturned.put(CommonConstants.RESULTS, result);
 			dataToBeReturned.put(CommonConstants.TOTAL_COUNT, totalCount);
+			dataToBeReturned.put(CommonConstants.LAST_PAGE, (int)((totalCount/pageSize)+1));
 
 			return dataToBeReturned;
 		}
 	}
 
 	@Override
-	public Object listFileTracking(Integer skip, Integer top, String sortField, String sortDirection, String filter,
+	public Object listFileTracking(Integer pageNumber, Integer pageSize, String sortField, String sortDirection, String filter,
 			boolean requestForDropDown) throws BaseException {
 		List<Predicate> predicates = new ArrayList<>();
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
@@ -434,7 +458,7 @@ public class SQLServiceImpl implements ISQLService {
 			}
 		}
 		
-		List<FileTracking> result = entityManager.createQuery(query).setFirstResult(skip).setMaxResults(top)
+		List<FileTracking> result = entityManager.createQuery(query).setFirstResult((pageNumber-1) * pageSize).setMaxResults(pageSize)
 				.getResultList();
 
 		int totalCount = entityManager.createQuery(query).getResultList().size();
@@ -442,13 +466,14 @@ public class SQLServiceImpl implements ISQLService {
 		Map<String, Object> dataToBeReturned = new HashMap<>();
 		dataToBeReturned.put(CommonConstants.RESULTS, result);
 		dataToBeReturned.put(CommonConstants.TOTAL_COUNT, totalCount);
+		dataToBeReturned.put(CommonConstants.LAST_PAGE, (int)((totalCount/pageSize)+1));
 
 		return dataToBeReturned;
 
 	}
 
 	@Override
-	public Object listCandidateOfferStatus(Integer skip, Integer top, String sortField, String sortDirection,
+	public Object listCandidateOfferStatus(Integer pageNumber, Integer pageSize, String sortField, String sortDirection,
 			String filter, boolean requestForDropDown) throws BaseException {
 		List<Predicate> predicates = new ArrayList<>();
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
@@ -480,13 +505,14 @@ public class SQLServiceImpl implements ISQLService {
 			}
 			return con;
 		}else {
-			List<OfferStatus> result = entityManager.createQuery(query).setFirstResult(skip).setMaxResults(top)
+			List<OfferStatus> result = entityManager.createQuery(query).setFirstResult((pageNumber-1) * pageSize).setMaxResults(pageSize)
 					.getResultList();
 			int totalCount = entityManager.createQuery(query).getResultList().size();
 
 			Map<String, Object> dataToBeReturned = new HashMap<>();
 			dataToBeReturned.put(CommonConstants.RESULTS, result);
 			dataToBeReturned.put(CommonConstants.TOTAL_COUNT, totalCount);
+			dataToBeReturned.put(CommonConstants.LAST_PAGE, (int)((totalCount/pageSize)+1));
 
 			return dataToBeReturned;
 		}
@@ -595,6 +621,10 @@ public class SQLServiceImpl implements ISQLService {
 		case CommonConstants.CANDIDATE:
 			entityUUID = UUID.fromString(uuid);
 			query+="DELETE FROM Candidate Where id = '"+entityUUID+"'";
+			break;
+		case CommonConstants.COMPETENCY:
+			entityUUID = UUID.fromString(uuid);
+			query+="DELETE FROM Competency where id = '"+entityUUID+"'";
 			break;
 		default:
 				break;

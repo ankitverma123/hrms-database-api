@@ -84,8 +84,15 @@ public class JobPost extends BaseEntity{
 	@Lob
 	private String additionalComments;
 	
+	@JsonBackReference
+	@ManyToOne (cascade=CascadeType.ALL)  
+	@JsonIgnore
+	@JoinColumn(name="status", nullable=false)
+	private JobPostStatus status;
+	
 	private transient String marketOfferingTitle;
 	private transient String marketOfferingSubBusinessLineTitle;
 	private transient String competencyTitle;
 	private transient String subCompetencyTitle;
+	private transient String jobPostStatus;
 }
