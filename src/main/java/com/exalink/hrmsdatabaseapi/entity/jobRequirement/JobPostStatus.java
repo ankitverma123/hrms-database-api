@@ -4,7 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import com.exalink.hrmsfabric.common.BaseEntity;
+import com.exalink.hrmsdatabaseapi.entity.BaseEntity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

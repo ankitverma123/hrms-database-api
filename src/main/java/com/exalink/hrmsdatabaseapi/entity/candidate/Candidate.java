@@ -7,12 +7,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.exalink.hrmsdatabaseapi.entity.BaseEntity;
 import com.exalink.hrmsdatabaseapi.entity.competency.Competency;
 import com.exalink.hrmsdatabaseapi.entity.competency.SubCompetency;
 import com.exalink.hrmsdatabaseapi.entity.market.MarketOffering;
 import com.exalink.hrmsdatabaseapi.entity.market.SubBusinessLine;
 import com.exalink.hrmsdatabaseapi.entity.offer.Offer;
-import com.exalink.hrmsfabric.common.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
