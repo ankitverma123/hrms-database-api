@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<changeSet id='validation_codes_1' author='db_script'>
+
+		<insert tableName='validation_codes'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='code' value="BD0" />
+			<column name='type' value="Business" />
+			<column name='meaning' value="Candidate source missing or not valid as specified by the platform" />
+		</insert>
+		
+		<insert tableName='validation_codes'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='code' value="BD1" />
+			<column name='type' value="Business" />
+			<column name='meaning' value="Financial year missing or not valid as specified by the platform" />
+		</insert>
+		
+		<insert tableName='validation_codes'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='code' value="BD2" />
+			<column name='type' value="Business" />
+			<column name='meaning' value="Market offering missing or not valid as specified by the platform" />
+		</insert>
+		
+		<insert tableName='validation_codes'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='code' value="BD3" />
+			<column name='type' value="Business" />
+			<column name='meaning' value="Market offering sub business line missing or not valid as specified by the platform" />
+		</insert>
+		
+		<insert tableName='validation_codes'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='code' value="BD4" />
+			<column name='type' value="Business" />
+			<column name='meaning' value="Competency missing from the transaction or not a valid competency specified by the platform" />
+		</insert>
+		
+		<insert tableName='validation_codes'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='code' value="BD5" />
+			<column name='type' value="Business" />
+			<column name='meaning' value="Sub competency missing from the transaction or not a valid sub competency specified by the platform" />
+		</insert>
+		
+		<insert tableName='validation_codes'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='code' value="BD6" />
+			<column name='type' value="Business" />
+			<column name='meaning' value="Level is missing from the transaction or not a valid level specified by the platform" />
+		</insert>
+		
+		<insert tableName='validation_codes'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='code' value="BD7" />
+			<column name='type' value="Business" />
+			<column name='meaning' value="Business entity missing from the transaction or not a valid business entity as specified by the platform" />
+		</insert>
+		
+		<insert tableName='validation_codes'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='code' value="BD7" />
+			<column name='type' value="Business" />
+			<column name='meaning' value="Department is missing from the transaction or not a valid department as specified by the platform" />
+		</insert>
+		
+		<insert tableName='validation_codes'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='code' value="GD0" />
+			<column name='type' value="General" />
+			<column name='meaning' value="Name is missing from the transaction, atleast one name needs to be specified either first name or middle name or last name" />
+		</insert>
+		
+		<insert tableName='validation_codes'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='code' value="GD1" />
+			<column name='type' value="General" />
+			<column name='meaning' value="Contact is missing from the transaction, atleast one contact number needs to be specified either primary or secondary" />
+		</insert>
+		
+		<insert tableName='validation_codes'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='code' value="GD2" />
+			<column name='type' value="General" />
+			<column name='meaning' value="Gender is missing from the transaction, Please specify the gender Male/Female" />
+		</insert>
+		
+		<insert tableName='validation_codes'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='code' value="GD3" />
+			<column name='type' value="General" />
+			<column name='meaning' value="Gender is missing from the transaction, Please specify the gender Male/Female" />
+		</insert>
+	</changeSet>
+	
+
+
+</databaseChangeLog>

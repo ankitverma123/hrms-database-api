@@ -8,6 +8,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.exalink.hrmsdatabaseapi.entity.BaseEntity;
+import com.exalink.hrmsdatabaseapi.entity.BusinessEntity;
+import com.exalink.hrmsdatabaseapi.entity.Department;
+import com.exalink.hrmsdatabaseapi.entity.Level;
 import com.exalink.hrmsdatabaseapi.entity.competency.Competency;
 import com.exalink.hrmsdatabaseapi.entity.competency.SubCompetency;
 import com.exalink.hrmsdatabaseapi.entity.market.MarketOffering;
@@ -62,43 +65,43 @@ public class Candidate extends BaseEntity{
 	@JsonBackReference
 	@ManyToOne (cascade=CascadeType.ALL)  
 	@JsonIgnore
-	@JoinColumn(name="candidateSource", nullable=false)
+	@JoinColumn(name="candidateSource")
 	private CandidateSources candidateSource;
 	
 	@JsonBackReference
 	@ManyToOne (cascade=CascadeType.ALL)  
 	@JsonIgnore
-	@JoinColumn(name="financialYear", nullable=false)
+	@JoinColumn(name="financialYear")
 	private FinancialYear financialYear;
 	
 	@JsonBackReference
 	@ManyToOne (cascade=CascadeType.ALL)  
 	@JsonIgnore
-	@JoinColumn(name="onboardStatus", nullable=false)
+	@JoinColumn(name="onboardStatus")
 	private OnboardStatus onboardStatus;
 	
 	@JsonBackReference
 	@ManyToOne (cascade=CascadeType.ALL)  
 	@JsonIgnore
-	@JoinColumn(name="marketOffering", nullable=false)
+	@JoinColumn(name="marketOffering")
 	private MarketOffering marketOffering;
 	
 	@JsonBackReference
 	@ManyToOne (cascade=CascadeType.ALL)  
 	@JsonIgnore
-	@JoinColumn(name="subBusinessLine", nullable=false)
+	@JoinColumn(name="subBusinessLine")
 	private SubBusinessLine subBusinessLine;
 	
 	@JsonBackReference
 	@ManyToOne (cascade=CascadeType.ALL)  
 	@JsonIgnore
-	@JoinColumn(name="competency", nullable=false)
+	@JoinColumn(name="competency")
 	private Competency competency;
 	
 	@JsonBackReference
 	@ManyToOne (cascade=CascadeType.ALL)  
 	@JsonIgnore
-	@JoinColumn(name="subCompetency", nullable=false)
+	@JoinColumn(name="subCompetency")
 	private SubCompetency subCompetency;
 	
 	@JsonBackReference
@@ -106,6 +109,24 @@ public class Candidate extends BaseEntity{
 	@JsonIgnore
 	@JoinColumn(name="candidateOfferStatus")
 	private Offer candidateOfferStatus;
+	
+	@JsonBackReference
+	@ManyToOne (cascade=CascadeType.ALL)  
+	@JsonIgnore
+	@JoinColumn(name="businessEntity")
+	private BusinessEntity businessEntity;
+	
+	@JsonBackReference
+	@ManyToOne (cascade=CascadeType.ALL)  
+	@JsonIgnore
+	@JoinColumn(name="department")
+	private Department department;
+	
+	@JsonBackReference
+	@ManyToOne (cascade=CascadeType.ALL)  
+	@JsonIgnore
+	@JoinColumn(name="level")
+	private Level level;
 	
 	private transient String fullName;
 	private transient String sourceName;

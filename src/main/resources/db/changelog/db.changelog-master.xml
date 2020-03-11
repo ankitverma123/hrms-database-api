@@ -36,4 +36,14 @@
 	<include file="quartz/quartz_entities.xml" relativeToChangelogFile="true" />
 
 	<include file="JobPost/init-data-jobPostStatus.xml" relativeToChangelogFile="true" />
+	
+	<include file="businessEntity/init-data-business_entity.xml" relativeToChangelogFile="true" />
+	
+	<include file="department/init-data-department.xml" relativeToChangelogFile="true" />
+	
+	<include file="level/init-data-level.xml" relativeToChangelogFile="true" />
+	
+	<include file="dashboard/init-data-dashboard.xml" relativeToChangelogFile="true" />
+	<include file="dashboard/init-data-dashboard-structure.xml" relativeToChangelogFile="true" />
+	<include file="dashboard/init-data-dashboard-structure-comparison.xml" relativeToChangelogFile="true" />
 </databaseChangeLog>

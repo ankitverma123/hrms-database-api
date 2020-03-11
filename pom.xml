@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>com.exalink</groupId>
 	<artifactId>hrms-database-api</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>hrms-database-api</name>
 	<description>Demo project for Spring Boot</description>
 	<packaging>jar</packaging>
@@ -61,6 +61,12 @@
 			<groupId>com.opencsv</groupId>
 			<artifactId>opencsv</artifactId>
 			<version>4.5</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.reflections/reflections -->
+		<dependency>
+		    <groupId>org.reflections</groupId>
+		    <artifactId>reflections</artifactId>
+		    <version>0.9.8</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

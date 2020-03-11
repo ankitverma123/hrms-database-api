@@ -2,6 +2,7 @@ package com.exalink.hrmsdatabaseapi.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,11 +57,20 @@ public class EchartServiceImpl implements IEchartService {
 
 	@Value("${charts.multibarchart}")
 	private String multibarchart;
+	
+	@Value("${charts.comparisonHorizontalChart}")
+	private String comparisonHorizontalChart;
+	
+	
+	private Map<String, String> formatter() {
+		Map<String, String> formatter = new HashMap<String, String>();
+		formatter.put("formatter", "{b} : {c} ({d}%)");
+		return formatter;
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Object convertToBarChart(List<Map<String, Object>> chartData, ChartRequestModel crb) {
-		logger.debug(CLASSNAME + " >> convertToBarChart() >> START");
+	public Object convertToBarChart(List<Map<String, Object>> chartData, String legendKey, String xAxisKey, String title, String subTitle) {
 		/*
 		 * Bar Chart Sample
 		 * https://echarts.apache.org/examples/en/editor.html?c=bar-simple
@@ -68,14 +78,18 @@ public class EchartServiceImpl implements IEchartService {
 		List<String> xAxisData = new ArrayList<>();
 		List<Integer> yAxisData = new ArrayList<>();
 		chartData.forEach(mapObject -> {
-			xAxisData.add(mapObject.get(LABEL).toString());
-			if (mapObject.get(VALUE) instanceof BigDecimal)
-				yAxisData.add(((BigDecimal) mapObject.get(VALUE)).intValue());
-			if (mapObject.get(VALUE) instanceof Long)
-				yAxisData.add(Integer.parseInt(mapObject.get(VALUE).toString()));
-			else
-				yAxisData.add((int) mapObject.get(VALUE));
+			if(mapObject.get(xAxisKey)!=null && mapObject.get(VALUE)!=null) {
+				xAxisData.add(mapObject.get(xAxisKey).toString());
+				if (mapObject.get(VALUE) instanceof BigDecimal)
+					yAxisData.add(((BigDecimal) mapObject.get(VALUE)).intValue());
+				if (mapObject.get(VALUE) instanceof Long)
+					yAxisData.add(Integer.parseInt(mapObject.get(VALUE).toString()));
+				else
+					yAxisData.add((int) mapObject.get(VALUE));
+			}
 		});
+		
+		List<String> legends = Utils.keyExtractorFromCollection(chartData, legendKey).stream().collect(Collectors.toList());
 
 		ObjectMapper mapper = new ObjectMapper();
 		try {
@@ -84,13 +98,11 @@ public class EchartServiceImpl implements IEchartService {
 					xAxisData);
 			((Map<String, Object>) ((List<Object>) chartStaticJsonCollectionHolder.get(SERIES)).get(0)).put(DATA,
 					yAxisData);
-			((Map<String, Object>) chartStaticJsonCollectionHolder.get(LEGEND)).put(DATA,
-					Utils.labelListExtractor(chartData));
-			populateTitleAndSubTitle(chartStaticJsonCollectionHolder, crb);
-			populateSeriesName(chartStaticJsonCollectionHolder, crb);
+			((Map<String, Object>) chartStaticJsonCollectionHolder.get(LEGEND)).put(DATA, legends);
+			populateTitleAndSubTitle(chartStaticJsonCollectionHolder, title, subTitle);
 			return chartStaticJsonCollectionHolder;
 		} catch (Exception e) {
-			logger.debug(CLASSNAME + " >> convertToBarChart() >> Exception= "+e.getMessage());
+			logger.error(e);
 		}
 		return chartData;
 	}
@@ -98,11 +110,11 @@ public class EchartServiceImpl implements IEchartService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object convertToPieChart(List<Map<String, Object>> chartData, ChartRequestModel crb) {
-		logger.debug(CLASSNAME + " >> convertToPieChart() >> START");
 		/*
 		 * Pie Chart Sample
 		 * https://echarts.apache.org/examples/en/editor.html?c=pie-custom
 		 */
+		
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			HashMap<String, Object> chartStaticJsonCollectionHolder = mapper.readValue(pieChart, HashMap.class);
@@ -110,7 +122,7 @@ public class EchartServiceImpl implements IEchartService {
 					Utils.nameValuePairGenerator(chartData));
 			((Map<String, Object>) chartStaticJsonCollectionHolder.get(LEGEND)).put(DATA,
 					Utils.labelListExtractor(chartData));
-			populateTitleAndSubTitle(chartStaticJsonCollectionHolder, crb);
+			populateTitleAndSubTitle(chartStaticJsonCollectionHolder, null, null);
 			populateSeriesName(chartStaticJsonCollectionHolder, crb);
 			return chartStaticJsonCollectionHolder;
 		} catch (Exception e) {
@@ -122,7 +134,6 @@ public class EchartServiceImpl implements IEchartService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object convertToDoughnutChart(List<Map<String, Object>> chartData, ChartRequestModel crb) {
-		logger.debug(CLASSNAME + " >> convertToDoughnutChart() >> START");
 		/*
 		 * Doughnut Chart Sample
 		 * https://echarts.apache.org/examples/en/editor.html?c=pie-doughnut
@@ -134,18 +145,18 @@ public class EchartServiceImpl implements IEchartService {
 					Utils.nameValuePairGenerator(chartData));
 			((Map<String, Object>) chartStaticJsonCollectionHolder.get(LEGEND)).put(DATA,
 					Utils.labelListExtractor(chartData));
-			populateTitleAndSubTitle(chartStaticJsonCollectionHolder, crb);
+			populateTitleAndSubTitle(chartStaticJsonCollectionHolder, null, null);
 			populateSeriesName(chartStaticJsonCollectionHolder, crb);
 			return chartStaticJsonCollectionHolder;
 		} catch (Exception e) {
-			logger.debug(CLASSNAME + " >> convertToDoughnutChart() >> Exception= "+e.getMessage());
+			logger.error(e);
 		}
 		return chartData;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Object convertToSimplePieChart(List<Map<String, Object>> chartData, ChartRequestModel crb) {
+	public Object convertToSimplePieChart(List<Map<String, Object>> chartData, String legendKey, String xAxisKey, String title, String subTitle) {
 		logger.debug(CLASSNAME + " >> convertToSimplePieChart() >> START");
 		/*
 		 * Doughnut Chart Sample
@@ -154,12 +165,25 @@ public class EchartServiceImpl implements IEchartService {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			HashMap<String, Object> chartStaticJsonCollectionHolder = mapper.readValue(simplePieChart, HashMap.class);
-			((Map<String, Object>) ((List<Object>) chartStaticJsonCollectionHolder.get(SERIES)).get(0)).put(DATA,
-					Utils.nameValuePairGenerator(chartData));
-			((Map<String, Object>) chartStaticJsonCollectionHolder.get(LEGEND)).put(DATA,
-					Utils.labelListExtractor(chartData));
-			populateTitleAndSubTitle(chartStaticJsonCollectionHolder, crb);
-			populateSeriesName(chartStaticJsonCollectionHolder, crb);
+			populateTitleAndSubTitle(chartStaticJsonCollectionHolder, title, subTitle);
+			
+			List<String> legends = Utils.keyExtractorFromCollection(chartData, legendKey).stream().collect(Collectors.toList());
+			((Map<String, Object>) chartStaticJsonCollectionHolder.get(LEGEND)).put(DATA,legends);
+			
+			List<Map<String, Object>> chartDataFormatted = new ArrayList<>();
+			for(Map<String, Object> obj : chartData) {
+				Map<String, Object> mapObj = new HashMap<>();
+				if(obj.get(xAxisKey)!=null && obj.get(VALUE)!=null) {
+					mapObj.put(CommonConstants.NAME, (String)obj.get(xAxisKey));
+					mapObj.put(VALUE, obj.get(VALUE));
+					mapObj.put(LABEL, formatter());
+					chartDataFormatted.add(mapObj);
+				}
+			}
+			((Map<String, Object>) ((List<Object>) chartStaticJsonCollectionHolder.get(SERIES)).get(0)).put(DATA,chartDataFormatted);
+			
+			
+			((Map<String, Object>) ((List<Object>) chartStaticJsonCollectionHolder.get(SERIES)).get(0)).put(CommonConstants.NAME, title);
 			return chartStaticJsonCollectionHolder;
 		} catch (Exception e) {
 			logger.debug(CLASSNAME + " >> convertToSimplePieChart() >> Exception= "+e.getMessage());
@@ -169,39 +193,49 @@ public class EchartServiceImpl implements IEchartService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Object convertToHorizontalBarChart(List<Map<String, Object>> chartData, ChartRequestModel crb) {
+	public Object convertToHorizontalBarChart(List<Map<String, Object>> chartData, String legendKey, String xAxisKey, String title, String subTitle) {
 		logger.debug(CLASSNAME + " >> convertToHorizontalBarChart() >> START");
 		/*
 		 * Horizontal Bar Chart
 		 * https://echarts.apache.org/examples/en/editor.html?c=dataset-encode0&theme=
 		 * light
 		 */
+		List<String> legends = Utils.keyExtractorFromCollection(chartData, legendKey).stream().collect(Collectors.toList());
+		
+		
+		List<ArrayList<Object> > collector = new ArrayList<>();
+		for(int i=0;i<chartData.size();i++) {
+			Map<String, Object> mapObject = chartData.get(i);
+			if(mapObject.get(xAxisKey)!=null && mapObject.get(VALUE)!=null) {
+				collector.add(new ArrayList<Object>(Arrays.asList(mapObject.get(VALUE),  mapObject.get(xAxisKey).toString())));
+			}
+		}
+		
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			HashMap<String, Object> chartStaticJsonCollectionHolder = mapper.readValue(horizontalBarChart,
 					HashMap.class);
-			((Map<String, Object>) chartStaticJsonCollectionHolder.get("dataset")).put("source",
-					Utils.labelValueArrayOfArrayGenerator(chartData));
-			((Map<String, Object>) chartStaticJsonCollectionHolder.get(LEGEND)).put(DATA,
-					Utils.labelListExtractor(chartData));
-			populateTitleAndSubTitle(chartStaticJsonCollectionHolder, crb);
+			((Map<String, Object>) chartStaticJsonCollectionHolder.get("dataset")).put("source", collector);
+			((Map<String, Object>) chartStaticJsonCollectionHolder.get(LEGEND)).put(DATA,legends);
+			populateTitleAndSubTitle(chartStaticJsonCollectionHolder, title, subTitle);
 			return chartStaticJsonCollectionHolder;
 		} catch (Exception e) {
-			logger.debug(CLASSNAME + " >> convertToHorizontalBarChart() >> Exception= "+e.getMessage());
+			logger.error(e);
 		}
 		return chartData;
 	}
 
 	@SuppressWarnings("unchecked")
 	private void populateTitleAndSubTitle(HashMap<String, Object> chartStaticJsonCollectionHolder,
-			ChartRequestModel crb) {
-		if (crb.getTitle() != null) {
-			((Map<String, Object>) chartStaticJsonCollectionHolder.get(TITLE)).put(TEXT, crb.getTitle());
+			String title, String subTitle) {
+		if(title!=null) {
+			((Map<String, Object>) chartStaticJsonCollectionHolder.get(TITLE)).put(TEXT, title);
 		}
-		if (crb.getSubTitle() != null) {
-			((Map<String, Object>) chartStaticJsonCollectionHolder.get(TITLE)).put(SUBTEXT, crb.getSubTitle());
+		if(subTitle!=null) {
+			((Map<String, Object>) chartStaticJsonCollectionHolder.get(TITLE)).put(SUBTEXT, subTitle);
 		}
 	}
+	
 
 	@SuppressWarnings("unchecked")
 	private void populateSeriesName(HashMap<String, Object> chartStaticJsonCollectionHolder, ChartRequestModel crb) {
@@ -213,44 +247,98 @@ public class EchartServiceImpl implements IEchartService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Object convertToMultipleComparisonBarChart(List<Map<String, Object>> chartData, ChartRequestModel crb) {
+	public Object convertToMultipleComparisonBarChart(List<Map<String, Object>> chartData, String legendKey, String xAxisKey, String title, String subTitle) {
 		logger.debug(CLASSNAME + " >> convertToMultipleComparisonBarChart() >> START");
 		/*
 		 * Multiple Vertical Comparison Bar Chart
 		 * https://echarts.apache.org/examples/en/editor.html?c=bar-label-rotation
 		 * light
 		 */
-		String comparisonByColumn = crb.getDetailedAnalaysis().get(0).get("by").toString();
+		String comparisonByColumn = xAxisKey;
 
-		List<String> legends = Utils.keyExtractorFromCollection(chartData, LABEL).stream().collect(Collectors.toList());
-		List<String> detailedComparisonCategoryBy = Utils.keyExtractorFromCollection(chartData, comparisonByColumn.toLowerCase())
+		List<String> legends = Utils.keyExtractorFromCollection(chartData, legendKey).stream().collect(Collectors.toList());
+		List<String> xAxises = Utils.keyExtractorFromCollection(chartData, comparisonByColumn)
 				.stream().collect(Collectors.toList());
 
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			HashMap<String, Object> chartStaticJsonCollectionHolder = mapper.readValue(multibarchart, HashMap.class);
 			(((List<Map<String, Object>>) chartStaticJsonCollectionHolder.get("xAxis")).get(0)).put(DATA,
-					detailedComparisonCategoryBy);
+					xAxises);
 			((Map<String, Object>) chartStaticJsonCollectionHolder.get(LEGEND)).put(DATA, legends);
 			HashMap<String, Object> seriesObj = ((List<HashMap<String, Object>>) chartStaticJsonCollectionHolder.get(SERIES))
 					.get(0);
 			List<Map<String, Object>> seriesObjReadData = new ArrayList<>();
+			
 			int totalLegends = legends.size();
-			for (int i = 0; i < totalLegends; i++) {
+			int totalXAxises = xAxises.size();
+			
+			for(int i=0;i<totalLegends;i++) {
 				HashMap<String, Object> newObj = (HashMap<String, Object>) seriesObj.clone();
 				String legendName = legends.get(i);
+				System.out.println("legendName= "+legendName);
 				newObj.put(CommonConstants.NAME, legendName);
-				List<Integer> legenedData = chartData.stream().filter(obj -> obj.get(LABEL).toString().equals(legendName))
-						.map(obj -> Integer.valueOf(obj.get(VALUE).toString())).collect(Collectors.toList());
-				
-				newObj.put(DATA, legenedData);
+				List<Object> valueCollector = new ArrayList<>();
+				for(int j=0;j<totalXAxises;j++) {
+					String xAxis = xAxises.get(j);
+					System.out.println("xAxis= "+xAxis);
+					List<Object> valueList = chartData.stream().filter(obj -> obj.get(legendKey)!=null && obj.get(legendKey).toString().equals(legendName) && obj.get(xAxisKey)!=null && obj.get(xAxisKey).toString().equals(xAxis))
+					.map(obj -> obj.get(VALUE))
+					.collect(Collectors.toList());
+					System.out.println("valueList= "+valueList);
+					valueCollector.add(valueList.isEmpty() ? 0 : valueList.get(0));
+				}
+				newObj.put(DATA, valueCollector);
 				seriesObjReadData.add(newObj);
 			}
 			chartStaticJsonCollectionHolder.put(SERIES, seriesObjReadData);
-			populateTitleAndSubTitle(chartStaticJsonCollectionHolder, crb);
+			populateTitleAndSubTitle(chartStaticJsonCollectionHolder, title, subTitle);
 			return chartStaticJsonCollectionHolder;
 		} catch (Exception e) {
 			logger.debug(CLASSNAME + " >> convertToMultipleComparisonBarChart() >> Exception= "+e.getMessage());
+		}
+		return chartData;
+	}
+
+	@Override
+	public Object convertToHorizontanComparisonBarChart(List<Map<String, Object>> chartData, String legendKey,
+			String xAxisKey, String title, String subTitle) {
+		List<String> legends = Utils.keyExtractorFromCollection(chartData, legendKey).stream().collect(Collectors.toList());
+		List<String> xAxises = Utils.keyExtractorFromCollection(chartData, xAxisKey).stream().collect(Collectors.toList());
+
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			HashMap<String, Object> chartStaticJsonCollectionHolder = mapper.readValue(comparisonHorizontalChart, HashMap.class);
+			
+			((Map<String, Object>) chartStaticJsonCollectionHolder.get(LEGEND)).put(DATA, legends);
+			((Map<String, Object>) chartStaticJsonCollectionHolder.get("yAxis")).put(DATA, xAxises);
+			
+			HashMap<String, Object> seriesObj = ((List<HashMap<String, Object>>) chartStaticJsonCollectionHolder.get(SERIES)).get(0);
+			List<Map<String, Object>> seriesObjReadData = new ArrayList<>();
+			
+			int totalLegends = legends.size();
+			int totalXAxises = xAxises.size();
+			
+			for(int i=0;i<totalLegends;i++) {
+				HashMap<String, Object> newObj = (HashMap<String, Object>) seriesObj.clone();
+				String legendName = legends.get(i);
+				newObj.put(CommonConstants.NAME, legendName);
+				List<Object> valueCollector = new ArrayList<>();
+				for(int j=0;j<totalXAxises;j++) {
+					String xAxis = xAxises.get(j);
+					List<Object> valueList = chartData.stream().filter(obj -> obj.get(legendKey)!=null && obj.get(legendKey).toString().equals(legendName) && obj.get(xAxisKey)!=null && obj.get(xAxisKey).toString().equals(xAxis))
+					.map(obj -> obj.get(VALUE))
+					.collect(Collectors.toList());
+					valueCollector.add(valueList.isEmpty() ? 0 : valueList.get(0));
+				}
+				newObj.put(DATA, valueCollector);
+				seriesObjReadData.add(newObj);
+			}
+			chartStaticJsonCollectionHolder.put(SERIES, seriesObjReadData);
+			populateTitleAndSubTitle(chartStaticJsonCollectionHolder, title, subTitle);
+			return chartStaticJsonCollectionHolder;
+		} catch (Exception e) {
+			logger.error(e);
 		}
 		return chartData;
 	}

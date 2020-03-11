@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<changeSet id='dashboard-structure-comparison-1' author='db_script'>
+
+		<insert tableName='dashboard_comparison'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='entity' value="OnboardStatus" />
+			<column name='field' value="onboardStatus" />
+			<column name="mapped_with" value="onboardStatus" />
+			<column name='structure_id' valueComputed="(SELECT ds.id FROM dashboard_structure ds LEFT JOIN dashboard d ON ds.dashboard_id=d.id WHERE d.name='RECRUITMENT_STATUS')" />
+		</insert>
+		
+		<insert tableName='dashboard_comparison'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='entity' value="CandidateSources" />
+			<column name='field' value="candidateSource" />
+			<column name="mapped_with" value="candidateSource" />
+			<column name='structure_id' valueComputed="(SELECT ds.id FROM dashboard_structure ds LEFT JOIN dashboard d ON ds.dashboard_id=d.id WHERE d.name='TOP_SOURCES')" />
+		</insert>
+		
+		<insert tableName='dashboard_comparison'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='entity' value="SubCompetency" />
+			<column name='field' value="subCompetency" />
+			<column name="mapped_with" value="subCompetency" />
+			<column name='structure_id' valueComputed="(SELECT ds.id FROM dashboard_structure ds LEFT JOIN dashboard d ON ds.dashboard_id=d.id WHERE d.name='SUB_COMPETENCIES_HEAD_COUNT')" />
+		</insert>
+		
+		<insert tableName='dashboard_comparison'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='entity' value="FinancialYear" />
+			<column name='field' value="financialYear" />
+			<column name="mapped_with" value="financialYear" />
+			<column name='structure_id' valueComputed="(SELECT ds.id FROM dashboard_structure ds LEFT JOIN dashboard d ON ds.dashboard_id=d.id WHERE d.name='FIANNCIAL_YEAR_HEAD_COUNT')" />
+		</insert>
+		
+		<insert tableName='dashboard_comparison'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='entity' value="MarketOffering" />
+			<column name='field' value="market" />
+			<column name="mapped_with" value="marketOffering" />
+			<column name='structure_id' valueComputed="(SELECT ds.id FROM dashboard_structure ds LEFT JOIN dashboard d ON ds.dashboard_id=d.id WHERE d.name='MARKET_OFFERING_HEAD_COUNT')" />
+		</insert>
+		
+		<insert tableName='dashboard_comparison'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='entity' value="SubCompetency" />
+			<column name='field' value="subCompetency" />
+			<column name="mapped_with" value="subCompetency" />
+			<column name='structure_id' valueComputed="(SELECT ds.id FROM dashboard_structure ds LEFT JOIN dashboard d ON ds.dashboard_id=d.id WHERE d.name='SUB_COMPETENCIES_VS_BUSINESS_ENTITIES')" />
+		</insert>
+		
+		<insert tableName='dashboard_comparison'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='entity' value="BusinessEntity" />
+			<column name='field' value="name" />
+			<column name="mapped_with" value="businessEntity" />
+			<column name='structure_id' valueComputed="(SELECT ds.id FROM dashboard_structure ds LEFT JOIN dashboard d ON ds.dashboard_id=d.id WHERE d.name='SUB_COMPETENCIES_VS_BUSINESS_ENTITIES')" />
+		</insert>
+		
+		<insert tableName='dashboard_comparison'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='entity' value="SubCompetency" />
+			<column name='field' value="subCompetency" />
+			<column name="mapped_with" value="subCompetency" />
+			<column name='structure_id' valueComputed="(SELECT ds.id FROM dashboard_structure ds LEFT JOIN dashboard d ON ds.dashboard_id=d.id WHERE d.name='SUB_COMPETENCIES_VS_LEVEL')" />
+		</insert>
+		
+		<insert tableName='dashboard_comparison'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='entity' value="Level" />
+			<column name='field' value="name" />
+			<column name="mapped_with" value="level" />
+			<column name='structure_id' valueComputed="(SELECT ds.id FROM dashboard_structure ds LEFT JOIN dashboard d ON ds.dashboard_id=d.id WHERE d.name='SUB_COMPETENCIES_VS_LEVEL')" />
+		</insert>
+		
+		<insert tableName='dashboard_comparison'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='entity' value="MarketOffering" />
+			<column name='field' value="market" />
+			<column name="mapped_with" value="marketOffering" />
+			<column name='structure_id' valueComputed="(SELECT ds.id FROM dashboard_structure ds LEFT JOIN dashboard d ON ds.dashboard_id=d.id WHERE d.name='MARKET_OFFERING_VS_LEVEL')" />
+		</insert>
+		
+		<insert tableName='dashboard_comparison'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='entity' value="Level" />
+			<column name='field' value="name" />
+			<column name="mapped_with" value="level" />
+			<column name='structure_id' valueComputed="(SELECT ds.id FROM dashboard_structure ds LEFT JOIN dashboard d ON ds.dashboard_id=d.id WHERE d.name='MARKET_OFFERING_VS_LEVEL')" />
+		</insert>
+		
+		<insert tableName='dashboard_comparison'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='entity' value="MarketOffering" />
+			<column name='field' value="market" />
+			<column name="mapped_with" value="marketOffering" />
+			<column name='structure_id' valueComputed="(SELECT ds.id FROM dashboard_structure ds LEFT JOIN dashboard d ON ds.dashboard_id=d.id WHERE d.name='MARKET_OFFERING_VS_DEPARTMENT')" />
+		</insert>
+		
+		<insert tableName='dashboard_comparison'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='entity' value="Department" />
+			<column name='field' value="name" />
+			<column name="mapped_with" value="department" />
+			<column name='structure_id' valueComputed="(SELECT ds.id FROM dashboard_structure ds LEFT JOIN dashboard d ON ds.dashboard_id=d.id WHERE d.name='MARKET_OFFERING_VS_DEPARTMENT')" />
+		</insert>
+		
+	</changeSet>
+	
+
+
+</databaseChangeLog>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<changeSet id='dashboard-structure-1' author='db_script'>
+
+		<insert tableName='dashboard_structure'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='entity' value="Candidate" />
+			<column name='field' value="gender" />
+			<column name='self' valueBoolean="true" />
+			<column name='dashboard_id' valueComputed="(select id from dashboard where name='GENDER_MIXTURE')" />
+		</insert>
+		
+		<insert tableName='dashboard_structure'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='entity' value="Candidate" />
+			<column name='field' value="NULL" />
+			<column name='self' valueBoolean="false" />
+			<column name='dashboard_id' valueComputed="(select id from dashboard where name='RECRUITMENT_STATUS')" />
+		</insert>
+		
+		<insert tableName='dashboard_structure'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='entity' value="Candidate" />
+			<column name='field' value="NULL" />
+			<column name='self' valueBoolean="false" />
+			<column name='dashboard_id' valueComputed="(select id from dashboard where name='TOP_SOURCES')" />
+		</insert>
+		
+		<insert tableName='dashboard_structure'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='entity' value="Candidate" />
+			<column name='field' value="NULL" />
+			<column name='self' valueBoolean="false" />
+			<column name='dashboard_id' valueComputed="(select id from dashboard where name='SUB_COMPETENCIES_HEAD_COUNT')" />
+		</insert>
+		
+		<insert tableName='dashboard_structure'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='entity' value="Candidate" />
+			<column name='field' value="NULL" />
+			<column name='self' valueBoolean="false" />
+			<column name='dashboard_id' valueComputed="(select id from dashboard where name='FIANNCIAL_YEAR_HEAD_COUNT')" />
+		</insert>
+		
+		<insert tableName='dashboard_structure'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='entity' value="Candidate" />
+			<column name='field' value="NULL" />
+			<column name='self' valueBoolean="false" />
+			<column name='dashboard_id' valueComputed="(select id from dashboard where name='MARKET_OFFERING_HEAD_COUNT')" />
+		</insert>
+		
+		<insert tableName='dashboard_structure'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='entity' value="Candidate" />
+			<column name='field' value="NULL" />
+			<column name='self' valueBoolean="false" />
+			<column name='dashboard_id' valueComputed="(select id from dashboard where name='SUB_COMPETENCIES_VS_BUSINESS_ENTITIES')" />
+		</insert>
+		
+		<insert tableName='dashboard_structure'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='entity' value="Candidate" />
+			<column name='field' value="NULL" />
+			<column name='self' valueBoolean="false" />
+			<column name='dashboard_id' valueComputed="(select id from dashboard where name='SUB_COMPETENCIES_VS_LEVEL')" />
+		</insert>
+		
+		<insert tableName='dashboard_structure'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='entity' value="Candidate" />
+			<column name='field' value="NULL" />
+			<column name='self' valueBoolean="false" />
+			<column name='dashboard_id' valueComputed="(select id from dashboard where name='MARKET_OFFERING_VS_LEVEL')" />
+		</insert>
+		
+		<insert tableName='dashboard_structure'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='entity' value="Candidate" />
+			<column name='field' value="NULL" />
+			<column name='self' valueBoolean="false" />
+			<column name='dashboard_id' valueComputed="(select id from dashboard where name='MARKET_OFFERING_VS_DEPARTMENT')" />
+		</insert>
+		
+	</changeSet>
+	
+
+
+</databaseChangeLog>

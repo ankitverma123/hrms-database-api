@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<changeSet id='dashboard-1' author='db_script'>
+
+		<insert tableName='dashboard'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='active' valueBoolean="true" />
+			<column name='default_chart_type' value="simplepie" />
+			<column name='note' value="This will show the comparison of candidates data with respect to their geneders." />
+			<column name='sub_title' value="Current Recruitment Status" />
+			<column name='supported_chart_type' value="bar,doughnut,simplepie,pie,horizontalbar" />
+			<column name='title' value="Recruitment Status" />
+			<column name='name' value="RECRUITMENT_STATUS" />
+			<column name='legend_key' value="onboardStatus" />
+			<column name='x_axis_key' value="onboardStatus" />
+		</insert>
+		
+		<insert tableName='dashboard'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='active' valueBoolean="true" />
+			<column name='default_chart_type' value="simplepie" />
+			<column name='note' value="This will show the comparison of candidates data with respect to their geneders." />
+			<column name='sub_title' value="Current Recruitment Status" />
+			<column name='supported_chart_type' value="bar,doughnut,simplepie,pie,horizontalbar" />
+			<column name='title' value="Top Sources" />
+			<column name='name' value="TOP_SOURCES" />
+			<column name='legend_key' value="candidateSource" />
+			<column name='x_axis_key' value="candidateSource" />
+		</insert>
+		
+		<insert tableName='dashboard'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='active' valueBoolean="true" />
+			<column name='default_chart_type' value="simplepie" />
+			<column name='note' value="This will show the comparison of candidates data with respect to their geneders." />
+			<column name='sub_title' value="Current Recruitment Status" />
+			<column name='supported_chart_type' value="bar,doughnut,simplepie,pie,horizontalbar" />
+			<column name='title' value="Gender Mixture" />
+			<column name='name' value="GENDER_MIXTURE" />
+			<column name='legend_key' value="gender" />
+			<column name='x_axis_key' value="gender" />
+		</insert>
+		
+		<insert tableName='dashboard'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='active' valueBoolean="false" />
+			<column name='default_chart_type' value="simplepie" />
+			<column name='note' value="This will show the comparison of candidates data with respect to their geneders." />
+			<column name='sub_title' value="Current Recruitment Status" />
+			<column name='supported_chart_type' value="bar,doughnut,simplepie,pie,horizontalbar" />
+			<column name='title' value="Decline Reasons" />
+			<column name='name' value="DECLINE_REASONS" />
+			<column name='legend_key' value="NULL" />
+			<column name='x_axis_key' value="NULL" />
+		</insert>
+		
+		<insert tableName='dashboard'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='active' valueBoolean="true" />
+			<column name='default_chart_type' value="simplepie" />
+			<column name='note' value="This will show the comparison of candidates data with respect to their geneders." />
+			<column name='sub_title' value="Current Recruitment Status" />
+			<column name='supported_chart_type' value="bar,doughnut,simplepie,pie,horizontalbar" />
+			<column name='title' value="Sub Competencies Head Count" />
+			<column name='name' value="SUB_COMPETENCIES_HEAD_COUNT" />
+			<column name='legend_key' value="subCompetency" />
+			<column name='x_axis_key' value="subCompetency" />
+		</insert>
+		
+		<insert tableName='dashboard'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='active' valueBoolean="true" />
+			<column name='default_chart_type' value="simplepie" />
+			<column name='note' value="This will show the comparison of candidates data with respect to their geneders." />
+			<column name='sub_title' value="Current Recruitment Status" />
+			<column name='supported_chart_type' value="bar,doughnut,simplepie,pie,horizontalbar" />
+			<column name='title' value="Financial Year Head Count" />
+			<column name='name' value="FIANNCIAL_YEAR_HEAD_COUNT" />
+			<column name='legend_key' value="financialYear" />
+			<column name='x_axis_key' value="financialYear" />
+		</insert>
+		
+		<insert tableName='dashboard'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='active' valueBoolean="true" />
+			<column name='default_chart_type' value="simplepie" />
+			<column name='note' value="This will show the comparison of candidates data with respect to their geneders." />
+			<column name='sub_title' value="Current Recruitment Status" />
+			<column name='supported_chart_type' value="bar,doughnut,simplepie,pie,horizontalbar" />
+			<column name='title' value="Market Offering Head Count" />
+			<column name='name' value="MARKET_OFFERING_HEAD_COUNT" />
+			<column name='legend_key' value="market" />
+			<column name='x_axis_key' value="market" />
+		</insert>
+		
+		<insert tableName='dashboard'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='active' valueBoolean="true" />
+			<column name='default_chart_type' value="multipleComparisonBarChart" />
+			<column name='note' value="This will show the comparison of candidates data with respect to their geneders." />
+			<column name='sub_title' value="Current Recruitment Status" />
+			<column name='supported_chart_type' value="multipleComparisonBarChart" />
+			<column name='title' value="Sub Competencies Vs Business Entities" />
+			<column name='name' value="SUB_COMPETENCIES_VS_BUSINESS_ENTITIES" />
+			<column name='legend_key' value="name" />
+			<column name='x_axis_key' value="subCompetency" />
+		</insert>
+		
+		<insert tableName='dashboard'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='active' valueBoolean="true" />
+			<column name='default_chart_type' value="multipleComparisonBarChart" />
+			<column name='note' value="This will show the comparison of candidates data with respect to their geneders." />
+			<column name='sub_title' value="Current Recruitment Status" />
+			<column name='supported_chart_type' value="multipleComparisonBarChart" />
+			<column name='title' value="Sub Competencies Vs Levels" />
+			<column name='name' value="SUB_COMPETENCIES_VS_LEVEL" />
+			<column name='legend_key' value="name" />
+			<column name='x_axis_key' value="subCompetency" />
+		</insert>
+		
+		<insert tableName='dashboard'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='active' valueBoolean="true" />
+			<column name='default_chart_type' value="multipleComparisonBarChart" />
+			<column name='note' value="This will show the comparison of candidates data with respect to their geneders." />
+			<column name='sub_title' value="Current Recruitment Status" />
+			<column name='supported_chart_type' value="multipleComparisonBarChart" />
+			<column name='title' value="Market Offering and Levels" />
+			<column name='name' value="MARKET_OFFERING_VS_LEVEL" />
+			<column name='legend_key' value="name" />
+			<column name='x_axis_key' value="market" />
+		</insert>
+		
+		<insert tableName='dashboard'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='active' valueBoolean="true" />
+			<column name='default_chart_type' value="multipleComparisonBarChart" />
+			<column name='note' value="This will show the comparison of candidates data with respect to their geneders." />
+			<column name='sub_title' value="Current Recruitment Status" />
+			<column name='supported_chart_type' value="multipleComparisonBarChart" />
+			<column name='title' value="Market Offering and Department" />
+			<column name='name' value="MARKET_OFFERING_VS_DEPARTMENT" />
+			<column name='legend_key' value="name" />
+			<column name='x_axis_key' value="market" />
+		</insert>
+	</changeSet>
+	
+
+
+</databaseChangeLog>

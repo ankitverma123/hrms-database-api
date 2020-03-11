@@ -20,6 +20,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.exalink.hrmsdatabaseapi.entity.BusinessEntity;
+import com.exalink.hrmsdatabaseapi.entity.Department;
+import com.exalink.hrmsdatabaseapi.entity.Level;
 import com.exalink.hrmsdatabaseapi.entity.Report;
 import com.exalink.hrmsdatabaseapi.entity.candidate.Candidate;
 import com.exalink.hrmsdatabaseapi.entity.candidate.CandidateSources;
@@ -32,10 +35,13 @@ import com.exalink.hrmsdatabaseapi.entity.market.SubBusinessLine;
 import com.exalink.hrmsdatabaseapi.entity.offer.Offer;
 import com.exalink.hrmsdatabaseapi.entity.offer.OfferDeclineCategory;
 import com.exalink.hrmsdatabaseapi.entity.offer.OfferStatus;
+import com.exalink.hrmsdatabaseapi.repository.IBusinessEntityRepository;
 import com.exalink.hrmsdatabaseapi.repository.ICandidateRepository;
 import com.exalink.hrmsdatabaseapi.repository.ICandidateSourceRepository;
 import com.exalink.hrmsdatabaseapi.repository.ICompetencyRepository;
+import com.exalink.hrmsdatabaseapi.repository.IDepartmentRespository;
 import com.exalink.hrmsdatabaseapi.repository.IFinancialYearRepository;
+import com.exalink.hrmsdatabaseapi.repository.ILevelRepository;
 import com.exalink.hrmsdatabaseapi.repository.IMarketOfferingBusinessLineRepository;
 import com.exalink.hrmsdatabaseapi.repository.IMarketOfferingRepository;
 import com.exalink.hrmsdatabaseapi.repository.IOfferDeclineRepository;
@@ -106,6 +112,15 @@ public class CandidateServiceImpl implements ICandidateService {
 
 	@Autowired
 	private ICompetencyRepository competencyRepo;
+	
+	@Autowired
+	private ILevelRepository levelRepository;
+	
+	@Autowired
+	private IBusinessEntityRepository businessEntityRepository;
+	
+	@Autowired
+	private IDepartmentRespository departmentRepository;
 
 	@Override
 	public Candidate saveCandidate(Map<String, Object> candidateRequestMap) throws BaseException {
@@ -290,8 +305,72 @@ public class CandidateServiceImpl implements ICandidateService {
 		competencyMapper(candidateRequestMap, candidateObj);
 		subCompetencyMapper(candidateRequestMap, candidateObj);
 		candidateOfferStatusMapper(candidateRequestMap, candidateObj);
+		
+		businessEntityMapper(candidateRequestMap, candidateObj);
+		levelMapper(candidateRequestMap,candidateObj);
+		departmentMapper(candidateRequestMap, candidateObj);
 	}
 	
+
+	private void departmentMapper(Map<String, Object> candidateRequestMap, Candidate candidateObj) {
+		if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap, CommonConstants.CSV_DEPARTMENT)) {
+			Object objectValueHolder = candidateRequestMap.get(CommonConstants.CSV_DEPARTMENT);
+			if (objectValueHolder instanceof Department) {
+				Department entityObj = (Department) objectValueHolder;
+				candidateObj.setDepartment(entityObj);
+			} else {
+				UUID uuid = UUID.fromString(candidateRequestMap.get(CommonConstants.CSV_DEPARTMENT).toString());
+				Optional<Department> entityObj = departmentRepository.findById(uuid);
+				if (entityObj.isPresent()) {
+					candidateObj.setDepartment(entityObj.get());
+				} else {
+					candidateObj.setDepartment(null);
+				}
+			}
+		} else {
+			candidateObj.setDepartment(null);
+		}
+	}
+
+	private void levelMapper(Map<String, Object> candidateRequestMap, Candidate candidateObj) {
+		if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap, CommonConstants.CSV_LEVEL)) {
+			Object objectValueHolder = candidateRequestMap.get(CommonConstants.CSV_LEVEL);
+			if (objectValueHolder instanceof Level) {
+				Level entityObj = (Level) objectValueHolder;
+				candidateObj.setLevel(entityObj);
+			} else {
+				UUID uuid = UUID.fromString(candidateRequestMap.get(CommonConstants.CSV_LEVEL).toString());
+				Optional<Level> entityObj = levelRepository.findById(uuid);
+				if (entityObj.isPresent()) {
+					candidateObj.setLevel(entityObj.get());
+				} else {
+					candidateObj.setLevel(null);
+				}
+			}
+		} else {
+			candidateObj.setLevel(null);
+		}
+	}
+
+	private void businessEntityMapper(Map<String, Object> candidateRequestMap, Candidate candidateObj) {
+		if (Utils.checkCollectionHasKeyAndValue(candidateRequestMap, CommonConstants.CSV_BUSINESS_ENTITY)) {
+			Object objectValueHolder = candidateRequestMap.get(CommonConstants.CSV_BUSINESS_ENTITY);
+			if (objectValueHolder instanceof BusinessEntity) {
+				BusinessEntity entityObj = (BusinessEntity) objectValueHolder;
+				candidateObj.setBusinessEntity(entityObj);
+			} else {
+				UUID uuid = UUID.fromString(candidateRequestMap.get(CommonConstants.CSV_BUSINESS_ENTITY).toString());
+				Optional<BusinessEntity> entityObj = businessEntityRepository.findById(uuid);
+				if (entityObj.isPresent()) {
+					candidateObj.setBusinessEntity(entityObj.get());
+				} else {
+					candidateObj.setBusinessEntity(null);
+				}
+			}
+		} else {
+			candidateObj.setBusinessEntity(null);
+		}
+	}
 
 	protected void candidateOfferStatusMapper(Map<String, Object> candidateRequestMap, Candidate candidateObj)
 			throws BaseException {
@@ -589,6 +668,8 @@ public class CandidateServiceImpl implements ICandidateService {
 							: candidateSourceJPARepository.findByCandidateSource(value);
 					if (candidateSource.isPresent()) {
 						candidateMap.put(header, candidateSource.get());
+					} else {
+						candidateMap.put(header, null);
 					}
 					break;
 				case CommonConstants.CSV_ONBOARD_STATUS_KEY:
@@ -597,6 +678,8 @@ public class CandidateServiceImpl implements ICandidateService {
 							: onboardJPARepository.findByOnboardStatus(value);
 					if (onboardStatus.isPresent()) {
 						candidateMap.put(header, onboardStatus.get());
+					} else {
+						candidateMap.put(header, null);
 					}
 					break;
 				case CommonConstants.CSV_FINANCIAL_YEAR_KEY:
@@ -605,6 +688,8 @@ public class CandidateServiceImpl implements ICandidateService {
 							: financialYearRepository.findByFinancialYear(value);
 					if (financialYear.isPresent()) {
 						candidateMap.put(header, financialYear.get());
+					} else {
+						candidateMap.put(header, null);
 					}
 					break;
 				case CommonConstants.CSV_MARKET_OFFERING_KEY:
@@ -613,6 +698,8 @@ public class CandidateServiceImpl implements ICandidateService {
 							: marketOfferingRepo.findByMarket(value);
 					if (marketOffering.isPresent()) {
 						candidateMap.put(header, marketOffering.get());
+					} else {
+						candidateMap.put(header, null);
 					}
 					break;
 				case CommonConstants.CSV_MARKET_SUB_BUSINESS_LINE_KEY:
@@ -628,6 +715,8 @@ public class CandidateServiceImpl implements ICandidateService {
 									marketOfferingName);
 					if (subBusinessLine.isPresent()) {
 						candidateMap.put(header, subBusinessLine.get());
+					}else {
+						candidateMap.put(header, null);
 					}
 					break;
 				case CommonConstants.CSV_COMPETENCY_KEY:
@@ -636,6 +725,8 @@ public class CandidateServiceImpl implements ICandidateService {
 							: competencyRepo.findByCompetency(value);
 					if (competency.isPresent()) {
 						candidateMap.put(header, competency.get());
+					}else {
+						candidateMap.put(header, null);
 					}
 					break;
 				case CommonConstants.CSV_SUB_COMPETENCY_KEY:
@@ -650,6 +741,38 @@ public class CandidateServiceImpl implements ICandidateService {
 							: subCompetencyRepository.findBySubCompetencyAndCompetency(value, competencyName);
 					if (subCompetency.isPresent()) {
 						candidateMap.put(header, subCompetency.get());
+					} else {
+						candidateMap.put(header, null);
+					}
+					break;
+				case CommonConstants.CSV_LEVEL:
+					Optional<Level> level = Utils.checkIfUUID(value)
+					? levelRepository.findById(UUID.fromString(value))
+					: levelRepository.findByName(value);
+					if (level.isPresent()) {
+						candidateMap.put(header, level.get());
+					} else {
+						candidateMap.put(header, null);
+					}
+					break;
+				case CommonConstants.CSV_BUSINESS_ENTITY:
+					Optional<BusinessEntity> businessEntity = Utils.checkIfUUID(value)
+					? businessEntityRepository.findById(UUID.fromString(value))
+					: businessEntityRepository.findByName(value);
+					if (businessEntity.isPresent()) {
+						candidateMap.put(header, businessEntity.get());
+					} else {
+						candidateMap.put(header, null);
+					}
+					break;
+				case CommonConstants.CSV_DEPARTMENT:
+					Optional<Department> departmentEntity = Utils.checkIfUUID(value)
+					? departmentRepository.findById(UUID.fromString(value))
+					: departmentRepository.findByName(value);
+					if (departmentEntity.isPresent()) {
+						candidateMap.put(header, departmentEntity.get());
+					} else {
+						candidateMap.put(header, null);
 					}
 					break;
 
@@ -669,7 +792,7 @@ public class CandidateServiceImpl implements ICandidateService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object candidateOfferStatus(UUID candidateId) throws BaseException {
-		/*
+		/**
 		 * This code needs to be reformatted, want to use left outer join so that even if the values 
 		 * are not present in Offer entity then it should return null in those cases.
 		 */

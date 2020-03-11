@@ -2,15 +2,12 @@ package com.exalink.hrmsdatabaseapi.utils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.persistence.metamodel.Attribute;
 
 import com.exalink.hrmsfabric.common.CommonConstants;
 import com.exalink.hrmsfabric.common.Utils;

@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+
+import javax.persistence.EntityManager;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,7 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import com.exalink.hrmsdatabaseapi.entity.dashboard.Dashboard;
+import com.exalink.hrmsdatabaseapi.entity.dashboard.DashboardStructureComparison;
+import com.exalink.hrmsdatabaseapi.entity.dashboard.DashboardStruture;
 import com.exalink.hrmsdatabaseapi.model.ChartRequestModel;
+import com.exalink.hrmsdatabaseapi.repository.dashboard.IDashboardComparisonRepository;
+import com.exalink.hrmsdatabaseapi.repository.dashboard.IDashboardRepository;
 import com.exalink.hrmsdatabaseapi.service.IDashboardService;
 import com.exalink.hrmsdatabaseapi.service.IEchartService;
 import com.exalink.hrmsfabric.common.BaseException;
@@ -30,6 +38,16 @@ public class DashboardServiceImpl implements IDashboardService {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	
+	@Autowired
+	private IDashboardRepository dashboardRepository;
+	
+	@Autowired
+	private IDashboardComparisonRepository dscRepo;
+	
+	@Autowired
+	private EntityManager entityManager;
+	
 
 	private static final String COUNT_IN_PERCENTAGE = ", CAST(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER() AS DECIMAL(18, 0)) as value";
 	private static final String COUNT_IN_INTEGER = ", COUNT(*) AS value";
@@ -86,17 +104,17 @@ public class DashboardServiceImpl implements IDashboardService {
 		logger.debug(CLASSNAME + " >> topSourcesVisualisation() >> Query Response= "+queryResponse.size());
 		
 		if (chartType.equalsIgnoreCase(CommonConstants.BAR_CHART)) {
-			return echartService.convertToBarChart(queryResponse, crb);
+			return echartService.convertToBarChart(queryResponse, null, null, null, null);
 		} else if (chartType.equalsIgnoreCase(CommonConstants.PIE_CHART)) {
 			return echartService.convertToPieChart(queryResponse, crb);
 		} else if (chartType.equalsIgnoreCase(CommonConstants.DOUGHNUT_CHART)) {
 			return echartService.convertToDoughnutChart(queryResponse, crb);
 		} else if (chartType.equalsIgnoreCase(CommonConstants.SIMPLE_PIE_CHART)) {
-			return echartService.convertToSimplePieChart(queryResponse, crb);
+			return echartService.convertToSimplePieChart(queryResponse, null, null, null, null);
 		} else if (chartType.equalsIgnoreCase(CommonConstants.HORIZONTAL_BAR_CHART)) {
-			return echartService.convertToHorizontalBarChart(queryResponse, crb);
+			return echartService.convertToHorizontalBarChart(queryResponse, null, null, null, null);
 		} else if (chartType.equalsIgnoreCase(CommonConstants.MULTIPLE_COMPARISON_BARCHART)) {
-			return echartService.convertToMultipleComparisonBarChart(queryResponse, crb);
+			return echartService.convertToMultipleComparisonBarChart(queryResponse, null, null, null, null);
 		}
 		return queryResponse;
 	}
@@ -148,17 +166,17 @@ public class DashboardServiceImpl implements IDashboardService {
 		logger.debug(CLASSNAME + " >> recruitmentStatusVisualisation() >> Query Response= "+queryResponse.size());
 		
 		if (chartType.equalsIgnoreCase(CommonConstants.BAR_CHART)) {
-			return echartService.convertToBarChart(queryResponse, crb);
+			return echartService.convertToBarChart(queryResponse, null, null, null, null);
 		} else if (chartType.equalsIgnoreCase(CommonConstants.PIE_CHART)) {
 			return echartService.convertToPieChart(queryResponse, crb);
 		} else if (chartType.equalsIgnoreCase(CommonConstants.DOUGHNUT_CHART)) {
 			return echartService.convertToDoughnutChart(queryResponse, crb);
 		} else if (chartType.equalsIgnoreCase(CommonConstants.SIMPLE_PIE_CHART)) {
-			return echartService.convertToSimplePieChart(queryResponse, crb);
+			return echartService.convertToSimplePieChart(queryResponse, null, null, null, null);
 		} else if (chartType.equalsIgnoreCase(CommonConstants.HORIZONTAL_BAR_CHART)) {
-			return echartService.convertToHorizontalBarChart(queryResponse, crb);
+			return echartService.convertToHorizontalBarChart(queryResponse, null, null, null, null);
 		} else if (chartType.equalsIgnoreCase(CommonConstants.MULTIPLE_COMPARISON_BARCHART)) {
-			return echartService.convertToMultipleComparisonBarChart(queryResponse, crb);
+			return echartService.convertToMultipleComparisonBarChart(queryResponse, null, null, null, null);
 		}
 		return queryResponse;
 	}
@@ -209,17 +227,17 @@ public class DashboardServiceImpl implements IDashboardService {
 		logger.debug(CLASSNAME + " >> genderMixtureVisualisation() >> Query Response= "+queryResponse.size());
 		
 		if (chartType.equalsIgnoreCase(CommonConstants.BAR_CHART)) {
-			return echartService.convertToBarChart(queryResponse, crb);
+			return echartService.convertToBarChart(queryResponse, null, null, null, null);
 		} else if (chartType.equalsIgnoreCase(CommonConstants.PIE_CHART)) {
 			return echartService.convertToPieChart(queryResponse, crb);
 		} else if (chartType.equalsIgnoreCase(CommonConstants.DOUGHNUT_CHART)) {
 			return echartService.convertToDoughnutChart(queryResponse, crb);
 		} else if (chartType.equalsIgnoreCase(CommonConstants.SIMPLE_PIE_CHART)) {
-			return echartService.convertToSimplePieChart(queryResponse, crb);
+			return echartService.convertToSimplePieChart(queryResponse, null, null, null, null);
 		} else if (chartType.equalsIgnoreCase(CommonConstants.HORIZONTAL_BAR_CHART)) {
-			return echartService.convertToHorizontalBarChart(queryResponse, crb);
+			return echartService.convertToHorizontalBarChart(queryResponse, null, null, null, null);
 		} else if (chartType.equalsIgnoreCase(CommonConstants.MULTIPLE_COMPARISON_BARCHART)) {
-			return echartService.convertToMultipleComparisonBarChart(queryResponse, crb);
+			return echartService.convertToMultipleComparisonBarChart(queryResponse, null, null, null, null);
 		}
 		return queryResponse;
 	}
@@ -273,17 +291,17 @@ public class DashboardServiceImpl implements IDashboardService {
 		logger.debug(CLASSNAME + " >> offerDeclineVisualisation() >> Query Response= "+queryResponse.size());
 		
 		if (chartType.equalsIgnoreCase(CommonConstants.BAR_CHART)) {
-			return echartService.convertToBarChart(queryResponse, crb);
+			return echartService.convertToBarChart(queryResponse, null, null, null, null);
 		} else if (chartType.equalsIgnoreCase(CommonConstants.PIE_CHART)) {
 			return echartService.convertToPieChart(queryResponse, crb);
 		} else if (chartType.equalsIgnoreCase(CommonConstants.DOUGHNUT_CHART)) {
 			return echartService.convertToDoughnutChart(queryResponse, crb);
 		} else if (chartType.equalsIgnoreCase(CommonConstants.SIMPLE_PIE_CHART)) {
-			return echartService.convertToSimplePieChart(queryResponse, crb);
+			return echartService.convertToSimplePieChart(queryResponse, null, null, null, null);
 		} else if (chartType.equalsIgnoreCase(CommonConstants.HORIZONTAL_BAR_CHART)) {
-			return echartService.convertToHorizontalBarChart(queryResponse, crb);
+			return echartService.convertToHorizontalBarChart(queryResponse, null, null, null, null);
 		} else if (chartType.equalsIgnoreCase(CommonConstants.MULTIPLE_COMPARISON_BARCHART)) {
-			return echartService.convertToMultipleComparisonBarChart(queryResponse, crb);
+			return echartService.convertToMultipleComparisonBarChart(queryResponse, null, null, null, null);
 		}
 		return queryResponse;
 	}
@@ -347,5 +365,74 @@ public class DashboardServiceImpl implements IDashboardService {
 		}
 		return null;
 	}
-
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Object dynamicVisualisation(Map<String, String> requestBody) throws BaseException {
+		List<Map<String, Object>> resultData = new ArrayList<Map<String,Object>>();
+		if (requestBody.containsKey(CommonConstants.NAME)) {
+			Optional<Dashboard> requestedDashboard = dashboardRepository.findByName(requestBody.get(CommonConstants.NAME));
+			if (requestedDashboard.isPresent()) {
+				Dashboard dashboard = requestedDashboard.get();
+				DashboardStruture dashboardStructure = dashboard.getStructure();
+				if (dashboardStructure!=null && dashboardStructure.getSelf()) {
+					String entity = dashboardStructure.getEntity();
+					String field = dashboardStructure.getField();
+					String entityAlias = entity.toLowerCase();
+					String legend = dashboard.getLegendKey();
+					String myQuery = "SELECT new map("+entityAlias+"."+field+" AS "+legend+", COUNT(*) AS value) FROM "+entity+" "+entityAlias+" GROUP BY "+legend;
+					resultData = entityManager.createQuery(myQuery).getResultList();
+				} else if(dashboardStructure!=null){
+					List<String> selectQueryFromComarisons = new ArrayList<>();
+					List<String> groupByFromComarisons = new ArrayList<>();
+					List<String> joinsFromComarisons = new ArrayList<>();
+					
+					String parentEntity = dashboardStructure.getEntity();
+					String parentEntityAlias = parentEntity.toLowerCase();
+					StringBuilder sb = new StringBuilder();
+					List<DashboardStructureComparison> dscs = dscRepo.findByDashboardStructureID(dashboardStructure.getId());
+					
+					for (DashboardStructureComparison dsc : dscs) {
+						String entity = dsc.getEntity();
+						String entityAlias = entity.toLowerCase();
+						String field = dsc.getField();
+						String mappedWith = dsc.getMappedWith();
+						
+						selectQueryFromComarisons.add(entityAlias+"."+field+" AS "+field);
+						groupByFromComarisons.add(entityAlias+"."+field);
+						joinsFromComarisons.add(" LEFT JOIN "+entity+" "+entityAlias+" ON "+parentEntityAlias+"."+mappedWith+".id = "+entityAlias+".id");
+					}
+					sb.append("SELECT new map(");
+					sb.append(String.join(",", selectQueryFromComarisons));
+					sb.append(" , COUNT(*) AS value)");
+					sb.append(" FROM "+parentEntity +" " +parentEntityAlias);
+					sb.append(" "+String.join(" ", joinsFromComarisons));
+					sb.append(" GROUP BY "+String.join(",", groupByFromComarisons));
+					resultData = entityManager.createQuery(sb.toString()).getResultList();
+				}
+				
+				String chartType= requestBody.containsKey("chartType") && requestBody.get("chartType")!=null ? requestBody.get("chartType") :dashboard.getDefaultChartType();
+				
+				if(!resultData.isEmpty() && chartType.equals(CommonConstants.MULTIPLE_COMPARISON_BARCHART)) {
+					return echartService.convertToMultipleComparisonBarChart(resultData, dashboard.getLegendKey(), dashboard.getXAxisKey(), dashboard.getTitle(), dashboard.getSubTitle());
+				} else if(!resultData.isEmpty() && chartType.equals(CommonConstants.SIMPLE_PIE_CHART)) {
+					return echartService.convertToSimplePieChart(resultData, dashboard.getLegendKey(), dashboard.getXAxisKey(), dashboard.getTitle(), dashboard.getSubTitle());
+				} else if(!resultData.isEmpty() && chartType.equals(CommonConstants.BAR_CHART)) {
+					return echartService.convertToBarChart(resultData, dashboard.getLegendKey(), dashboard.getXAxisKey(), dashboard.getTitle(), dashboard.getSubTitle());
+				} else if(!resultData.isEmpty() && chartType.equals(CommonConstants.HORIZONTAL_BAR_CHART)) {
+					return echartService.convertToHorizontalBarChart(resultData, dashboard.getLegendKey(), dashboard.getXAxisKey(), dashboard.getTitle(), dashboard.getSubTitle());
+				} else if(!resultData.isEmpty() && chartType.equals(CommonConstants.MULTIPLE_COMPARISON_HORIZONTAL_BARCHART)) {
+					return echartService.convertToHorizontanComparisonBarChart(resultData, dashboard.getLegendKey(), dashboard.getXAxisKey(), dashboard.getTitle(), dashboard.getSubTitle());
+				}
+				
+			} else {
+				throw new BaseException(DashboardServiceImpl.class, "Invalid dashboard name specified");
+			}
+		} else {
+			throw new BaseException(DashboardServiceImpl.class, "Dashboard name must be specified.");
+		}
+		return null;
+	}
+	
+	
 }

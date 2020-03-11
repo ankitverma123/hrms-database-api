@@ -1,5 +1,7 @@
 package com.exalink.hrmsdatabaseapi.service;
 
+import java.util.Map;
+
 import org.springframework.stereotype.Service;
 
 import com.exalink.hrmsdatabaseapi.model.ChartRequestModel;
@@ -15,4 +17,6 @@ public interface IDashboardService {
 	Object recruitmentStatusVisualisation(ChartRequestModel crb) throws BaseException;
 	Object genderMixtureVisualisation(ChartRequestModel crb) throws BaseException;
 	Object offerDeclineVisualisation(ChartRequestModel crb) throws BaseException;
+	
+	Object dynamicVisualisation(Map<String, String> requestBody) throws BaseException;
 }

@@ -50,7 +50,184 @@
 		</insert>
 		
 	</changeSet>
-
+	
+	
+	<changeSet id='financial_year-2' author='db_script'>
+		<insert tableName='financial_year'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='financial_year' value="FY19 P1" />
+			<column name='is_active' valueBoolean="true" />
+		</insert>
+		<insert tableName='financial_year'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='financial_year' value="FY19 P2" />
+			<column name='is_active' valueBoolean="true" />
+		</insert>
+		<insert tableName='financial_year'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='financial_year' value="FY19 P3" />
+			<column name='is_active' valueBoolean="true" />
+		</insert>
+		<insert tableName='financial_year'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='financial_year' value="FY19 P4" />
+			<column name='is_active' valueBoolean="true" />
+		</insert>
+		
+		<insert tableName='financial_year'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='financial_year' value="FY18 P1" />
+			<column name='is_active' valueBoolean="true" />
+		</insert>
+		<insert tableName='financial_year'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='financial_year' value="FY18 P2" />
+			<column name='is_active' valueBoolean="true" />
+		</insert>
+		<insert tableName='financial_year'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='financial_year' value="FY18 P3" />
+			<column name='is_active' valueBoolean="true" />
+		</insert>
+		<insert tableName='financial_year'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='financial_year' value="FY18 P4" />
+			<column name='is_active' valueBoolean="true" />
+		</insert>
+		
+		<insert tableName='financial_year'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='financial_year' value="FY17 P1" />
+			<column name='is_active' valueBoolean="true" />
+		</insert>
+		<insert tableName='financial_year'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='financial_year' value="FY17 P2" />
+			<column name='is_active' valueBoolean="true" />
+		</insert>
+		<insert tableName='financial_year'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='financial_year' value="FY17 P3" />
+			<column name='is_active' valueBoolean="true" />
+		</insert>
+		<insert tableName='financial_year'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='financial_year' value="FY17 P4" />
+			<column name='is_active' valueBoolean="true" />
+		</insert>
+		
+		<insert tableName='financial_year'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='financial_year' value="FY16 P1" />
+			<column name='is_active' valueBoolean="true" />
+		</insert>
+		<insert tableName='financial_year'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='financial_year' value="FY16 P2" />
+			<column name='is_active' valueBoolean="true" />
+		</insert>
+		<insert tableName='financial_year'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='financial_year' value="FY16 P3" />
+			<column name='is_active' valueBoolean="true" />
+		</insert>
+		<insert tableName='financial_year'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='financial_year' value="FY16 P4" />
+			<column name='is_active' valueBoolean="true" />
+		</insert>
+		
+		<insert tableName='financial_year'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='financial_year' value="FY15 P1" />
+			<column name='is_active' valueBoolean="true" />
+		</insert>
+		<insert tableName='financial_year'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='financial_year' value="FY15 P2" />
+			<column name='is_active' valueBoolean="true" />
+		</insert>
+		<insert tableName='financial_year'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='financial_year' value="FY15 P3" />
+			<column name='is_active' valueBoolean="true" />
+		</insert>
+		<insert tableName='financial_year'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='financial_year' value="FY15 P4" />
+			<column name='is_active' valueBoolean="true" />
+		</insert>
+		
+		<insert tableName='financial_year'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='financial_year' value="FY14 P1" />
+			<column name='is_active' valueBoolean="true" />
+		</insert>
+		<insert tableName='financial_year'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='financial_year' value="FY14 P2" />
+			<column name='is_active' valueBoolean="true" />
+		</insert>
+		<insert tableName='financial_year'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='financial_year' value="FY14 P3" />
+			<column name='is_active' valueBoolean="true" />
+		</insert>
+		<insert tableName='financial_year'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='financial_year' value="FY14 P4" />
+			<column name='is_active' valueBoolean="true" />
+		</insert>
+		
+	</changeSet>
 
 
 </databaseChangeLog>

@@ -1,5 +1,7 @@
 package com.exalink.hrmsdatabaseapi.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -49,4 +51,9 @@ public class DashboardController {
 		return new ResponseData(dashboardService.offerDeclineVisualisation(crb), null, HttpStatus.OK, null);
 	}
 	
+	@PostMapping(value="/dynamic", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseData dynamicsVisualisation(@RequestBody Map<String, String> requestBody) throws BaseException{
+		return new ResponseData(dashboardService.dynamicVisualisation(requestBody), null, HttpStatus.OK, null);
+	}
 }

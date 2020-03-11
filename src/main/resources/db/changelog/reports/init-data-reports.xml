@@ -27,9 +27,9 @@
 			<column name='updated_at' value="now()" />
 			<column name='report_name' value="Candidate Template" />
 			<column name='headers'
-				value="firstName,middleName,lastName,primaryContact,secondaryContact,emailAddress,gender,totalExperience,relevantExperience,lastCompany,candidateSource,onboardStatus,financialYear,marketOffering,subBusinessLine,competency,subCompetency" />
+				value="firstName,middleName,lastName,primaryContact,secondaryContact,emailAddress,gender,totalExperience,relevantExperience,lastCompany,candidateSource,onboardStatus,financialYear,marketOffering,subBusinessLine,competency,subCompetency,department,businessEntity,level" />
 			<column name='keys'
-				value="firstName,middleName,lastName,primaryContact,secondaryContact,emailAddress,gender,totalExperience,relevantExperience,lastCompany,candidateSource,onboardStatus,financialYear,marketOffering,subBusinessLine,competency,subCompetency" />
+				value="firstName,middleName,lastName,primaryContact,secondaryContact,emailAddress,gender,totalExperience,relevantExperience,lastCompany,candidateSource,onboardStatus,financialYear,marketOffering,subBusinessLine,competency,subCompetency,department,businessEntity,level" />
 		</insert>
 	</changeSet>
 

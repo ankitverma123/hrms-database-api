@@ -104,6 +104,138 @@
 		</insert>
 	</changeSet>
 
+	<changeSet id='sub-competency-2' author='db_script'>
+		<insert tableName='sub_competency'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='sub_competency' value="Actt" />
+			<column name='competency'
+				valueComputed="(select id from competency where competency='MS&amp;P ACTT')" />
+		</insert>
+		<insert tableName='sub_competency'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='sub_competency' value="Client Support" />
+			<column name='competency'
+				valueComputed="(select id from competency where competency='MS&amp;P')" />
+		</insert>
+		<insert tableName='sub_competency'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='sub_competency' value="CTS" />
+			<column name='competency'
+				valueComputed="(select id from competency where competency='MS&amp;P')" />
+		</insert>
+		<insert tableName='sub_competency'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='sub_competency' value="D3" />
+			<column name='competency'
+				valueComputed="(select id from competency where competency='MS&amp;P')" />
+		</insert>
+		<insert tableName='sub_competency'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='sub_competency' value="GPS Discovery Integrator" />
+			<column name='competency'
+				valueComputed="(select id from competency where competency='MS&amp;P')" />
+		</insert>
+		<insert tableName='sub_competency'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='sub_competency' value="GPS FOIA/ Disclosure" />
+			<column name='competency'
+				valueComputed="(select id from competency where competency='MS&amp;P')" />
+		</insert>
+		
+		<insert tableName='sub_competency'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='sub_competency' value="Solvas | Banking" />
+			<column name='competency'
+				valueComputed="(select id from competency where competency='MS&amp;P')" />
+		</insert>
+		<insert tableName='sub_competency'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='sub_competency' value="Solvas | Asset Management" />
+			<column name='competency'
+				valueComputed="(select id from competency where competency='MS&amp;P')" />
+		</insert>
+		<insert tableName='sub_competency'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='sub_competency' value="Solvas | Digitze" />
+			<column name='competency'
+				valueComputed="(select id from competency where competency='MS&amp;P')" />
+		</insert>
+		<insert tableName='sub_competency'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='sub_competency' value="Accelsior" />
+			<column name='competency'
+				valueComputed="(select id from competency where competency='MS&amp;P')" />
+		</insert>
+		<insert tableName='sub_competency'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='sub_competency' value="LeaseController" />
+			<column name='competency'
+				valueComputed="(select id from competency where competency='MS&amp;P')" />
+		</insert>
+		<insert tableName='sub_competency'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='sub_competency' value="PARSE" />
+			<column name='competency'
+				valueComputed="(select id from competency where competency='MS&amp;P')" />
+		</insert>
+		<insert tableName='sub_competency'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='sub_competency' value="CarveOut" />
+			<column name='competency'
+				valueComputed="(select id from competency where competency='MS&amp;P')" />
+		</insert>
+		<insert tableName='sub_competency'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='sub_competency' value="Dera" />
+			<column name='competency'
+				valueComputed="(select id from competency where competency='MS&amp;P')" />
+		</insert>
+		<insert tableName='sub_competency'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='sub_competency' value="Chargebacks" />
+			<column name='competency'
+				valueComputed="(select id from competency where competency='MS&amp;P')" />
+		</insert>
+		<insert tableName='sub_competency'>
+			<column name="id" valueComputed="${uuid_function}"></column>
+			<column name='created_at' value="now()" />
+			<column name='updated_at' value="now()" />
+			<column name='sub_competency' value="Acada" />
+			<column name='competency'
+				valueComputed="(select id from competency where competency='MS&amp;P')" />
+		</insert>
+	</changeSet>
+
 
 
 </databaseChangeLog>
