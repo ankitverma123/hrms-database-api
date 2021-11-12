@@ -1,9 +1,7 @@
 spring:
   application:
-    name: hrms-database-api
+    name: hrms-database
   cloud:
     config:
       uri: http://localhost:8888
       fail-fast: true
-      password: ${CONFIG_SERVICE_PASSWORD}
-      username: user

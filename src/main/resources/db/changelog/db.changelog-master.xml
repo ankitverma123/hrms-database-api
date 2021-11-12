@@ -46,4 +46,6 @@
 	<include file="dashboard/init-data-dashboard.xml" relativeToChangelogFile="true" />
 	<include file="dashboard/init-data-dashboard-structure.xml" relativeToChangelogFile="true" />
 	<include file="dashboard/init-data-dashboard-structure-comparison.xml" relativeToChangelogFile="true" />
+	
+	
 </databaseChangeLog>

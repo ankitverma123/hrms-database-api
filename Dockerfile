@@ -1,4 +1,3 @@
-MAINTAINER Ankit Verma "ankitkverma@deloitte.com"
 FROM maven:3.6.1-jdk-8-slim AS build
 COPY pom.xml /tmp/
 COPY src /tmp/src/

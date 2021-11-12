@@ -7,12 +7,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.DependsOn;
 
 import liquibase.integration.spring.SpringLiquibase;
 
 @SpringBootApplication
+@EnableDiscoveryClient
 public class HrmsDatabaseApiApplication {
 
 	@Autowired
@@ -28,7 +30,7 @@ public class HrmsDatabaseApiApplication {
     }
 	
 	@Bean
-    @DependsOn(value = "entityManagerFactory")
+	@DependsOn("entityManagerFactory")
     public SpringLiquibase liquibase() {
         LiquibaseProperties liquibaseProperties = liquibaseProperties();
         SpringLiquibase liquibase = new SpringLiquibase();
